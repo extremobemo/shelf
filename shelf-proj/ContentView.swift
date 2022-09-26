@@ -7,18 +7,21 @@
 
 import SwiftUI
 import CoreData
+import VisionKit
+import AVKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: Game.entity(), sortDescriptors: [])
     private var items: FetchedResults<Game>
     
-    
     @State private var numOfColumns: Int = 5
     @State private var can_zoom: Bool = true
     @State private var showingPopover = false
+    @State private var showingScanner = false
     @State private var popoverPhoto: String = ""
-
+    
+   
     
     var games = [Game]()
     
@@ -56,8 +59,18 @@ struct ContentView: View {
                 HStack() {
                     Text(verbatim: "Catalogue").font(.largeTitle).scaleEffect(1.0).foregroundColor(.gray)
                     Spacer()
-                    Button(action: { print("button pressed") }) {
+                    Button(action: {
+                        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                               if response {
+                                  showingScanner = true
+                               } else {
+                                   showingScanner = false
+                               }
+                           }
+                        showingScanner = true }) {
                         Image(systemName: "plus")
+                    }.sheet(isPresented: $showingScanner){
+                        DataScanner()
                     }
                 }.padding(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
                
@@ -82,4 +95,5 @@ struct ContentView: View {
         }
     }
 }
+
 

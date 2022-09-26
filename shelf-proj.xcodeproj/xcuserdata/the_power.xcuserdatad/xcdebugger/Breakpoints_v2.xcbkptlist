@@ -14,8 +14,8 @@
             filePath = "shelf-proj/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "shelf-proj/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -120,7 +120,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "FA6176FE-D125-428C-A287-54A4B3531EA5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shelf-proj/shelf_projApp.swift"
@@ -168,19 +168,19 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shelf-proj/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
             landmarkName = "ContentView"
             landmarkType = "14">
             <Locations>
                <Location
-                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - fc39c962e6939b34"
+                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - fc39c962e6939b57"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -190,12 +190,12 @@
                   urlString = "file:///Users/the_power/Desktop/playground/ios/shelf-proj/shelf-proj/shelf-proj/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
-                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - 684d954c85f1b508"
+                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - 684d954c85f1b56b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -205,12 +205,12 @@
                   urlString = "file:///Users/the_power/Desktop/playground/ios/shelf-proj/shelf-proj/shelf-proj/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
                   offsetFromSymbolStart = "388">
                </Location>
                <Location
-                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - 558a402a904dad81"
+                  uuid = "C20A88A3-2C21-445B-B4A9-308752C11D9B - 558a402a904dade2"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -220,8 +220,8 @@
                   urlString = "file:///Users/the_power/Desktop/playground/ios/shelf-proj/shelf-proj/shelf-proj/ContentView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
                   offsetFromSymbolStart = "288">
                </Location>
             </Locations>
@@ -231,7 +231,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B0774507-2973-4D9B-AFF5-61FBC156F9EC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "shelf-proj/Persistence.swift"
@@ -257,6 +257,22 @@
             endingLineNumber = "25"
             landmarkName = "preview"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E1FDBCFD-9C27-4FDB-AD45-E81C6534D38D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DataScanner.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "dataScanner(_:didAdd:allItems:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

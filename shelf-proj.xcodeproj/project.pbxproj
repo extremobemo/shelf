@@ -10,6 +10,7 @@
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347CE1F828D69DFA0029B5A9 /* Game+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */; };
 		347CE1F928D69DFA0029B5A9 /* Game+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */; };
+		34CB1A0A28E24CDC00AE3AC0 /* DataScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */; };
 		34FE46A728C1B99D00C75B10 /* shelf_projApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */; };
 		34FE46A928C1B99D00C75B10 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A828C1B99D00C75B10 /* Persistence.swift */; };
 		34FE46AC28C1B99D00C75B10 /* shelf_proj.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AA28C1B99D00C75B10 /* shelf_proj.xcdatamodeld */; };
@@ -43,6 +44,8 @@
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
 		347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Game+CoreDataClass.swift"; path = "shelf-proj/Game+CoreDataClass.swift"; sourceTree = "<group>"; };
 		347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Game+CoreDataProperties.swift"; path = "shelf-proj/Game+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScanner.swift; sourceTree = "<group>"; };
+		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		34FE46A328C1B99D00C75B10 /* shelf-proj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shelf-proj.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projApp.swift; sourceTree = "<group>"; };
 		34FE46A828C1B99D00C75B10 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		34FE469A28C1B99D00C75B10 = {
 			isa = PBXGroup;
 			children = (
+				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
 				347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */,
 				347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */,
 				34FE46A528C1B99D00C75B10 /* shelf-proj */,
@@ -109,6 +113,7 @@
 		34FE46A528C1B99D00C75B10 /* shelf-proj */ = {
 			isa = PBXGroup;
 			children = (
+				34CB1A0B28E2501500AE3AC0 /* Info.plist */,
 				34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */,
 				34FE46D628C1BC1000C75B10 /* CardView.swift */,
 				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
@@ -283,6 +288,7 @@
 				34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */,
 				34FE46AC28C1B99D00C75B10 /* shelf_proj.xcdatamodeld in Sources */,
 				347CE1F928D69DFA0029B5A9 /* Game+CoreDataProperties.swift in Sources */,
+				34CB1A0A28E24CDC00AE3AC0 /* DataScanner.swift in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
 				347CE1F828D69DFA0029B5A9 /* Game+CoreDataClass.swift in Sources */,
 			);
@@ -442,6 +448,8 @@
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "shelf-proj/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Shelf would like to access your camera\"";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -452,7 +460,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
@@ -479,6 +487,8 @@
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "shelf-proj/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Shelf would like to access your camera\"";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -489,7 +499,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
