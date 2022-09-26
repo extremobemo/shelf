@@ -1,0 +1,22 @@
+{
+  "images" : [
+    {
+      "filename" : "111024-grand-theft-auto-iv-playstation-3-front-cover.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "111024-grand-theft-auto-iv-playstation-3-front-cover 1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
