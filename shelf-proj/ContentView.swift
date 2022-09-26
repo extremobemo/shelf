@@ -14,7 +14,7 @@ struct ContentView: View {
     private var items: FetchedResults<Game>
     
     
-    @State private var numOfColumns: Int = 2
+    @State private var numOfColumns: Int = 5
     @State private var can_zoom: Bool = true
     @State private var showingPopover = false
     @State private var popoverPhoto: String = ""
@@ -52,8 +52,15 @@ struct ContentView: View {
         }.onEnded{ _ in can_zoom = true }
         
         GeometryReader { geometry in
-            VStack(alignment: .leading) {
-                Text(verbatim: "Catalogue").padding(EdgeInsets(top: 20, leading: 36, bottom: 20, trailing: 0)).frame(alignment: .leading).font(.headline).scaleEffect(2.0).foregroundColor(.gray)
+            VStack() {
+                HStack() {
+                    Text(verbatim: "Catalogue").font(.largeTitle).scaleEffect(1.0).foregroundColor(.gray)
+                    Spacer()
+                    Button(action: { print("button pressed") }) {
+                        Image(systemName: "plus")
+                    }
+                }.padding(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+               
                 ScrollView() {
                     HStack(alignment: .top, spacing: -15) {
                         ForEach( 0 ..< numOfColumns, id: \.self) { _ in
