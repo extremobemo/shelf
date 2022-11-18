@@ -32,6 +32,8 @@ struct CardView: View {
                 Text(items[0].system ?? "Error!")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
+                // TODO: Get this info from CoreData somehow
             }
             .layoutPriority(1)
             Spacer()

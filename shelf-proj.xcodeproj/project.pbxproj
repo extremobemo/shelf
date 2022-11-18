@@ -90,8 +90,8 @@
 		34FE469A28C1B99D00C75B10 = {
 			isa = PBXGroup;
 			children = (
-				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
 				347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */,
+				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
 				347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */,
 				34FE46A528C1B99D00C75B10 /* shelf-proj */,
 				34FE46BC28C1B99E00C75B10 /* shelf-projTests */,

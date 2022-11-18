@@ -12,6 +12,12 @@ import VisionKit
 
 struct DataScanner: UIViewControllerRepresentable {
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
+        var parent: DataScanner
+
+        init(_ parent: DataScanner) {
+            self.parent = parent
+        }
+        
         func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]){
         print(addedItems)
         }
@@ -21,6 +27,9 @@ struct DataScanner: UIViewControllerRepresentable {
             case .text(let text):
                 print("text: \(text.transcript)")
             case .barcode(let barcode):
+                dataScanner.dismiss(animated: true)
+                var game_name: String
+                
                 print("barcode: \(barcode.payloadStringValue ?? "unknown")")
                 let base_url = "https://www.pricecharting.com/search-products?type=videogames&q="
                 
@@ -32,7 +41,9 @@ struct DataScanner: UIViewControllerRepresentable {
                 
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
                     if let data = data {
-                        print(response?.url)
+                        let test = response?.url?.absoluteString.split(separator: "/").map { String($0) }
+                        let game = test?[4].split(separator: "?").map { String($0) }
+                        self.parent.game = game?[0]
                     } else if let error = error {
                         print("HTTP Request Failed \(error)")
                     }
@@ -44,8 +55,11 @@ struct DataScanner: UIViewControllerRepresentable {
             default:
                 print("unexpected item")
             }
+            
+            // TODO: Clean up this function, move this file
         }
     }
+    @Binding var game: String?
     
     func makeUIViewController(context: Context) -> DataScannerViewController {
         let scanner = DataScannerViewController(
@@ -65,6 +79,6 @@ struct DataScanner: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(self)
     }
 }

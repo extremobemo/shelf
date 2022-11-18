@@ -15,12 +15,16 @@ struct ContentView: View {
     @FetchRequest(entity: Game.entity(), sortDescriptors: [])
     private var items: FetchedResults<Game>
     
+    // TODO: Spacing, styling, etc.
+    // TODO: MacOS specific stuff for views...
+    
     @State private var numOfColumns: Int = 5
     @State private var can_zoom: Bool = true
     @State private var showingPopover = false
     @State private var showingScanner = false
     @State private var popoverPhoto: String = ""
-    
+    @State private var game: String?
+    @State private var newGame = false
    
     
     var games = [Game]()
@@ -34,7 +38,7 @@ struct ContentView: View {
                   "Image 4",
                   "Image 5",
                   "Image 6",
-                  "Image 7"]
+                  "Image 7"] // TODO: Drop this stuff, start storing game info in the CoreData Game
 
     var attributedString = AttributedString("Catalogue")
     let color = AttributeContainer.font(.boldSystemFont(ofSize: 48))
@@ -69,9 +73,9 @@ struct ContentView: View {
                            }
                         showingScanner = true }) {
                         Image(systemName: "plus")
-                    }.sheet(isPresented: $showingScanner){
-                        DataScanner()
-                    }
+                    }.sheet(isPresented: $showingScanner) {
+                        DataScanner(game: $game)
+                    }.onChange(of: game) { _ in newGame = true } // TODO: Create function to add new card to home screen with game info
                 }.padding(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
                
                 ScrollView() {
@@ -89,8 +93,12 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.gesture(pinch).sheet(isPresented: $showingPopover) {
-                GameSheetView(image: popoverPhoto)
+            }.gesture(pinch).sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
+                GameSheetView(image: popoverPhoto, gameName: game ?? "FAIL")
+            }.alert(game ?? "", isPresented: $newGame) {
+                Button("OK", role: .cancel) {
+                    newGame = false
+                }
             }
         }
     }
