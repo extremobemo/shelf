@@ -42,8 +42,8 @@
 
 /* Begin PBXFileReference section */
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
-		347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Game+CoreDataClass.swift"; path = "shelf-proj/Game+CoreDataClass.swift"; sourceTree = "<group>"; };
-		347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Game+CoreDataProperties.swift"; path = "shelf-proj/Game+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game+CoreDataClass.swift"; sourceTree = "<group>"; };
+		347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScanner.swift; sourceTree = "<group>"; };
 		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		34FE46A328C1B99D00C75B10 /* shelf-proj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shelf-proj.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,9 +90,6 @@
 		34FE469A28C1B99D00C75B10 = {
 			isa = PBXGroup;
 			children = (
-				347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */,
-				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
-				347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */,
 				34FE46A528C1B99D00C75B10 /* shelf-proj */,
 				34FE46BC28C1B99E00C75B10 /* shelf-projTests */,
 				34FE46C628C1B99E00C75B10 /* shelf-projUITests */,
@@ -113,6 +110,9 @@
 		34FE46A528C1B99D00C75B10 /* shelf-proj */ = {
 			isa = PBXGroup;
 			children = (
+				347CE1F628D69DFA0029B5A9 /* Game+CoreDataClass.swift */,
+				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
+				347CE1F728D69DFA0029B5A9 /* Game+CoreDataProperties.swift */,
 				34CB1A0B28E2501500AE3AC0 /* Info.plist */,
 				34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */,
 				34FE46D628C1BC1000C75B10 /* CardView.swift */,
@@ -468,10 +468,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "extremobemo.shelf-proj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -507,10 +509,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "extremobemo.shelf-proj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

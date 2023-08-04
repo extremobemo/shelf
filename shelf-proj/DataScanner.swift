@@ -8,6 +8,9 @@
 import Foundation
 import SwiftUI
 import VisionKit
+import AVKit
+import SafariServices
+import WebKit
 
 
 struct DataScanner: UIViewControllerRepresentable {
@@ -40,9 +43,10 @@ struct DataScanner: UIViewControllerRepresentable {
                 let request = URLRequest(url: url)
                 
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                    if let data = data {
+                    if let _ = data {
                         let test = response?.url?.absoluteString.split(separator: "/").map { String($0) }
                         let game = test?[4].split(separator: "?").map { String($0) }
+                        let system = test?[3]
                         self.parent.game = game?[0]
                     } else if let error = error {
                         print("HTTP Request Failed \(error)")
@@ -56,6 +60,22 @@ struct DataScanner: UIViewControllerRepresentable {
                 print("unexpected item")
             }
             
+            let get_desc_url = URL(string:"https://api.mobygames.com/v1/games/60443?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
+            
+            let task2 = URLSession.shared.dataTask(with: get_desc_url) { data, response, error in
+                if let _ = data {
+                    let test = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    print(test)
+                    //let game = test?[4].split(separator: "?").map { String($0) }
+                    //let system = test?[3]
+                    //self.parent.game = game?[0]
+                } else if let error = error {
+                    print("HTTP Request Failed \(error)")
+                }
+            }
+            
+            task2.resume()
+
             // TODO: Clean up this function, move this file
         }
     }
