@@ -11,94 +11,100 @@ import VisionKit
 import AVKit
 import SafariServices
 import WebKit
+import CoreData
 
 
 struct DataScanner: UIViewControllerRepresentable {
+    private var shelfModel: ShelfModel
+    
+    init(shelfModel: ShelfModel, game: Binding<String?>, platform_name: Binding<String?>) {
+        self.shelfModel = shelfModel
+        self._game = game
+        self._platform_name = platform_name
+    }
+    
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
         var parent: DataScanner
+        @ObservedObject var viewModel: ShelfModel
+        
+        @Environment(\.managedObjectContext) private var viewContext
 
-        init(_ parent: DataScanner) {
+        init(_ parent: DataScanner, viewModel: ShelfModel) {
             self.parent = parent
+            self.viewModel = viewModel
         }
         
         func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]){
-        print(addedItems)
+            // Unused (for now)
         }
         
         func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+            searchGameByBarcode(item: item)
+            dataScanner.dismiss(animated: true)
+        }
+        
+        func searchGameByBarcode(item: RecognizedItem) {
             switch item {
-            case .text(let text):
-                print("text: \(text.transcript)")
+                
             case .barcode(let barcode):
-                dataScanner.dismiss(animated: true)
-                var game_name: String
-                
-                print("barcode: \(barcode.payloadStringValue ?? "unknown")")
-                let base_url = "https://www.pricecharting.com/search-products?type=videogames&q="
-                
                 var upc = barcode.payloadStringValue!
                 upc.remove(at: upc.startIndex)
-                let final_url = base_url.appending(String(upc))
-                let url = URL(string: final_url)!
-                let request = URLRequest(url: url)
                 
-                let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                let url = URL(string: ("https://www.pricecharting.com/search-products?type=videogames&q=" + upc))
+                
+                let task = URLSession.shared.dataTask(with: url!) { data, response, error in
                     if let _ = data {
                         let test = response?.url?.absoluteString.split(separator: "/").map { String($0) }
                         let game = test?[4].split(separator: "?").map { String($0) }
-                        let system = test?[3]
-                        self.parent.game = game?[0]
+                        
+//                        let newGame = Game(context: self.parent.shelfModel.context)
+//                        newGame.title = game![0]
+                        
+                        // ^^ VERY IMPORTANT LINES, MOVE TO buildGame()
+                        self.parent.game = game![0]
+                        self.parent.platform_name = test![3]
+                        //self.viewModel.addGame()
+                        do {
+                            //try self.viewContext.save()
+                            // Handle successful save
+                        } catch {
+                            // Handle save error
+                        }
+                        //let game2 = Game(context: self.viewModel.context)
+//                        print(test)
+//                        print(game)
                     } else if let error = error {
-                        print("HTTP Request Failed \(error)")
+                        //print("HTTP Request Failed \(error)")
                     }
                 }
                 
                 task.resume()
 
-                // url = "https://www.pricecharting.com/search-products?type=videogames&q={}".format(barcode)
             default:
-                print("unexpected item")
+                return
             }
-            
-            let get_desc_url = URL(string:"https://api.mobygames.com/v1/games/60443?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
-            
-            let task2 = URLSession.shared.dataTask(with: get_desc_url) { data, response, error in
-                if let _ = data {
-                    let test = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    print(test)
-                    //let game = test?[4].split(separator: "?").map { String($0) }
-                    //let system = test?[3]
-                    //self.parent.game = game?[0]
-                } else if let error = error {
-                    print("HTTP Request Failed \(error)")
-                }
-            }
-            
-            task2.resume()
-
-            // TODO: Clean up this function, move this file
         }
     }
+    
     @Binding var game: String?
+    @Binding var platform_name: String?
     
     func makeUIViewController(context: Context) -> DataScannerViewController {
         let scanner = DataScannerViewController(
             recognizedDataTypes: [.barcode()],
-            qualityLevel: .fast,
-            recognizesMultipleItems: true,
-            isHighFrameRateTrackingEnabled: true,
-            isHighlightingEnabled: true)
+            qualityLevel: .fast, recognizesMultipleItems: false,
+            isHighFrameRateTrackingEnabled: true, isHighlightingEnabled: true)
         
         scanner.delegate = context.coordinator
         try? scanner.startScanning()
         return scanner
     }
     
-    func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
-        
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self, viewModel: shelfModel)
     }
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+    func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
+        
     }
 }

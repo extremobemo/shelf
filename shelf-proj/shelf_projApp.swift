@@ -9,12 +9,11 @@ import SwiftUI
 
 @main
 struct shelf_projApp: App {
-    let persistenceController = PersistenceController.preview
-
+    let viewContext = CoreDataManager.shared.persistentStoreContainer.viewContext
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView(shelfModel: ShelfModel(context: viewContext))
+                .environment(\.managedObjectContext, viewContext)
         }
     }
 }

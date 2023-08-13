@@ -13,8 +13,20 @@ import WebKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Game.entity(), sortDescriptors: [])
-    private var items: FetchedResults<Game>
+    private var shelfModel: ShelfModel
+    
+    
+    
+    @FetchRequest(
+            sortDescriptors: [],
+            animation: .default)
+        private var games: FetchedResults<Game>
+
+    
+    
+    init(shelfModel: ShelfModel) {
+        self.shelfModel = shelfModel
+    }
     
     // TODO: Spacing, styling, etc.
     // TODO: MacOS specific stuff for views...
@@ -25,10 +37,11 @@ struct ContentView: View {
     @State var showingScanner = false
     @State private var popoverPhoto: String = ""
     @State private var game: String?
+    @State private var platform_name: String?
     @State private var newGame = false
    
-    
-    var games = [Game]()
+    @State private var gameID: String?
+    //var games = [Game]()
     
     var images = ["jgr",
                   "x",
@@ -45,6 +58,7 @@ struct ContentView: View {
     let color = AttributeContainer.font(.boldSystemFont(ofSize: 48))
     
     var body: some View {
+        
         let pinch = MagnificationGesture().onChanged{  delta in
             guard numOfColumns > 0 else {
                 return
@@ -65,29 +79,34 @@ struct ContentView: View {
                     Text(verbatim: "Catalogue").font(.largeTitle).scaleEffect(1.0).foregroundColor(.gray)
                     Spacer()
                     Button(action: {
-//                        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-//                               if response {
-//                                  showingScanner = true
-//                               } else {
-//                                   showingScanner = false
-//                               }
-//                           }
+                        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                               if response {
+                                  showingScanner = true
+                               } else {
+                                   showingScanner = false
+                               }
+                           }
                         showingScanner = true }) {
                         Image(systemName: "plus")
                     }.sheet(isPresented: $showingScanner) {
-                        DataScanner(game: $game)
-                    }.onChange(of: game) { _ in newGame = true } // TODO: Create function to add new card to home screen with game info
+                        DataScanner(shelfModel: shelfModel, game: $game, platform_name: $platform_name)
+                    }.onChange(of: game) { _ in newGame = true }
+                    // TODO: Create function to add new card to home screen with game info
                 }.padding(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
                
                 ScrollView() {
                     HStack(alignment: .top, spacing: -15) {
-                        ForEach( 0 ..< numOfColumns, id: \.self) { _ in
+                        ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
                             LazyVStack(spacing: 15) {
-                                ForEach( 0 ..< 30) {_ in
-                                    let photoIndex = Int.random(in: 0 ... 9)
-                                    CardView(imageName: images[photoIndex]).onTapGesture {
-                                        showingPopover = true
-                                        popoverPhoto = images[photoIndex]
+                                //ForEach( 0 ..< 10) {_ in
+                                ForEach(games.indices, id: \.self) { index in
+                                    let photoIndex = index
+                                    
+                                    if (index == spandex) {
+                                        CardView(imageName: games[index].cover_art).onTapGesture {
+                                            showingPopover = true
+                                            popoverPhoto = images[photoIndex]
+                                        }
                                     }
                                 }
                             }
@@ -95,15 +114,16 @@ struct ContentView: View {
                     }
                 }
             }.gesture(pinch).sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
-                GameSheetView(image: popoverPhoto, gameName: game ?? "FAIL")
+                GameSheetView(image: popoverPhoto, gameName: game!)
             }.sheet(isPresented: $newGame) {
                 let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "FAIL"
                 
                 let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test)
-                
-                
-                WebView(url: base_url!)
+                WebView(url: base_url!, platform_name: $platform_name ,gameID: $gameID)
                 //newGame = false
+            }
+            .onChange(of: gameID) { _ in newGame = false
+                
             }
         }
     }
@@ -117,6 +137,8 @@ struct ContentView: View {
 struct WebView: UIViewRepresentable {
     // 1
     var url: URL
+    @Binding var platform_name: String?
+    @Binding var gameID: String?
     
     // 3
     func updateUIView(_ webView: WKWebView, context: Context) {
@@ -145,8 +167,19 @@ struct WebView: UIViewRepresentable {
             func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
                 let urlToMatch = parent.url.absoluteString
                 if let urlStr = navigationAction.request.url?.absoluteString, urlStr != urlToMatch {
-                    print("NAV!")
-                    print(navigationAction.request.url?.absoluteString)
+                    
+                    let test = navigationAction.request.url?.absoluteString.split(separator: "/").map { String($0) }
+                    self.parent.gameID = test![3]
+
+                    print(test![3])
+                    
+                    
+                    let mga = MobyGamesApi()
+                    //mga.buildGame(gameID: test![3], platformID: id)
+                    
+                    let id = PlatformLookup.getPlatformID(platform: parent.platform_name!)
+                    mga.buildGame(gameID: test![3], platformID: String(id!))
+
                 }
                 decisionHandler(.allow)
             }

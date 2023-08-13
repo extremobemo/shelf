@@ -57,14 +57,14 @@ func getGameJSON(gameName: String) -> String {
                 let gamejson = try! JSONDecoder().decode(GamesJSON.self, from: jsonData)
                 desc = gamejson.games[0].description
             } else {
-                print("json data malformed")
+                //print("json data malformed")
             }
         } else if let error = error {
-            print("HTTP Request Failed \(error)")
+            //print("HTTP Request Failed \(error)")
         }
     }
 
     task.resume()
-    print(responseJson)
+    //print(responseJson)
     return gameDesc
 }

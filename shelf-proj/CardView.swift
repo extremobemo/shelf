@@ -9,27 +9,27 @@ import SwiftUI
 
 struct CardView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(entity: Game.entity(), sortDescriptors: [])
-    private var items: FetchedResults<Game>
+    //@FetchRequest(entity: Game.entity(), sortDescriptors: [])
+    //private var items: FetchedResults<Game>
     
-    let imageName: String
+    let imageName: Data?
     var body: some View {
         
     VStack {
-        Image(imageName)
+        Image(uiImage: UIImage(data: imageName!)!)
             .resizable()
             .aspectRatio(contentMode: .fit)
         
         HStack {
             VStack(alignment: .leading) {
-                Text(items[0].title ?? "Error!")
+                Text("Error!")
                     .font(.system(size: 12))
                     .fontWeight(.black)
                     .foregroundColor(.primary)
                 Text("Rockstar Games")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text(items[0].system ?? "Error!")
+                Text("Error!")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
