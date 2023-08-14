@@ -26,12 +26,16 @@ struct ContentView: View {
     
     init(shelfModel: ShelfModel) {
         self.shelfModel = shelfModel
+        self.columns = shelfModel.getColumns(count: 5)
     }
     
     // TODO: Spacing, styling, etc.
     // TODO: MacOS specific stuff for views...
     
     @State private var numOfColumns: Int = 5
+    @State private var columns: [[Game]] = [[]]
+    
+    
     @State private var can_zoom: Bool = true
     @State private var showingPopover = false
     @State var showingScanner = false
@@ -96,20 +100,20 @@ struct ContentView: View {
                
                 ScrollView() {
                     HStack(alignment: .top, spacing: -15) {
-                        ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
+                        ForEach( 0 ..< 5, id: \.self) { spandex in
                             LazyVStack(spacing: 15) {
-                                //ForEach( 0 ..< 10) {_ in
-                                ForEach(games.indices, id: \.self) { index in
+//                                //ForEach( 0 ..< 10) {_ in
+                                ForEach(shelfModel.getColumns(count: 5)[spandex].indices, id: \.self) { index in
                                     let photoIndex = index
-                                    
-                                    if (index == spandex) {
-                                        CardView(imageName: games[index].cover_art).onTapGesture {
+//                                    print(columns)
+//                                    if (index == spandex) {
+                                       CardView(imageName: shelfModel.getColumns(count: 5)[spandex][index].cover_art).onTapGesture {
                                             showingPopover = true
                                             popoverPhoto = images[photoIndex]
-                                        }
-                                    }
-                                }
-                            }
+//                                        }
+                                      }
+                                  }
+                             }
                         }
                     }
                 }
@@ -123,7 +127,7 @@ struct ContentView: View {
                 //newGame = false
             }
             .onChange(of: gameID) { _ in newGame = false
-                
+                columns = shelfModel.getColumns(count: 5)
             }
         }
     }
