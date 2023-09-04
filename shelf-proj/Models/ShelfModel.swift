@@ -10,14 +10,27 @@ import CoreData
 
 class ShelfModel: ObservableObject {
     private (set) var context: NSManagedObjectContext
-    
+    @Published var columns: [[Game]] = []
+  
     init(context: NSManagedObjectContext) {
-        self.context = context        
+        self.context = context
+        getColumns(count: 5)
     }
     
-    func addGame() {
-        let game = Game(context: context)
-        game.title = "test game"
+  func addGame(game: String, platform: Int, completion: @escaping (Bool)->()) {
+      
+      let mga = MobyGamesApi()
+      //mga.buildGame(gameID: test![3], platformID: id)
+      
+    DispatchQueue.main.async {
+      mga.buildGame(gameID: game, platformID: String(platform)) { _ in
+        self.getColumns(count: 5)
+      }
+      //self.getColumns(count: 5)
+    }
+    
+    
+    self.context.refreshAllObjects()
     }
     
     func getGameCount() -> Int {
@@ -34,7 +47,7 @@ class ShelfModel: ObservableObject {
         return game_count
     }
     
-    func getColumns(count: Int) -> [[Game]]{
+    func getColumns(count: Int) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
         
         var columns: [[Game]] = [[]]
@@ -50,7 +63,7 @@ class ShelfModel: ObservableObject {
             let games = try self.context.fetch(request)
             games.forEach { game in
                 if let game = game as? Game {
-                    print(game)
+                    //print(game)
                     columns[game_count].append(game)
                     
                     game_count += 1
@@ -65,6 +78,7 @@ class ShelfModel: ObservableObject {
                 } catch {
                     print("Error fetching games: \(error)")
                 }
-        return columns
+      self.columns = columns
+      print(columns)
     }
 }

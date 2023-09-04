@@ -13,20 +13,21 @@ import WebKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    private var shelfModel: ShelfModel
-    
-    
+  
+    @ObservedObject private var shelfModel: ShelfModel
     
     @FetchRequest(
             sortDescriptors: [],
             animation: .default)
-        private var games: FetchedResults<Game>
+  
+  
+    private var games: FetchedResults<Game>
 
     
     
     init(shelfModel: ShelfModel) {
         self.shelfModel = shelfModel
-        self.columns = shelfModel.getColumns(count: 5)
+        //self.columns = shelfModel.getColumns(count: 5)
     }
     
     // TODO: Spacing, styling, etc.
@@ -103,15 +104,13 @@ struct ContentView: View {
                         ForEach( 0 ..< 5, id: \.self) { spandex in
                             LazyVStack(spacing: 15) {
 //                                //ForEach( 0 ..< 10) {_ in
-                                ForEach(shelfModel.getColumns(count: 5)[spandex].indices, id: \.self) { index in
+                                ForEach(shelfModel.columns[spandex].indices, id: \.self) { index in
                                     let photoIndex = index
-//                                    print(columns)
-//                                    if (index == spandex) {
-                                       CardView(imageName: shelfModel.getColumns(count: 5)[spandex][index].cover_art).onTapGesture {
+
+                                       CardView(imageName: shelfModel.columns[spandex][index].cover_art).onTapGesture {
                                             showingPopover = true
                                             popoverPhoto = images[photoIndex]
-//                                        }
-                                      }
+                                      }.id(UUID())
                                   }
                              }
                         }
@@ -121,13 +120,13 @@ struct ContentView: View {
                 GameSheetView(image: popoverPhoto, gameName: game!)
             }.sheet(isPresented: $newGame) {
                 let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "FAIL"
-                
                 let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test)
-                WebView(url: base_url!, platform_name: $platform_name ,gameID: $gameID)
+                WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
                 //newGame = false
             }
-            .onChange(of: gameID) { _ in newGame = false
-                columns = shelfModel.getColumns(count: 5)
+            .onChange(of: gameID) { _ in
+              //shelfModel.getColumns(count: 5)
+              newGame = false
             }
         }
     }
@@ -141,6 +140,8 @@ struct ContentView: View {
 struct WebView: UIViewRepresentable {
     // 1
     var url: URL
+  
+    @ObservedObject var shelfModel: ShelfModel
     @Binding var platform_name: String?
     @Binding var gameID: String?
     
@@ -174,16 +175,13 @@ struct WebView: UIViewRepresentable {
                     
                     let test = navigationAction.request.url?.absoluteString.split(separator: "/").map { String($0) }
                     self.parent.gameID = test![3]
+                                    let id = PlatformLookup.getPlatformID(platform: parent.platform_name!)
 
-                    print(test![3])
-                    
-                    
-                    let mga = MobyGamesApi()
-                    //mga.buildGame(gameID: test![3], platformID: id)
-                    
-                    let id = PlatformLookup.getPlatformID(platform: parent.platform_name!)
-                    mga.buildGame(gameID: test![3], platformID: String(id!))
-
+                    //print(test![3])
+                  DispatchQueue.main.async {
+                    self.parent.shelfModel.addGame(game: test![3], platform: id!) { done in
+                    }
+                    }
                 }
                 decisionHandler(.allow)
             }

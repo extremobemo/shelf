@@ -19,5 +19,8 @@ class CoreDataManager {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+      persistentStoreContainer.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
+      persistentStoreContainer.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
+      persistentStoreContainer.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
     }
 }
