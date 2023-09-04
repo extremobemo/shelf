@@ -10,7 +10,9 @@ import CoreData
 
 class ShelfModel: ObservableObject {
     private (set) var context: NSManagedObjectContext
-    @Published var columns: [[Game]] = []
+    
+    // Init this based on number of desired columns
+    @Published var columns: [[Game]] = [[],[],[],[],[]]
   
     init(context: NSManagedObjectContext) {
         self.context = context
@@ -78,7 +80,9 @@ class ShelfModel: ObservableObject {
                 } catch {
                     print("Error fetching games: \(error)")
                 }
-      self.columns = columns
+      DispatchQueue.main.async {
+        self.columns = columns
+      }
       print(columns)
     }
 }
