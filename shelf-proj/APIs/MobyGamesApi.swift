@@ -15,9 +15,7 @@ class MobyGamesApi {
   enum UnknownError: Error {
     case unknown(description: String)
   }
-  
-  
-  
+
   func saveCoreDataContext() throws {
     let context = CoreDataManager.shared.persistentStoreContainer.viewContext
     
@@ -28,7 +26,6 @@ class MobyGamesApi {
       throw UnknownError.unknown(description: "Core Data save error: \(error.localizedDescription)")
     }
   }
-  
   
   struct Cover: Codable {
     let comments: String?
@@ -58,10 +55,17 @@ class MobyGamesApi {
       
       newPerson.desc = "John Doe"
       newPerson.title = "Test Title"
-      //let newGame = Game(context: CoreDataManager.shared.persistentStoreContainer.viewContext)
-      
-      getDescription(gameID: gameID){ desc in
-        //print(desc)
+      newPerson.moby_id = Int64(gameID) ?? 0
+
+      getDescription(gameID: gameID){ desc, screenshots in
+        newPerson.desc = desc
+        newPerson.screenshots = screenshots
+      }
+
+      // Prevent API throttling. This is an issue, we something async, loading icon on homescreen until
+      // ALL info if fetched.
+      do {
+        sleep(2)
       }
       
       getCoverArt(gameID: gameID, platformID: platformID) { url in
@@ -73,10 +77,11 @@ class MobyGamesApi {
           context.perform {
             context.insert(newPerson)
           }
+
+          // Should this completion be called here? Why not try async/await instead of callback hell
           completion(data)
         }
-        
-        
+
         do {
           try self.saveCoreDataContext()
         } catch UnknownError.unknown(let description) {
@@ -90,8 +95,8 @@ class MobyGamesApi {
     }
   }
   
-  func getDescription(gameID: String, completionBlock: @escaping (String) -> Void) -> Void {
-    
+  func getDescription(gameID: String, completionBlock: @escaping (String, [Data]) -> Void) -> Void {
+
     var description: String = ""
     let get_desc_url = URL(string:"https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
     
@@ -100,22 +105,42 @@ class MobyGamesApi {
         let test = String(data: data!, encoding: String.Encoding.utf8) as String?
         let dict = test?.toJSON() as? [String:AnyObject]
         
-        guard let desc = dict!["description"] as! String? else {
+        guard let desc = dict!["description"] as? String? else {
           return
         }
-        
-        description = desc
-        
+        var screenshots: [Data] = []
+
+        if let sampleScreenshots = dict!["sample_screenshots"] as? [AnyObject] {
+          for object in sampleScreenshots {
+            if let screenshotDict = object as? [String: Any] {
+              for (key, value) in screenshotDict {
+                if key == "image" {
+                  if let urlString = value as? String, let url = URL(string: urlString) {
+                    do {
+                      try screenshots.append(Data(contentsOf: url))
+                    }
+                    catch {
+                        // Handle the error when downloading the image
+                        print("Error downloading image: \(error)")
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        description = desc!
         description = description.stripOutHtml()!.unescaped
         
-        completionBlock(description)
-        
+        completionBlock(description, screenshots)
+
       } else if let error = error {
         print("HTTP Request Failed \(error)")
       }
     }
     
-    //task2.resume()
+    task2.resume()
   }
   
   func getCoverArt(gameID: String, platformID: String, completionBlock: @escaping (URL?) -> Void) {
@@ -153,44 +178,44 @@ class MobyGamesApi {
 }
 
     
-    extension String {
-        func toJSON() -> Any? {
-            guard let data = self.data(using: .utf8, allowLossyConversion: false) else { return nil }
-            return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-        }
-        
-        func stripOutHtml() -> String? {
-            do {
-                guard let data = self.data(using: .unicode) else {
-                    return nil
-                }
-                let attributed = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
-                return attributed.string
-            } catch {
+extension String {
+    func toJSON() -> Any? {
+        guard let data = self.data(using: .utf8, allowLossyConversion: false) else { return nil }
+        return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+    }
+
+    func stripOutHtml() -> String? {
+        do {
+            guard let data = self.data(using: .unicode) else {
                 return nil
             }
-        }
-        
-        private static let escapedChars = [
-            (#"\0"#, "\0"),
-            (#"\t"#, "\t"),
-            (#"\n"#, "\n"),
-            (#"\r"#, "\r"),
-            (#"\""#, "\""),
-            (#"\'"#, "\'"),
-            (#"\\"#, "\\")
-        ]
-        var escaped: String {
-            self.unicodeScalars.map { $0.escaped(asASCII: false) }.joined()
-        }
-        var asciiEscaped: String {
-            self.unicodeScalars.map { $0.escaped(asASCII: true) }.joined()
-        }
-        var unescaped: String {
-            var result: String = self
-            String.escapedChars.forEach {
-                result = result.replacingOccurrences(of: $0.0, with: $0.1)
-            }
-            return result
+            let attributed = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return attributed.string
+        } catch {
+            return nil
         }
     }
+
+    private static let escapedChars = [
+        (#"\0"#, "\0"),
+        (#"\t"#, "\t"),
+        (#"\n"#, "\n"),
+        (#"\r"#, "\r"),
+        (#"\""#, "\""),
+        (#"\'"#, "\'"),
+        (#"\\"#, "\\")
+    ]
+    var escaped: String {
+        self.unicodeScalars.map { $0.escaped(asASCII: false) }.joined()
+    }
+    var asciiEscaped: String {
+        self.unicodeScalars.map { $0.escaped(asASCII: true) }.joined()
+    }
+    var unescaped: String {
+        var result: String = self
+        String.escapedChars.forEach {
+            result = result.replacingOccurrences(of: $0.0, with: $0.1)
+        }
+        return result
+    }
+}

@@ -83,6 +83,23 @@ class ShelfModel: ObservableObject {
       DispatchQueue.main.async {
         self.columns = columns
       }
-      print(columns)
+      //print(columns)
     }
+  
+  func updateGameDesc(gameID: Int64, desc: String) {
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
+    var games: [Game] = []
+    request.returnsObjectsAsFaults = false
+    var game_count = 0
+    do {
+      games = try self.context.fetch(request) as! [Game]
+    } catch {}
+
+    let game = games.first(where: { $0.moby_id == gameID })
+    game?.desc = desc
+    
+    do {
+      try context.save()
+    } catch {}
+  }
 }
