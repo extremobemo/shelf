@@ -17,8 +17,23 @@ struct GameSheetView: View {
     var body: some View {
       
       //replace with game.cover_art if you want
-      Image(uiImage: UIImage(data: game.screenshots![1])!).resizable()
-            .aspectRatio(contentMode: .fit).frame(maxWidth: 600)
+      
+      //fix this so that another object creates the list of views based off game data.
+      PageViewController(pages: [Image(uiImage: UIImage(data: game.screenshots![0])!)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 500, height: 500),
+                                 Image(uiImage: UIImage(data: game.screenshots![1])!)
+                                   .resizable()
+                                   .aspectRatio(contentMode: .fit)
+                                   .frame(width: 500, height: 500),
+                                 Image(uiImage: UIImage(data: game.screenshots![2])!)
+                                   .resizable()
+                                   .aspectRatio(contentMode: .fit)
+                                   .frame(width: 500, height: 500)])
+
+      //Image(uiImage: UIImage(data: game.screenshots![1])!).resizable()
+       //     .aspectRatio(contentMode: .fit).frame(maxWidth: 600)
         Button("Press to dismiss") {
             dismiss()
         }.frame(height: 60)
