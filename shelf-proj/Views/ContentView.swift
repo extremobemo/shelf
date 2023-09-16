@@ -76,7 +76,7 @@ struct ContentView: View {
                 //                                //ForEach( 0 ..< 10) {_ in
                 ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
 
-                  CardView(imageName: game.cover_art).onTapGesture {
+                  CardView(imageName: game.cover_art).hoverEffect(.lift).onTapGesture {
 
                     selectedGame = game
                     showingPopover = true

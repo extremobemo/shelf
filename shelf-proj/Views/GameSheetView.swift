@@ -30,6 +30,14 @@ struct GameSheetView: View {
                                  Image(uiImage: UIImage(data: game.screenshots![2])!)
                                    .resizable()
                                    .aspectRatio(contentMode: .fit)
+                                   .frame(width: 500, height: 500),
+                                 Image(uiImage: UIImage(data: game.screenshots![3])!)
+                                   .resizable()
+                                   .aspectRatio(contentMode: .fit)
+                                   .frame(width: 500, height: 500),
+                                 Image(uiImage: UIImage(data: game.screenshots![4])!)
+                                   .resizable()
+                                   .aspectRatio(contentMode: .fit)
                                    .frame(width: 500, height: 500)])
 
       //Image(uiImage: UIImage(data: game.screenshots![1])!).resizable()
