@@ -12,7 +12,7 @@
 		34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */; };
 		34C354102A88773000BB6B6B /* platform_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = 34C3540F2A88773000BB6B6B /* platform_ids.json */; };
 		34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C354112A88778400BB6B6B /* PlatformLookup.swift */; };
-		34CB1A0A28E24CDC00AE3AC0 /* DataScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */; };
+		34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */; };
 		34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C0F2A8701F400608807 /* CoreDataManager.swift */; };
 		34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C122A87049B00608807 /* ShelfModel.swift */; };
 		34FE46A728C1B99D00C75B10 /* shelf_projApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */; };
@@ -26,7 +26,7 @@
 		B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */; };
 		B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */; };
 		B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C122AB4FE5E00AE1C14 /* PageView.swift */; };
-		B5D50C152AB642A200AE1C14 /* DrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C142AB642A200AE1C14 /* DrawerView.swift */; };
+		B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */; };
 		B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C162AB6432000AE1C14 /* CatalogueView.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +53,7 @@
 		34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyGamesApi.swift; sourceTree = "<group>"; };
 		34C3540F2A88773000BB6B6B /* platform_ids.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = platform_ids.json; sourceTree = "<group>"; };
 		34C354112A88778400BB6B6B /* PlatformLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformLookup.swift; sourceTree = "<group>"; };
-		34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScanner.swift; sourceTree = "<group>"; };
+		34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerViewController.swift; sourceTree = "<group>"; };
 		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		34CC8C0F2A8701F400608807 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		34CC8C122A87049B00608807 /* ShelfModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfModel.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCard.swift; sourceTree = "<group>"; };
 		B5D50C122AB4FE5E00AE1C14 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		B5D50C142AB642A200AE1C14 /* DrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerView.swift; sourceTree = "<group>"; };
+		B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationView.swift; sourceTree = "<group>"; };
 		B5D50C162AB6432000AE1C14 /* CatalogueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogueView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,16 +189,32 @@
 			path = "shelf-projUITests";
 			sourceTree = "<group>";
 		};
+		B5C388792AB6894000641BA9 /* CatalogueView */ = {
+			isa = PBXGroup;
+			children = (
+				B5D50C162AB6432000AE1C14 /* CatalogueView.swift */,
+				34FE46D628C1BC1000C75B10 /* CardView.swift */,
+			);
+			path = CatalogueView;
+			sourceTree = "<group>";
+		};
+		B5C3887A2AB68BA400641BA9 /* GameSheetView */ = {
+			isa = PBXGroup;
+			children = (
+				342E7D3328C9A5F500DC00FC /* GameSheetView.swift */,
+			);
+			path = GameSheetView;
+			sourceTree = "<group>";
+		};
 		B5D50C0C2AB4CDFE00AE1C14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B5C3887A2AB68BA400641BA9 /* GameSheetView */,
+				B5C388792AB6894000641BA9 /* CatalogueView */,
 				B5D50C0D2AB4FC2000AE1C14 /* PageView */,
-				342E7D3328C9A5F500DC00FC /* GameSheetView.swift */,
-				B5D50C142AB642A200AE1C14 /* DrawerView.swift */,
+				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
 				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
-				34FE46D628C1BC1000C75B10 /* CardView.swift */,
-				B5D50C162AB6432000AE1C14 /* CatalogueView.swift */,
-				34CB1A0928E24CDC00AE3AC0 /* DataScanner.swift */,
+				34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -351,8 +367,8 @@
 				34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */,
 				B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */,
 				34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */,
-				34CB1A0A28E24CDC00AE3AC0 /* DataScanner.swift in Sources */,
-				B5D50C152AB642A200AE1C14 /* DrawerView.swift in Sources */,
+				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
+				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
 				B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,

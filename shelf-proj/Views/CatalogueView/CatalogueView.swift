@@ -50,25 +50,17 @@ struct CatalogueView: View {
 
   var body: some View {
     GeometryReader { geometry in
-      VStack() {
-        HStack() {
-          ScrollView() {
-            HStack(alignment: .top, spacing: -15) {
-              ForEach( 0 ..< 5, id: \.self) { spandex in
-                LazyVStack(spacing: 15) {
-                  //                                //ForEach( 0 ..< 10) {_ in
-                  ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
-
-                    CardView(imageName: game.cover_art).hoverEffect(.lift).onTapGesture {
-
-                      selectedGame = game
-                      showingPopover = true
-
-                    }.sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
-                      if let selectedGame = selectedGame {
-                        GameSheetView(game: selectedGame)
-                      }
-                    }
+      ScrollView() {
+        HStack(alignment: .top, spacing: -15) {
+          ForEach( 0 ..< 5, id: \.self) { spandex in
+            VStack(spacing: 15) {
+              ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
+                CardView(imageName: game.cover_art).hoverEffect(.lift).onTapGesture {
+                  selectedGame = game
+                  showingPopover = true
+                }.sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
+                  if let selectedGame = selectedGame {
+                    GameSheetView(game: selectedGame)
                   }
                 }
               }

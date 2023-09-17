@@ -19,26 +19,26 @@ struct CardView: View {
         Image(uiImage: UIImage(data: imageName!)!)
             .resizable()
             .aspectRatio(contentMode: .fit)
-        
-        HStack {
-            VStack(alignment: .leading) {
-                Text("Error!")
-                    .font(.system(size: 12))
-                    .fontWeight(.black)
-                    .foregroundColor(.primary)
-                Text("Rockstar Games")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                Text("Error!")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
-                // TODO: Get this info from CoreData somehow
-            }
-            .layoutPriority(1)
-            Spacer()
-        }
-        .padding()
+
+  // DO WE WANT THIS? MAYBE AN OPTION TO TOGGLE?
+
+//        HStack {
+//            VStack(alignment: .leading) {
+//                Text("Error!")
+//                    .font(.system(size: 12))
+//                    .fontWeight(.black)
+//                    .foregroundColor(.primary)
+//                Text("Rockstar Games")
+//                    .font(.subheadline)
+//                    .foregroundColor(.secondary)
+//                Text("Error!")
+//                    .font(.subheadline)
+//                    .foregroundColor(.secondary)
+//            }
+//            .layoutPriority(1)
+//            Spacer()
+//        }
+//        .padding()
     }
     .cornerRadius(10)
     .overlay( RoundedRectangle(cornerRadius: 10)
