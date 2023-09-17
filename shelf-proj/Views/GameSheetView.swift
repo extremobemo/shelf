@@ -19,26 +19,27 @@ struct GameSheetView: View {
       //replace with game.cover_art if you want
       
       //fix this so that another object creates the list of views based off game data.
-      PageViewController(pages: [Image(uiImage: UIImage(data: game.screenshots![0])!)
+      PageViewController(pages: [Image(uiImage: UIImage(data: game.cover_art!)!)
         .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 500, height: 500),
-                                 Image(uiImage: UIImage(data: game.screenshots![1])!)
-                                   .resizable()
-                                   .aspectRatio(contentMode: .fit)
-                                   .frame(width: 500, height: 500),
-                                 Image(uiImage: UIImage(data: game.screenshots![2])!)
-                                   .resizable()
-                                   .aspectRatio(contentMode: .fit)
-                                   .frame(width: 500, height: 500),
-                                 Image(uiImage: UIImage(data: game.screenshots![3])!)
-                                   .resizable()
-                                   .aspectRatio(contentMode: .fit)
-                                   .frame(width: 500, height: 500),
-                                 Image(uiImage: UIImage(data: game.screenshots![4])!)
-                                   .resizable()
-                                   .aspectRatio(contentMode: .fit)
-                                   .frame(width: 500, height: 500)])
+        .aspectRatio(contentMode: .fit),
+        Image(uiImage: UIImage(data: game.back_cover_art!)!)
+         .resizable()
+         .aspectRatio(contentMode: .fit),
+        Image(uiImage: UIImage(data: game.screenshots![0])!)
+        .resizable()
+        .aspectRatio(contentMode: .fit),
+       Image(uiImage: UIImage(data: game.screenshots![1])!)
+         .resizable()
+         .aspectRatio(contentMode: .fit),
+       Image(uiImage: UIImage(data: game.screenshots![2])!)
+         .resizable()
+         .aspectRatio(contentMode: .fit),
+       Image(uiImage: UIImage(data: game.screenshots![3])!)
+         .resizable()
+         .aspectRatio(contentMode: .fit),
+       Image(uiImage: UIImage(data: game.screenshots![4])!)
+         .resizable()
+         .aspectRatio(contentMode: .fit)])
 
       //Image(uiImage: UIImage(data: game.screenshots![1])!).resizable()
        //     .aspectRatio(contentMode: .fit).frame(maxWidth: 600)
@@ -51,45 +52,3 @@ struct GameSheetView: View {
       Text(game.desc!)
     }
 }
-
-//func getGameJSON(gameName: String) -> String {
-//    struct GameJSON: Codable {
-//        let game_id: Int
-//        let description: String
-//
-//    }
-//    struct GamesJSON: Decodable {
-//        //let game_id: Int
-//        let games: [GameJSON]
-//    }
-//    
-//    var gameDesc: String = ""
-//    var base_url = "https://api.mobygames.com/v1/games?title="
-//    var gameName2 = gameName.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil)
-//    gameName2 = gameName2.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "FAIL"
-//    base_url.append(gameName2)
-//    base_url.append("&limit=1&api_key=PkyJXO8u7RGOkbno4uf3Aw==")
-//    
-//    let url = URL(string: base_url)
-//
-//    var responseJson: String = ""
-//    let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-//        if let data = data {
-//            if let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
-//               let jsonData = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted) {
-//                responseJson = (String(decoding: jsonData, as: UTF8.self))
-//                let jsonData = responseJson.data(using: .utf8)!
-//                let gamejson = try! JSONDecoder().decode(GamesJSON.self, from: jsonData)
-//                desc = gamejson.games[0].description
-//            } else {
-//                //print("json data malformed")
-//            }
-//        } else if let error = error {
-//            //print("HTTP Request Failed \(error)")
-//        }
-//    }
-//
-//    task.resume()
-//    //print(responseJson)
-//    return gameDesc
-//}

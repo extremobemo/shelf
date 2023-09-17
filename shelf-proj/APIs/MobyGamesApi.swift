@@ -68,11 +68,16 @@ class MobyGamesApi {
         sleep(2)
       }
       
-      getCoverArt(gameID: gameID, platformID: platformID) { url in
+      getCoverArt(gameID: gameID, platformID: platformID) { url, backurl in
         
         if let data = try? Data(contentsOf: url!) {
           // Create Image and Update Image View
           newPerson.cover_art = data
+
+          if let data = try? Data(contentsOf: backurl!) {
+            newPerson.back_cover_art = data
+          }
+
           let context =  CoreDataManager.shared.persistentStoreContainer.viewContext
           context.perform {
             context.insert(newPerson)
@@ -143,7 +148,7 @@ class MobyGamesApi {
     task2.resume()
   }
   
-  func getCoverArt(gameID: String, platformID: String, completionBlock: @escaping (URL?) -> Void) {
+  func getCoverArt(gameID: String, platformID: String, completionBlock: @escaping (URL?, URL?) -> Void) {
     let get_desc_url = URL(string:"https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
     
     let task2 = URLSession.shared.dataTask(with: get_desc_url) { data, response, error in
@@ -156,20 +161,20 @@ class MobyGamesApi {
             if let firstCoverGroup = responseData.cover_groups.first,
                let firstCover = firstCoverGroup.covers.first {
               let coverURL = firstCover.image
-              completionBlock(coverURL)
+              completionBlock(coverURL, firstCoverGroup.covers[1].image)
             } else {
-              completionBlock(nil) // No cover URL found
+              completionBlock(nil, nil) // No cover URL found
             }
           } catch {
             print("Error decoding JSON: \(error)")
-            completionBlock(nil) // Error occurred
+            completionBlock(nil, nil) // Error occurred
           }
         } else if let error = error {
           print("HTTP Request Failed \(error)")
-          completionBlock(nil) // Error occurred
+          completionBlock(nil, nil) // Error occurred
         }
       } else {
-        completionBlock(nil) // Error occurred
+        completionBlock(nil, nil) // Error occurred
       }
     }
     
