@@ -23,6 +23,7 @@
 		34FE46C828C1B99E00C75B10 /* shelf_projUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */; };
 		34FE46CA28C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */; };
 		34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46D628C1BC1000C75B10 /* CardView.swift */; };
+		B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */; };
 		B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */; };
 		B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */; };
 		B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C122AB4FE5E00AE1C14 /* PageView.swift */; };
@@ -69,6 +70,7 @@
 		34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITests.swift; sourceTree = "<group>"; };
 		34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		34FE46D628C1BC1000C75B10 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCard.swift; sourceTree = "<group>"; };
 		B5D50C122AB4FE5E00AE1C14 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		34FE46A528C1B99D00C75B10 /* shelf-proj */ = {
 			isa = PBXGroup;
 			children = (
+				B5C3887B2AB7B62D00641BA9 /* Classes */,
 				34C3540F2A88773000BB6B6B /* platform_ids.json */,
 				34C3540C2A8840E500BB6B6B /* APIs */,
 				34CC8C112A87047A00608807 /* Models */,
@@ -204,6 +207,14 @@
 				342E7D3328C9A5F500DC00FC /* GameSheetView.swift */,
 			);
 			path = GameSheetView;
+			sourceTree = "<group>";
+		};
+		B5C3887B2AB7B62D00641BA9 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		B5D50C0C2AB4CDFE00AE1C14 /* Views */ = {
@@ -364,6 +375,7 @@
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
 				B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */,
+				B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */,
 				34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */,
 				B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */,
 				34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */,

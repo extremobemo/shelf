@@ -132,21 +132,23 @@ struct WebView: UIViewRepresentable {
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
       let urlToMatch = parent.url.absoluteString
+
       if let urlStr = navigationAction.request.url?.absoluteString, urlStr != urlToMatch {
-
-        let test = navigationAction.request.url?.absoluteString.split(separator: "/").map { String($0) }
-        self.parent.gameID = test![3]
-        let id = PlatformLookup.getPlatformID(platform: parent.platform_name!)
-
-        //print(test![3])
-        DispatchQueue.main.async {
-          self.parent.shelfModel.addGame(game: test![3], platform: id!) { done in
+        if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
+          self.parent.gameID = test[3]
+          if let id = PlatformLookup.getPlatformID(platform: parent.platform_name!) {
+            Task {
+              do {
+                await self.parent.shelfModel.addGame(game: test[3], platform: id)
+                await self.parent.shelfModel.getColumns(count: 5)
+              }
+            }
           }
         }
+        
       }
       decisionHandler(.allow)
+
     }
-
   }
-
 }
