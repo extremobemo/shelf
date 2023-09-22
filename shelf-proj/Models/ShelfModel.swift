@@ -80,7 +80,6 @@ class ShelfModel: ObservableObject {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
     var games: [Game] = []
     request.returnsObjectsAsFaults = false
-    var game_count = 0
     do {
       games = try self.context.fetch(request) as! [Game]
     } catch {}

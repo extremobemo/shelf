@@ -71,19 +71,21 @@ struct CatalogueView: View {
     }.navigationTitle("Catalogue")
       .toolbar {
         ToolbarItem() {
-          Button(action: {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-              if response {
-                showingScanner = true
-              } else {
-                showingScanner = false
-              }
-            }
+            Button(action: {
+                #if os(iOS)
+                AVCaptureDevice.requestAccess(for: .video) { response in
+                    if response {
+                        showingScanner = true
+                    } else {
+                        showingScanner = false
+                    }
+                }
+                #endif
             showingScanner = true }) {
               Image(systemName: "plus")
             }.sheet(isPresented: $showingScanner) {
               DataScanner(shelfModel: shelfModel, game: $game, platform_name: $platform_name)
-            }.onChange(of: game) { _ in newGame = true }
+            }.onChange(of: game, initial: false) { _, test in newGame = true }
             .hoverEffect(.automatic)
         }
 
@@ -91,7 +93,7 @@ struct CatalogueView: View {
         let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
         let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
         WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
-      }.onChange(of: gameID) { _ in
+      }.onChange(of: gameID, initial: false) { _, test in
         newGame = false
       }
         //CatalogueView(shelfModel: shelfModel)
