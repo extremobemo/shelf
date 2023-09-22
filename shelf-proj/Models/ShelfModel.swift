@@ -17,6 +17,7 @@ class ShelfModel: ObservableObject {
   init(context: NSManagedObjectContext) {
     self.context = context
     getColumns(count: 5)
+    context.automaticallyMergesChangesFromParent = true
   }
 
   func addGame(game: String, platform: Int) async {

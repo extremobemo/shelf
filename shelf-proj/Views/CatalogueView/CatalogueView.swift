@@ -13,7 +13,7 @@ import WebKit
 
 struct CatalogueView: View {
   @Environment(\.managedObjectContext) private var viewContext
-
+    
   @ObservedObject private var shelfModel: ShelfModel
 
   @FetchRequest(
