@@ -39,8 +39,8 @@ class ShelfModel: ObservableObject {
     }
     return game_count
   }
-
-  func getColumns(count: Int) {
+    
+ @objc func getColumns(count: Int) {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
 
     var columns: [[Game]] = [[]]

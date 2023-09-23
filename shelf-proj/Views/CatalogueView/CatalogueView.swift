@@ -10,6 +10,7 @@ import SwiftUI
 import VisionKit
 import AVKit
 import WebKit
+import CloudKit
 
 struct CatalogueView: View {
   @Environment(\.managedObjectContext) private var viewContext
@@ -19,10 +20,12 @@ struct CatalogueView: View {
   @FetchRequest(
     sortDescriptors: [],
     animation: .default)
-
   private var games: FetchedResults<Game>
+    
   private var mga = MobyGamesApi()
+    let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
 
+    
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
     //self.columns = shelfModel.getColumns(count: 5)
@@ -55,19 +58,30 @@ struct CatalogueView: View {
           ForEach( 0 ..< 5, id: \.self) { spandex in
             VStack(spacing: 15) {
               ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
-                CardView(imageName: game.cover_art).hoverEffect(.lift).onTapGesture {
-                  selectedGame = game
-                  showingPopover = true
-                }.sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
-                  if let selectedGame = selectedGame {
-                    GameSheetView(game: selectedGame)
+                  CardView(imageName: game.cover_art).hoverEffect(.lift)
+                  .onTapGesture {
+                      selectedGame = game
                   }
-                }
+                  .onChange(of: selectedGame, initial: false) { _, test in showingPopover = true }
+                  .contextMenu {
+                      Button {
+                          let ckm = CloudKitManager()
+                          ckm.getGameRecord(game: game)
+                          
+                      } label: {
+                          Label("Delete Game", systemImage: "globe")
+                      }
+                  }
               }
             }
           }
         }
       }
+      .sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
+          if let selectedGame = selectedGame {
+            GameSheetView(game: selectedGame)
+          }
+        }
     }.navigationTitle("Catalogue")
       .toolbar {
         ToolbarItem() {
@@ -93,7 +107,8 @@ struct CatalogueView: View {
         let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
         let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
         WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
-      }.onChange(of: gameID, initial: false) { _, test in
+      }
+      .onChange(of: gameID, initial: false) { _, test in
         newGame = false
       }
         //CatalogueView(shelfModel: shelfModel)

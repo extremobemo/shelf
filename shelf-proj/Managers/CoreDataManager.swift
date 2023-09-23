@@ -25,7 +25,7 @@ class CoreDataManager {
       persistentStoreContainer.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
       persistentStoreContainer.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
       persistentStoreContainer.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleEnvironmentReset), name: .CKAccountChanged, object: nil)
         
         let bundleIdentifier = "extremobemo.shelf-proj"
