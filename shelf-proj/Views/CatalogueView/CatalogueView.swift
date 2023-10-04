@@ -29,7 +29,7 @@ struct CatalogueView: View {
     
   init(shelfModel: ShelfModel, platform_id: String?) {
     self.shelfModel = shelfModel
-    shelfModel.getColumns(count: numOfColumns, platform_id: platform_id)
+    //shelfModel.getColumns(count: numOfColumns, platform_id: platform_id)
   }
 
   // TODO: Spacing, styling, etc.
