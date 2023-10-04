@@ -34,8 +34,13 @@ class PlatformLookup {
 
   static func getPlatformID(platform: String) -> Int? {
     let platforms = loadJson(filename: "platform_ids")
-    let test = platforms?.last(where: { $0.platform_name.lowercased().replacingOccurrences(of: " ", with: "-") == platform })
+      let test = platforms?.last(where: { $0.platform_name.lowercased().replacingOccurrences(of: " ", with: "-") == platform.lowercased().replacingOccurrences(of: " ", with: "-") })
     return test?.platform_id
   }
-
+    
+    static func getPlaformName(platformID: Int) -> String {
+        let platforms = loadJson(filename: "platform_ids")
+        let test = platforms?.last(where: { $0.platform_id == platformID })
+        return test!.platform_name
+    }
 }

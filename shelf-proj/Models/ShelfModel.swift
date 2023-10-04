@@ -20,9 +20,9 @@ class ShelfModel: ObservableObject {
     context.automaticallyMergesChangesFromParent = true
   }
 
-  func addGame(game: String, platform: Int) async {
+    func addGame(game: String, platform: Int, platformString: String) async {
     let mga = MobyGamesApi()
-    await mga.buildGame(gameID: game, platformID: String(platform))
+    await mga.buildGame(gameID: game, platformID: String(platform), platformString: platformString)
     self.context.refreshAllObjects()
   }
 
@@ -40,7 +40,33 @@ class ShelfModel: ObservableObject {
     return game_count
   }
     
- @objc func getColumns(count: Int) {
+    func getAllPlatforms() -> [String] {
+        var platforms: [String] = []
+        let request: NSFetchRequest<Game> = Game.fetchRequest()
+
+        request.returnsObjectsAsFaults = false
+        var game_count = 0
+        do {
+          let games = try self.context.fetch(request)
+            for game in games {
+                if let intValue = Int(game.platform_id!) {
+                    if (!platforms.contains(PlatformLookup.getPlaformName(platformID: intValue))) {
+                        
+                        
+                        platforms.append(PlatformLookup.getPlaformName(platformID: intValue))
+                        
+                        // Access properties of the Game entity
+                        // You can work with 'game' just like any other Swift object
+                    }
+                }
+            }
+        } catch {
+          print("Error fetching games: \(error)")
+        }
+        return platforms
+    }
+    
+    func getColumns(count: Int, platform_id: String? = nil) {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
 
     var columns: [[Game]] = [[]]
@@ -56,16 +82,28 @@ class ShelfModel: ObservableObject {
       let games = try self.context.fetch(request)
       games.forEach { game in
         if let game = game as? Game {
+            if platform_id == nil {
+                //if game.platform_id == platform_id {
+                    columns[game_count].append(game)
+
+                    game_count += 1
+
+                    if game_count == count {
+                      game_count = 0
+                    }
+                //}
+            } else {
+                if game.platform_id == platform_id {
+                    columns[game_count].append(game)
+
+                    game_count += 1
+
+                    if game_count == count {
+                      game_count = 0
+                    }
+                }
+            }
           //print(game)
-          columns[game_count].append(game)
-
-          game_count += 1
-
-          if game_count == count {
-            game_count = 0
-          }
-
-
         }
       }
     } catch {

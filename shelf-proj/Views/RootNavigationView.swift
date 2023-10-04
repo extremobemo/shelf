@@ -10,22 +10,24 @@ import SwiftUI
 struct RootNavigationView: View {
 
   @ObservedObject private var shelfModel: ShelfModel
-
+  private var platforms: [String]
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
+    self.platforms = shelfModel.getAllPlatforms()
   }
 
     var body: some View {
       NavigationView {
           List {
-            NavigationLink("All", destination: CatalogueView(shelfModel: shelfModel)).hoverEffect()
-            Label("All", systemImage: "book").hoverEffect()
-            Label("Sega Dreamcast", systemImage: "square").hoverEffect()
-            Label("Nintendo 3DS", systemImage: "square").hoverEffect()
-            Label("Metal Gear Solid", systemImage: "square").hoverEffect()
+              NavigationLink("All", destination: CatalogueView(shelfModel: shelfModel, platform_id: nil)).hoverEffect()
+              ForEach(self.platforms, id: \.self) { (plat: String) in
+                  NavigationLink(plat,
+                                 destination: CatalogueView(shelfModel: shelfModel,
+                                                            platform_id: nil)).hoverEffect()
+              }
           }
           .navigationTitle("Shelf")
-        CatalogueView(shelfModel: shelfModel).animation(.easeInOut(duration: 1.0), value: true)
+           CatalogueView(shelfModel: shelfModel, platform_id: nil).animation(.easeInOut(duration: 1.0), value: true)
       }
     }
 }

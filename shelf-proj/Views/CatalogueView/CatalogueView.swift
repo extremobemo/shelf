@@ -21,14 +21,15 @@ struct CatalogueView: View {
     sortDescriptors: [],
     animation: .default)
   private var games: FetchedResults<Game>
+  private var console_id: String?
     
   private var mga = MobyGamesApi()
-    let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
+  let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
 
     
-  init(shelfModel: ShelfModel) {
+  init(shelfModel: ShelfModel, platform_id: String?) {
     self.shelfModel = shelfModel
-    //self.columns = shelfModel.getColumns(count: 5)
+    shelfModel.getColumns(count: numOfColumns, platform_id: platform_id)
   }
 
   // TODO: Spacing, styling, etc.
@@ -55,7 +56,7 @@ struct CatalogueView: View {
     GeometryReader { geometry in
       ScrollView() {
         HStack(alignment: .top, spacing: -15) {
-          ForEach( 0 ..< 5, id: \.self) { spandex in
+          ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
             VStack(spacing: 15) {
               ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
                   CardView(imageName: game.cover_art).hoverEffect(.lift)
@@ -156,7 +157,7 @@ struct WebView: UIViewRepresentable {
           if let id = PlatformLookup.getPlatformID(platform: parent.platform_name!) {
             Task {
               do {
-                await self.parent.shelfModel.addGame(game: test[3], platform: id)
+                  await self.parent.shelfModel.addGame(game: test[3], platform: id, platformString: parent.platform_name!)
                 await self.parent.shelfModel.getColumns(count: 5)
               }
             }

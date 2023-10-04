@@ -47,19 +47,21 @@ class MobyGamesApi {
     let cover_groups: [CoverGroup]
   }
 
-  func buildGame(gameID: String, platformID: String) async -> Void {
+    func buildGame(gameID: String, platformID: String, platformString: String) async -> Void {
 
     if let entityDescription = NSEntityDescription.entity(forEntityName: "Game", in: CoreDataManager.shared.persistentStoreContainer.viewContext) {
       let newGame = NSManagedObject(entity: entityDescription, insertInto: nil) as! Game
       newGame.desc = "Test Description"
       newGame.title = "Test Title"
       newGame.moby_id = Int64(gameID) ?? 0
+      newGame.platform_id = platformID
 
       do {
         let descriptionItems = try await getDescription(gameID: gameID)
         do { sleep(2) } // Prevent API throttling
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
-
+          
+        newGame.title = descriptionItems.2
         newGame.desc = descriptionItems.0
         newGame.screenshots = descriptionItems.1
         newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
@@ -76,7 +78,7 @@ class MobyGamesApi {
     }
   }
 
-  func getDescription(gameID: String) async throws -> (String, [Data]) {
+  func getDescription(gameID: String) async throws -> (String, [Data], String) {
     var description: String = ""
     var screenshots: [Data] = []
 
@@ -110,8 +112,8 @@ class MobyGamesApi {
     }
 
     description = desc?.stripOutHtml()!.unescaped ?? ""
-
-    return (description, screenshots)
+    let title = dict?["title"] as? String
+    return (description, screenshots, title!)
   }
 
   func getCoverArt(gameID: String, platformID: String) async throws -> (URL?, URL?) {

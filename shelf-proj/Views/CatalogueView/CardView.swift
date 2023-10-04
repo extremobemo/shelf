@@ -9,8 +9,6 @@ import SwiftUI
 
 struct CardView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    //@FetchRequest(entity: Game.entity(), sortDescriptors: [])
-    //private var items: FetchedResults<Game>
     
     let imageName: Data?
     var body: some View {
@@ -19,26 +17,6 @@ struct CardView: View {
         Image(uiImage: UIImage(data: imageName!)!)
             .resizable()
             .aspectRatio(contentMode: .fit)
-
-  // DO WE WANT THIS? MAYBE AN OPTION TO TOGGLE?
-
-//        HStack {
-//            VStack(alignment: .leading) {
-//                Text("Error!")
-//                    .font(.system(size: 12))
-//                    .fontWeight(.black)
-//                    .foregroundColor(.primary)
-//                Text("Rockstar Games")
-//                    .font(.subheadline)
-//                    .foregroundColor(.secondary)
-//                Text("Error!")
-//                    .font(.subheadline)
-//                    .foregroundColor(.secondary)
-//            }
-//            .layoutPriority(1)
-//            Spacer()
-//        }
-//        .padding()
     }
     .cornerRadius(10)
     .overlay( RoundedRectangle(cornerRadius: 10)
