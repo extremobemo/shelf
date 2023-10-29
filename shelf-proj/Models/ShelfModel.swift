@@ -7,17 +7,21 @@
 
 import Foundation
 import CoreData
+import CloudKit
+import SwiftUI
 
 class ShelfModel: ObservableObject {
   private (set) var context: NSManagedObjectContext
-
+  @FetchRequest(
+    sortDescriptors: [],
+    animation: .default)
   // Init this based on number of desired columns
+  private var games: FetchedResults<Game>
   @Published var columns: [[Game]] = [[],[],[],[],[]]
 
   init(context: NSManagedObjectContext) {
     self.context = context
     getColumns(count: 5)
-    context.automaticallyMergesChangesFromParent = true
   }
 
     func addGame(game: String, platform: Int, platformString: String) async {
@@ -66,7 +70,7 @@ class ShelfModel: ObservableObject {
         return platforms
     }
     
-    func getColumns(count: Int, platform_id: String? = nil) {
+func getColumns(count: Int) {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Game")
 
     var columns: [[Game]] = [[]]
@@ -82,28 +86,13 @@ class ShelfModel: ObservableObject {
       let games = try self.context.fetch(request)
       games.forEach { game in
         if let game = game as? Game {
-            if platform_id == nil {
-                //if game.platform_id == platform_id {
-                    columns[game_count].append(game)
+          columns[game_count].append(game)
 
-                    game_count += 1
+          game_count += 1
 
-                    if game_count == count {
-                      game_count = 0
-                    }
-                //}
-            } else {
-                if game.platform_id == platform_id {
-                    columns[game_count].append(game)
-
-                    game_count += 1
-
-                    if game_count == count {
-                      game_count = 0
-                    }
-                }
-            }
-          //print(game)
+          if game_count == count {
+            game_count = 0
+          }
         }
       }
     } catch {

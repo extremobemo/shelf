@@ -24,6 +24,8 @@
 		34FE46C828C1B99E00C75B10 /* shelf_projUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */; };
 		34FE46CA28C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */; };
 		34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46D628C1BC1000C75B10 /* CardView.swift */; };
+		B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50124742AEEE106002CAD89 /* NotificationManager.swift */; };
+		B50124782AEEF8D2002CAD89 /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */; };
 		B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */; };
 		B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */; };
 		B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */; };
@@ -72,6 +74,7 @@
 		34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITests.swift; sourceTree = "<group>"; };
 		34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		34FE46D628C1BC1000C75B10 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		B50124742AEEE106002CAD89 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCard.swift; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B50124782AEEF8D2002CAD89 /* SwiftUIMasonry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +123,7 @@
 			children = (
 				34CC8C0F2A8701F400608807 /* CoreDataManager.swift */,
 				34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */,
+				B50124742AEEE106002CAD89 /* NotificationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -259,6 +264,9 @@
 			dependencies = (
 			);
 			name = "shelf-proj";
+			packageProductDependencies = (
+				B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */,
+			);
 			productName = "shelf-proj";
 			productReference = 34FE46A328C1B99D00C75B10 /* shelf-proj.app */;
 			productType = "com.apple.product-type.application";
@@ -331,6 +339,9 @@
 				Base,
 			);
 			mainGroup = 34FE469A28C1B99D00C75B10;
+			packageReferences = (
+				B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */,
+			);
 			productRefGroup = 34FE46A428C1B99D00C75B10 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -386,6 +397,7 @@
 				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
 				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
 				B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */,
+				B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,
@@ -770,6 +782,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ciaranrobrien/SwiftUIMasonry";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */;
+			productName = SwiftUIMasonry;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */ = {

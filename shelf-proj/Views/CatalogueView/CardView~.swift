@@ -25,5 +25,6 @@ struct CardView: View {
                       green: 150/255,
                       blue: 150/255,
                       opacity: 0.3), lineWidth: 1))
+    .padding([.horizontal])
     }
 }

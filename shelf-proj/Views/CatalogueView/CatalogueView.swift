@@ -11,10 +11,10 @@ import VisionKit
 import AVKit
 import WebKit
 import CloudKit
+import SwiftUIMasonry
 
 struct CatalogueView: View {
   @Environment(\.managedObjectContext) private var viewContext
-    
   @ObservedObject private var shelfModel: ShelfModel
 
   @FetchRequest(
@@ -22,11 +22,11 @@ struct CatalogueView: View {
     animation: .default)
   private var games: FetchedResults<Game>
   private var console_id: String?
-    
+
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
 
-    
+
   init(shelfModel: ShelfModel, platform_id: String?) {
     self.shelfModel = shelfModel
     //shelfModel.getColumns(count: numOfColumns, platform_id: platform_id)
@@ -53,68 +53,79 @@ struct CatalogueView: View {
   let color = AttributeContainer.font(.boldSystemFont(ofSize: 48))
 
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView() {
-        HStack(alignment: .top, spacing: -15) {
-          ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
-            VStack(spacing: 15) {
-              ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
-                  CardView(imageName: game.cover_art).hoverEffect(.lift)
-                  .onTapGesture {
-                      selectedGame = game
-                  }
-                  .onChange(of: selectedGame, initial: false) { _, test in showingPopover = true }
-                  .contextMenu {
-                      Button {
-                          let ckm = CloudKitManager()
-                          ckm.getGameRecord(game: game)
-                          
-                      } label: {
-                          Label("Delete Game", systemImage: "globe")
-                      }
-                  }
-              }
+    ScrollView(.vertical) {
+      Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+        ForEach(self.games) { game in
+          CardView(imageName: game.cover_art).hoverEffect(.lift)
+            .onTapGesture {
+              selectedGame = game
+            }
+        }
+      }
+    }
+    //      ScrollView() {
+    //        HStack(alignment: .top, spacing: -15) {
+    //          ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
+    //            VStack(spacing: 15) {
+    //              ForEach(self.games) { game in
+    //                //ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
+    //                CardView(imageName: game.cover_art).hoverEffect(.lift)
+    //                  .onTapGesture {
+    //                    selectedGame = game
+    //                  }
+    //                  .onChange(of: selectedGame, initial: false) { _, test in showingPopover = true }
+    //                  .contextMenu {
+    //                    Button {
+    //                      let ckm = CloudKitManager()
+    //                      ckm.getGameRecord(game: game)
+    //
+    //                    } label: {
+    //                      Label("Delete Game", systemImage: "globe")
+    //                    }
+    //                  }
+    //              }
+    //            }
+    //          }
+    //        }
+    //      }
+    .sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
+      if let selectedGame = selectedGame {
+        GameSheetView(game: selectedGame)
+      }
+    }
+    .navigationTitle("Catalogue")
+    .toolbar {
+      ToolbarItem() {
+        Button(action: {
+#if os(iOS)
+          AVCaptureDevice.requestAccess(for: .video) { response in
+            if response {
+              showingScanner = true
+            } else {
+              showingScanner = false
             }
           }
-        }
+#endif
+          showingScanner = true }) {
+            Image(systemName: "plus")
+          }.sheet(isPresented: $showingScanner) {
+            DataScanner(shelfModel: shelfModel, game: $game, platform_name: $platform_name)
+          }.onChange(of: game, initial: false) { _, test in newGame = true }
+          .hoverEffect(.automatic)
       }
-      .sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
-          if let selectedGame = selectedGame {
-            GameSheetView(game: selectedGame)
-          }
-        }
-    }.navigationTitle("Catalogue")
-      .toolbar {
-        ToolbarItem() {
-            Button(action: {
-                #if os(iOS)
-                AVCaptureDevice.requestAccess(for: .video) { response in
-                    if response {
-                        showingScanner = true
-                    } else {
-                        showingScanner = false
-                    }
-                }
-                #endif
-            showingScanner = true }) {
-              Image(systemName: "plus")
-            }.sheet(isPresented: $showingScanner) {
-              DataScanner(shelfModel: shelfModel, game: $game, platform_name: $platform_name)
-            }.onChange(of: game, initial: false) { _, test in newGame = true }
-            .hoverEffect(.automatic)
-        }
 
-      }.sheet(isPresented: $newGame) {
-        let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
-        let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
-        WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
-      }
-      .onChange(of: gameID, initial: false) { _, test in
-        newGame = false
-      }
-        //CatalogueView(shelfModel: shelfModel)
-      }
+    }.sheet(isPresented: $newGame) {
+      let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
+      let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
+      WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
+    }
+    .onChange(of: gameID, initial: false) { _, test in
+      newGame = false
+    }
+    //CatalogueView(shelfModel: shelfModel)
   }
+}
+
 
 struct WebView: UIViewRepresentable {
   // 1
