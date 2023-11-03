@@ -23,7 +23,7 @@ struct RootNavigationView: View {
               ForEach(self.platforms, id: \.self) { (plat: String) in
                   NavigationLink(plat,
                                  destination: CatalogueView(shelfModel: shelfModel,
-                                                            platform_id: nil)).hoverEffect()
+                                                            platform_id: plat)).hoverEffect()
               }
           }
           .navigationTitle("Shelf")

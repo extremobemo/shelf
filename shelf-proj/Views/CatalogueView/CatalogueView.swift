@@ -15,12 +15,14 @@ import SwiftUIMasonry
 
 struct CatalogueView: View {
   @Environment(\.managedObjectContext) private var viewContext
+    
   @ObservedObject private var shelfModel: ShelfModel
-
-  @FetchRequest(
-    sortDescriptors: [],
+    @FetchRequest(
+    sortDescriptors: [NSSortDescriptor(keyPath: \Game.title, ascending: true)],
     animation: .default)
-  private var games: FetchedResults<Game>
+    private var games: FetchedResults<Game>
+
+    private var platform_id: String?
   private var console_id: String?
 
   private var mga = MobyGamesApi()
@@ -29,6 +31,7 @@ struct CatalogueView: View {
 
   init(shelfModel: ShelfModel, platform_id: String?) {
     self.shelfModel = shelfModel
+    self.platform_id = platform_id
     //shelfModel.getColumns(count: numOfColumns, platform_id: platform_id)
   }
 
@@ -51,18 +54,32 @@ struct CatalogueView: View {
 
   var attributedString = AttributedString("Catalogue")
   let color = AttributeContainer.font(.boldSystemFont(ofSize: 48))
-
+  let plu = PlatformLookup()
   var body: some View {
     ScrollView(.vertical) {
       Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
         ForEach(self.games) { game in
-          CardView(imageName: game.cover_art).hoverEffect(.lift)
-            .onTapGesture {
-              selectedGame = game
+            let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
+            if(plat_id == self.platform_id || self.platform_id == nil) {
+                CardView(imageName: game.cover_art).hoverEffect(.lift)
+                    .onTapGesture {
+                        selectedGame = game
+                    }
+                  .onChange(of: selectedGame, initial: false) { _, test in showingPopover = true }
+                  .contextMenu {
+                    Button {
+                      let ckm = CloudKitManager()
+                      ckm.getGameRecord(game: game)
+
+                    } label: {
+                      Label("Delete Game", systemImage: "globe")
+                    }
+                  }
             }
+
         }
       }
-    }
+    }.padding(EdgeInsets(top: 0, leading: 16.0, bottom: 0, trailing: 16.0))
     //      ScrollView() {
     //        HStack(alignment: .top, spacing: -15) {
     //          ForEach( 0 ..< numOfColumns, id: \.self) { spandex in

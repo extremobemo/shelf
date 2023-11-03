@@ -38,7 +38,11 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
 
       init(_ pageViewController: PageViewController) {
           parent = pageViewController
-          controllers = parent.pages.map { UIHostingController(rootView: $0) }
+          controllers = parent.pages.map {
+              let hostingController = UIHostingController(rootView: $0)
+              hostingController.view.backgroundColor = UIColor.black // Set your desired background color for each page
+              return hostingController
+          }
       }
 
 

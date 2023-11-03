@@ -21,6 +21,8 @@ class CoreDataManager {
 
       container.viewContext.automaticallyMergesChangesFromParent = true
       container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+      try? container.viewContext.setQueryGenerationFrom(.current)
+
 //      container.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
 //      container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
 //      container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
