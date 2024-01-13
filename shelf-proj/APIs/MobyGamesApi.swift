@@ -62,6 +62,7 @@ class MobyGamesApi {
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
 
         newGame.title = descriptionItems.2
+        newGame.base_genre = descriptionItems.3
         newGame.desc = descriptionItems.0
         newGame.screenshots = descriptionItems.1
         newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
@@ -95,7 +96,7 @@ class MobyGamesApi {
     return ""
   }
 
-  func getDescription(gameID: String) async throws -> (String, [Data], String) {
+  func getDescription(gameID: String) async throws -> (String, [Data], String, String) {
     var description: String = ""
     var screenshots: [Data] = []
 
@@ -111,17 +112,35 @@ class MobyGamesApi {
 //    }
     let genres = dict?["genres"] as? [[String: Any]]
 
+    
+    var base_genre: String = ""
+    var perspective: String = ""
 
+    var gameplaycats: [String] = []
     if let genres = dict?["genres"] as? [[String: Any]] {
         for genre in genres {
           let basecat = genre["genre_category"] as? String
             if basecat == "Basic Genres" {
-                print(genre["genre_name"])
+              base_genre = genre["genre_name"] as? String ?? "Not Available"
             }
+
+          if basecat == "Perspective" {
+            perspective = genre["genre_name"] as? String ?? "Not Available"
+          }
+
+          if basecat == "Gameplay" {
+            gameplaycats.append(genre["genre_name"] as? String ?? "Not Available")
+          }
+
         }
     } else {
         print("Genres is nil or not in the expected format.")
     }
+
+    print(base_genre)
+    print(perspective)
+
+    print(gameplaycats)
 
     if let sampleScreenshots = dict?["sample_screenshots"] as? [AnyObject] {
       for object in sampleScreenshots {
@@ -143,7 +162,7 @@ class MobyGamesApi {
 
     description = desc?.stripOutHtml()!.unescaped ?? ""
     let title = dict?["title"] as? String
-    return (description, screenshots, title!)
+    return (description, screenshots, title!, base_genre)
   }
 
   func getCoverArt(gameID: String, platformID: String) async throws -> (URL?, URL?) {

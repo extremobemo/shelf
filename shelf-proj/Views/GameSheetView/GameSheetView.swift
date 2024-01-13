@@ -24,7 +24,7 @@ struct GameSheetView: View {
     @Environment(\.dismiss) var dismiss
   var game: Game
     var body: some View {
-
+        
         if let screenshots = game.screenshots {
             let screenshotViews: [AspectRatioImageView] = screenshots.compactMap { screenshotData in
                 let imageData = screenshotData
@@ -36,7 +36,7 @@ struct GameSheetView: View {
             //        .aspectRatio(contentMode: .fit),
 
             let pageViewController = PageViewController(pages: [cover] + screenshotViews)
-            pageViewController.padding(EdgeInsets(top: 12, leading: 8, bottom: 0, trailing: 8))
+            pageViewController.padding(EdgeInsets(top: 8, leading: 8, bottom: 0, trailing: 8))
         }
         
       ScrollView(content: {
@@ -50,7 +50,7 @@ struct GameSheetView: View {
             HStack {
                 Text("Genre")
                 Spacer()
-                Text("Action")
+                Text(game.base_genre ?? "Not available")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
