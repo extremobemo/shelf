@@ -49,7 +49,7 @@ class ShelfModel: ObservableObject {
         let request: NSFetchRequest<Game> = Game.fetchRequest()
 
         request.returnsObjectsAsFaults = false
-        var game_count = 0
+        // var game_count = 0
         do {
           let games = try self.context.fetch(request)
             for game in games {

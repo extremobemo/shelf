@@ -21,7 +21,7 @@ struct CatalogueView: View {
     sortDescriptors: [NSSortDescriptor(keyPath: \Game.title, ascending: true)],
     animation: .default)
     private var games: FetchedResults<Game>
-
+  @State private var searchText = ""
     private var platform_id: String?
   private var console_id: String?
 
@@ -61,6 +61,7 @@ struct CatalogueView: View {
         ForEach(self.games) { game in
             let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
             if(plat_id == self.platform_id || self.platform_id == nil) {
+              if game.title!.contains(searchText) || searchText.isEmpty {
                 CardView(imageName: game.cover_art).hoverEffect(.lift)
                     .onTapGesture {
                         selectedGame = game
@@ -75,42 +76,18 @@ struct CatalogueView: View {
                       Label("Delete Game", systemImage: "globe")
                     }
                   }
+              }
             }
-
         }
       }
     }.padding(EdgeInsets(top: 0, leading: 16.0, bottom: 0, trailing: 16.0))
-    //      ScrollView() {
-    //        HStack(alignment: .top, spacing: -15) {
-    //          ForEach( 0 ..< numOfColumns, id: \.self) { spandex in
-    //            VStack(spacing: 15) {
-    //              ForEach(self.games) { game in
-    //                //ForEach(shelfModel.columns[spandex], id: \.self) { (game: Game) in
-    //                CardView(imageName: game.cover_art).hoverEffect(.lift)
-    //                  .onTapGesture {
-    //                    selectedGame = game
-    //                  }
-    //                  .onChange(of: selectedGame, initial: false) { _, test in showingPopover = true }
-    //                  .contextMenu {
-    //                    Button {
-    //                      let ckm = CloudKitManager()
-    //                      ckm.getGameRecord(game: game)
-    //
-    //                    } label: {
-    //                      Label("Delete Game", systemImage: "globe")
-    //                    }
-    //                  }
-    //              }
-    //            }
-    //          }
-    //        }
-    //      }
     .sheet(isPresented: $showingPopover) { // TODO: Scroll view interfering with zoom gesture....
       if let selectedGame = selectedGame {
         GameSheetView(game: selectedGame)
       }
     }
     .navigationTitle("Catalogue")
+
     .toolbar {
       ToolbarItem() {
         Button(action: {
@@ -131,7 +108,8 @@ struct CatalogueView: View {
           .hoverEffect(.automatic)
       }
 
-    }.sheet(isPresented: $newGame) {
+    }.searchable(text: $searchText)
+    .sheet(isPresented: $newGame) {
       let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
       let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
       WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
@@ -197,4 +175,14 @@ struct WebView: UIViewRepresentable {
 
     }
   }
+}
+
+struct BlurView: UIViewRepresentable {
+    var style: UIBlurEffect.Style = .systemUltraThinMaterial
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        uiView.effect = UIBlurEffect(style: style)
+    }
 }

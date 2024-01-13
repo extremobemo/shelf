@@ -60,7 +60,7 @@ class MobyGamesApi {
         let descriptionItems = try await getDescription(gameID: gameID)
         do { sleep(2) } // Prevent API throttling
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
-          
+
         newGame.title = descriptionItems.2
         newGame.desc = descriptionItems.0
         newGame.screenshots = descriptionItems.1
@@ -78,6 +78,23 @@ class MobyGamesApi {
     }
   }
 
+  func getGameplayInfo(gameID: String) async throws -> (String) {
+    var description: String = ""
+    var screenshots: [Data] = []
+
+    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
+
+    let (data, _) = try await URLSession.shared.data(from: getDescURL)
+
+    let test = String(data: data, encoding: .utf8) as String?
+    let dict = test?.toJSON() as? [String: AnyObject]
+
+    let desc = dict?["genres"] as? String // else {
+    //      throw UnknownError.unknown(description: "Description not found")
+    //    }
+    return ""
+  }
+
   func getDescription(gameID: String) async throws -> (String, [Data], String) {
     var description: String = ""
     var screenshots: [Data] = []
@@ -92,6 +109,19 @@ class MobyGamesApi {
     let desc = dict?["description"] as? String // else {
 //      throw UnknownError.unknown(description: "Description not found")
 //    }
+    let genres = dict?["genres"] as? [[String: Any]]
+
+
+    if let genres = dict?["genres"] as? [[String: Any]] {
+        for genre in genres {
+          let basecat = genre["genre_category"] as? String
+            if basecat == "Basic Genres" {
+                print(genre["genre_name"])
+            }
+        }
+    } else {
+        print("Genres is nil or not in the expected format.")
+    }
 
     if let sampleScreenshots = dict?["sample_screenshots"] as? [AnyObject] {
       for object in sampleScreenshots {
