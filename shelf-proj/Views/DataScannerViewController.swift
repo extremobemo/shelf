@@ -35,7 +35,8 @@ struct DataScanner: UIViewControllerRepresentable {
     }
 
     func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]){
-      // Unused (for now)
+      searchGameByBarcode(item: addedItems[0])
+      dataScanner.dismiss(animated: true)
     }
 
     func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
@@ -76,8 +77,11 @@ struct DataScanner: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> DataScannerViewController {
     let scanner = DataScannerViewController(
       recognizedDataTypes: [.barcode()],
-      qualityLevel: .fast, recognizesMultipleItems: false,
-      isHighFrameRateTrackingEnabled: true, isHighlightingEnabled: true)
+      qualityLevel: .fast
+      , recognizesMultipleItems: false,
+      isHighFrameRateTrackingEnabled: true,
+      isGuidanceEnabled: true,
+      isHighlightingEnabled: true)
 
     scanner.delegate = context.coordinator
     try? scanner.startScanning()

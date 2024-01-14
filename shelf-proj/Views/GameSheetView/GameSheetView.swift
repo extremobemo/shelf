@@ -58,7 +58,7 @@ struct GameSheetView: View {
             HStack {
                 Text("Perspective")
                 Spacer()
-                Text("First-person")
+                Text(game.perspective ?? "Not available")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
@@ -67,7 +67,7 @@ struct GameSheetView: View {
             HStack {
                 Text("Gameplay")
                 Spacer()
-                Text("Arcade, Music / rhythm, Puzzle elements, Shooter")
+              Text(game.gameplayElems ?? "Not available")
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
