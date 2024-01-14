@@ -17,13 +17,13 @@
 		34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C0F2A8701F400608807 /* CoreDataManager.swift */; };
 		34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C122A87049B00608807 /* ShelfModel.swift */; };
 		34D7FECF2ABF78FB0075BB4A /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */; };
-		34FE46A728C1B99D00C75B10 /* shelf_projApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */; };
+		34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelfApp.swift */; };
 		34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AD28C1B99D00C75B10 /* ContentView.swift */; };
 		34FE46B028C1B99E00C75B10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE46AF28C1B99E00C75B10 /* Assets.xcassets */; };
 		34FE46B428C1B99E00C75B10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE46B328C1B99E00C75B10 /* Preview Assets.xcassets */; };
-		34FE46BE28C1B99E00C75B10 /* shelf_projTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46BD28C1B99E00C75B10 /* shelf_projTests.swift */; };
-		34FE46C828C1B99E00C75B10 /* shelf_projUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */; };
-		34FE46CA28C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */; };
+		34FE46BE28C1B99E00C75B10 /* shelfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46BD28C1B99E00C75B10 /* shelfTests.swift */; };
+		34FE46C828C1B99E00C75B10 /* shelfUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C728C1B99E00C75B10 /* shelfUITests.swift */; };
+		34FE46CA28C1B99E00C75B10 /* shelfUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelfUITestsLaunchTests.swift */; };
 		34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46D628C1BC1000C75B10 /* CardView.swift */; };
 		B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50124742AEEE106002CAD89 /* NotificationManager.swift */; };
 		B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */; };
@@ -62,17 +62,17 @@
 		34CC8C0F2A8701F400608807 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		34CC8C122A87049B00608807 /* ShelfModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfModel.swift; sourceTree = "<group>"; };
 		34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
-		34FE46A328C1B99D00C75B10 /* shelf-proj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shelf-proj.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projApp.swift; sourceTree = "<group>"; };
+		34FE46A328C1B99D00C75B10 /* shelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		34FE46A628C1B99D00C75B10 /* shelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfApp.swift; sourceTree = "<group>"; };
 		34FE46AD28C1B99D00C75B10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		34FE46AF28C1B99E00C75B10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		34FE46B128C1B99E00C75B10 /* shelf_proj.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = shelf_proj.entitlements; sourceTree = "<group>"; };
+		34FE46B128C1B99E00C75B10 /* shelf.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = shelf.entitlements; sourceTree = "<group>"; };
 		34FE46B328C1B99E00C75B10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		34FE46B928C1B99E00C75B10 /* shelf-projTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shelf-projTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34FE46BD28C1B99E00C75B10 /* shelf_projTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projTests.swift; sourceTree = "<group>"; };
-		34FE46C328C1B99E00C75B10 /* shelf-projUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shelf-projUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITests.swift; sourceTree = "<group>"; };
-		34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelf_projUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		34FE46B928C1B99E00C75B10 /* shelfTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shelfTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34FE46BD28C1B99E00C75B10 /* shelfTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfTests.swift; sourceTree = "<group>"; };
+		34FE46C328C1B99E00C75B10 /* shelfUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shelfUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34FE46C728C1B99E00C75B10 /* shelfUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfUITests.swift; sourceTree = "<group>"; };
+		34FE46C928C1B99E00C75B10 /* shelfUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		34FE46D628C1BC1000C75B10 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		B50124742AEEE106002CAD89 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -140,9 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */,
-				34FE46A528C1B99D00C75B10 /* shelf-proj */,
-				34FE46BC28C1B99E00C75B10 /* shelf-projTests */,
-				34FE46C628C1B99E00C75B10 /* shelf-projUITests */,
+				34FE46A528C1B99D00C75B10 /* shelf */,
+				34FE46BC28C1B99E00C75B10 /* shelfTests */,
+				34FE46C628C1B99E00C75B10 /* shelfUITests */,
 				34FE46A428C1B99D00C75B10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -150,14 +150,14 @@
 		34FE46A428C1B99D00C75B10 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				34FE46A328C1B99D00C75B10 /* shelf-proj.app */,
-				34FE46B928C1B99E00C75B10 /* shelf-projTests.xctest */,
-				34FE46C328C1B99E00C75B10 /* shelf-projUITests.xctest */,
+				34FE46A328C1B99D00C75B10 /* shelf.app */,
+				34FE46B928C1B99E00C75B10 /* shelfTests.xctest */,
+				34FE46C328C1B99E00C75B10 /* shelfUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		34FE46A528C1B99D00C75B10 /* shelf-proj */ = {
+		34FE46A528C1B99D00C75B10 /* shelf */ = {
 			isa = PBXGroup;
 			children = (
 				B5C3887B2AB7B62D00641BA9 /* Classes */,
@@ -165,14 +165,14 @@
 				34C3540C2A8840E500BB6B6B /* APIs */,
 				34CC8C112A87047A00608807 /* Models */,
 				34CC8C0E2A8701DC00608807 /* Managers */,
-				34FE46A628C1B99D00C75B10 /* shelf_projApp.swift */,
+				34FE46A628C1B99D00C75B10 /* shelfApp.swift */,
 				34FE46AF28C1B99E00C75B10 /* Assets.xcassets */,
 				B5D50C0C2AB4CDFE00AE1C14 /* Views */,
 				34FE46B228C1B99E00C75B10 /* Preview Content */,
 				34CB1A0B28E2501500AE3AC0 /* Info.plist */,
-				34FE46B128C1B99E00C75B10 /* shelf_proj.entitlements */,
+				34FE46B128C1B99E00C75B10 /* shelf.entitlements */,
 			);
-			path = "shelf-proj";
+			path = shelf;
 			sourceTree = "<group>";
 		};
 		34FE46B228C1B99E00C75B10 /* Preview Content */ = {
@@ -183,21 +183,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		34FE46BC28C1B99E00C75B10 /* shelf-projTests */ = {
+		34FE46BC28C1B99E00C75B10 /* shelfTests */ = {
 			isa = PBXGroup;
 			children = (
-				34FE46BD28C1B99E00C75B10 /* shelf_projTests.swift */,
+				34FE46BD28C1B99E00C75B10 /* shelfTests.swift */,
 			);
-			path = "shelf-projTests";
+			path = shelfTests;
 			sourceTree = "<group>";
 		};
-		34FE46C628C1B99E00C75B10 /* shelf-projUITests */ = {
+		34FE46C628C1B99E00C75B10 /* shelfUITests */ = {
 			isa = PBXGroup;
 			children = (
-				34FE46C728C1B99E00C75B10 /* shelf_projUITests.swift */,
-				34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */,
+				34FE46C728C1B99E00C75B10 /* shelfUITests.swift */,
+				34FE46C928C1B99E00C75B10 /* shelfUITestsLaunchTests.swift */,
 			);
-			path = "shelf-projUITests";
+			path = shelfUITests;
 			sourceTree = "<group>";
 		};
 		B5C388792AB6894000641BA9 /* CatalogueView */ = {
@@ -251,9 +251,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		34FE46A228C1B99D00C75B10 /* shelf-proj */ = {
+		34FE46A228C1B99D00C75B10 /* shelf */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 34FE46CD28C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-proj" */;
+			buildConfigurationList = 34FE46CD28C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf" */;
 			buildPhases = (
 				34FE469F28C1B99D00C75B10 /* Sources */,
 				34FE46A028C1B99D00C75B10 /* Frameworks */,
@@ -263,17 +263,17 @@
 			);
 			dependencies = (
 			);
-			name = "shelf-proj";
+			name = shelf;
 			packageProductDependencies = (
 				348783AD2B53BC3C00B6415B /* SwiftUIMasonry */,
 			);
 			productName = "shelf-proj";
-			productReference = 34FE46A328C1B99D00C75B10 /* shelf-proj.app */;
+			productReference = 34FE46A328C1B99D00C75B10 /* shelf.app */;
 			productType = "com.apple.product-type.application";
 		};
-		34FE46B828C1B99E00C75B10 /* shelf-projTests */ = {
+		34FE46B828C1B99E00C75B10 /* shelfTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 34FE46D028C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-projTests" */;
+			buildConfigurationList = 34FE46D028C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelfTests" */;
 			buildPhases = (
 				34FE46B528C1B99E00C75B10 /* Sources */,
 				34FE46B628C1B99E00C75B10 /* Frameworks */,
@@ -284,14 +284,14 @@
 			dependencies = (
 				34FE46BB28C1B99E00C75B10 /* PBXTargetDependency */,
 			);
-			name = "shelf-projTests";
+			name = shelfTests;
 			productName = "shelf-projTests";
-			productReference = 34FE46B928C1B99E00C75B10 /* shelf-projTests.xctest */;
+			productReference = 34FE46B928C1B99E00C75B10 /* shelfTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		34FE46C228C1B99E00C75B10 /* shelf-projUITests */ = {
+		34FE46C228C1B99E00C75B10 /* shelfUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 34FE46D328C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-projUITests" */;
+			buildConfigurationList = 34FE46D328C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelfUITests" */;
 			buildPhases = (
 				34FE46BF28C1B99E00C75B10 /* Sources */,
 				34FE46C028C1B99E00C75B10 /* Frameworks */,
@@ -302,9 +302,9 @@
 			dependencies = (
 				34FE46C528C1B99E00C75B10 /* PBXTargetDependency */,
 			);
-			name = "shelf-projUITests";
+			name = shelfUITests;
 			productName = "shelf-projUITests";
-			productReference = 34FE46C328C1B99E00C75B10 /* shelf-projUITests.xctest */;
+			productReference = 34FE46C328C1B99E00C75B10 /* shelfUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -330,7 +330,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 34FE469E28C1B99D00C75B10 /* Build configuration list for PBXProject "shelf-proj" */;
+			buildConfigurationList = 34FE469E28C1B99D00C75B10 /* Build configuration list for PBXProject "shelf" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -346,9 +346,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				34FE46A228C1B99D00C75B10 /* shelf-proj */,
-				34FE46B828C1B99E00C75B10 /* shelf-projTests */,
-				34FE46C228C1B99E00C75B10 /* shelf-projUITests */,
+				34FE46A228C1B99D00C75B10 /* shelf */,
+				34FE46B828C1B99E00C75B10 /* shelfTests */,
+				34FE46C228C1B99E00C75B10 /* shelfUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -385,7 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FE46A728C1B99D00C75B10 /* shelf_projApp.swift in Sources */,
+				34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */,
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
 				B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */,
@@ -410,7 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FE46BE28C1B99E00C75B10 /* shelf_projTests.swift in Sources */,
+				34FE46BE28C1B99E00C75B10 /* shelfTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,8 +418,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34FE46CA28C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift in Sources */,
-				34FE46C828C1B99E00C75B10 /* shelf_projUITests.swift in Sources */,
+				34FE46CA28C1B99E00C75B10 /* shelfUITestsLaunchTests.swift in Sources */,
+				34FE46C828C1B99E00C75B10 /* shelfUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,12 +428,12 @@
 /* Begin PBXTargetDependency section */
 		34FE46BB28C1B99E00C75B10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 34FE46A228C1B99D00C75B10 /* shelf-proj */;
+			target = 34FE46A228C1B99D00C75B10 /* shelf */;
 			targetProxy = 34FE46BA28C1B99E00C75B10 /* PBXContainerItemProxy */;
 		};
 		34FE46C528C1B99E00C75B10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 34FE46A228C1B99D00C75B10 /* shelf-proj */;
+			target = 34FE46A228C1B99D00C75B10 /* shelf */;
 			targetProxy = 34FE46C428C1B99E00C75B10 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -560,18 +560,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "shelf-proj/shelf_proj.entitlements";
+				CODE_SIGN_ENTITLEMENTS = shelf/shelf.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"shelf-proj/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"shelf/Preview Content\"";
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "shelf-proj/Info.plist";
+				INFOPLIST_FILE = shelf/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = shelf;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"Shelf would like to access your camera\"";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -608,18 +608,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "shelf-proj/shelf_proj.entitlements";
+				CODE_SIGN_ENTITLEMENTS = shelf/shelf.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"shelf-proj/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"shelf/Preview Content\"";
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "shelf-proj/Info.plist";
+				INFOPLIST_FILE = shelf/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = shelf;
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"Shelf would like to access your camera\"";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -670,7 +670,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shelf-proj.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/shelf-proj";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shelf.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/shelf";
 			};
 			name = Debug;
 		};
@@ -694,7 +694,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shelf-proj.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/shelf-proj";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/shelf.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/shelf";
 			};
 			name = Release;
 		};
@@ -705,6 +705,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
@@ -727,6 +728,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.5;
@@ -745,7 +747,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		34FE469E28C1B99D00C75B10 /* Build configuration list for PBXProject "shelf-proj" */ = {
+		34FE469E28C1B99D00C75B10 /* Build configuration list for PBXProject "shelf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				34FE46CB28C1B99E00C75B10 /* Debug */,
@@ -754,7 +756,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		34FE46CD28C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-proj" */ = {
+		34FE46CD28C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				34FE46CE28C1B99E00C75B10 /* Debug */,
@@ -763,7 +765,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		34FE46D028C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-projTests" */ = {
+		34FE46D028C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelfTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				34FE46D128C1B99E00C75B10 /* Debug */,
@@ -772,7 +774,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		34FE46D328C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelf-projUITests" */ = {
+		34FE46D328C1B99E00C75B10 /* Build configuration list for PBXNativeTarget "shelfUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				34FE46D428C1B99E00C75B10 /* Debug */,
