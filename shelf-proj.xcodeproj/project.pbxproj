@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
+		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
 		34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */; };
 		34C354102A88773000BB6B6B /* platform_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = 34C3540F2A88773000BB6B6B /* platform_ids.json */; };
 		34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C354112A88778400BB6B6B /* PlatformLookup.swift */; };
@@ -25,7 +26,6 @@
 		34FE46CA28C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelf_projUITestsLaunchTests.swift */; };
 		34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46D628C1BC1000C75B10 /* CardView.swift */; };
 		B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50124742AEEE106002CAD89 /* NotificationManager.swift */; };
-		B50124782AEEF8D2002CAD89 /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */; };
 		B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */; };
 		B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */; };
 		B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */; };
@@ -88,7 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B50124782AEEF8D2002CAD89 /* SwiftUIMasonry in Frameworks */,
+				348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +265,7 @@
 			);
 			name = "shelf-proj";
 			packageProductDependencies = (
-				B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */,
+				348783AD2B53BC3C00B6415B /* SwiftUIMasonry */,
 			);
 			productName = "shelf-proj";
 			productReference = 34FE46A328C1B99D00C75B10 /* shelf-proj.app */;
@@ -340,7 +340,7 @@
 			);
 			mainGroup = 34FE469A28C1B99D00C75B10;
 			packageReferences = (
-				B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */,
+				348783AC2B53BC3C00B6415B /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */,
 			);
 			productRefGroup = 34FE46A428C1B99D00C75B10 /* Products */;
 			projectDirPath = "";
@@ -784,9 +784,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */ = {
+		348783AC2B53BC3C00B6415B /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ciaranrobrien/SwiftUIMasonry";
+			repositoryURL = "https://github.com/extremobemo/SwiftUIMasonry";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -795,9 +795,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B50124772AEEF8D2002CAD89 /* SwiftUIMasonry */ = {
+		348783AD2B53BC3C00B6415B /* SwiftUIMasonry */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B50124762AEEF8D2002CAD89 /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */;
+			package = 348783AC2B53BC3C00B6415B /* XCRemoteSwiftPackageReference "SwiftUIMasonry" */;
 			productName = SwiftUIMasonry;
 		};
 /* End XCSwiftPackageProductDependency section */
