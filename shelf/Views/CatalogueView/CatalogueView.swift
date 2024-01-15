@@ -23,7 +23,8 @@ struct CatalogueView: View {
     private var games: FetchedResults<Game>
   @State private var searchText = ""
     private var platform_id: String?
-  private var console_id: String?
+    private var console_id: String?
+  @State private var loading: Bool = false
 
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
@@ -62,6 +63,9 @@ struct CatalogueView: View {
             if(plat_id == self.platform_id || self.platform_id == nil) {
               if game.title!.contains(searchText) || searchText.isEmpty {
                 CardView(imageName: game.cover_art).hoverEffect(.lift)
+                  .onAppear {
+                    loading = false
+                  }
                     .onTapGesture {
                         selectedGame = game
                     }
@@ -89,6 +93,10 @@ struct CatalogueView: View {
 
     .toolbar {
       ToolbarItem() {
+        if loading {
+          ProgressView()
+        }
+        
         Button(action: {
 #if os(iOS)
           AVCaptureDevice.requestAccess(for: .video) { response in
@@ -111,7 +119,7 @@ struct CatalogueView: View {
     .sheet(isPresented: $newGame) {
       let test = game!.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
       let base_url = URL(string: "https://www.mobygames.com/search/?q=" + test.unescaped)
-      WebView(url: base_url!, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
+      WebView(url: base_url!, loading: $loading, shelfModel: shelfModel, platform_name: $platform_name ,gameID: $gameID)
     }
     .onChange(of: gameID, initial: false) { _, test in
       newGame = false
@@ -124,6 +132,8 @@ struct CatalogueView: View {
 struct WebView: UIViewRepresentable {
   // 1
   var url: URL
+  
+  @Binding var loading: Bool
 
   @ObservedObject var shelfModel: ShelfModel
   @Binding var platform_name: String?
@@ -155,7 +165,7 @@ struct WebView: UIViewRepresentable {
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
       let urlToMatch = parent.url.absoluteString
-
+      self.parent.loading = true
       if let urlStr = navigationAction.request.url?.absoluteString, urlStr != urlToMatch {
         if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
           self.parent.gameID = test[3]
