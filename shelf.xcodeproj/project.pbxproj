@@ -10,13 +10,14 @@
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
 		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
+		34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */; };
 		34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */; };
 		34C354102A88773000BB6B6B /* platform_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = 34C3540F2A88773000BB6B6B /* platform_ids.json */; };
 		34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C354112A88778400BB6B6B /* PlatformLookup.swift */; };
 		34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */; };
 		34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C0F2A8701F400608807 /* CoreDataManager.swift */; };
 		34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C122A87049B00608807 /* ShelfModel.swift */; };
-		34D7FECF2ABF78FB0075BB4A /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */; };
+		34E7733D2B56180A00C0AC94 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E7733C2B56180A00C0AC94 /* CloudKit.framework */; };
 		34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelfApp.swift */; };
 		34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AD28C1B99D00C75B10 /* ContentView.swift */; };
 		34FE46B028C1B99E00C75B10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE46AF28C1B99E00C75B10 /* Assets.xcassets */; };
@@ -25,7 +26,6 @@
 		34FE46C828C1B99E00C75B10 /* shelfUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C728C1B99E00C75B10 /* shelfUITests.swift */; };
 		34FE46CA28C1B99E00C75B10 /* shelfUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46C928C1B99E00C75B10 /* shelfUITestsLaunchTests.swift */; };
 		34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46D628C1BC1000C75B10 /* CardView.swift */; };
-		B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50124742AEEE106002CAD89 /* NotificationManager.swift */; };
 		B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */; };
 		B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */; };
 		B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */; };
@@ -54,6 +54,7 @@
 /* Begin PBXFileReference section */
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
 		347485A42A870CE80039FED3 /* ShelfGamesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfGamesModel.xcdatamodel; sourceTree = "<group>"; };
+		34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyWebView.swift; sourceTree = "<group>"; };
 		34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyGamesApi.swift; sourceTree = "<group>"; };
 		34C3540F2A88773000BB6B6B /* platform_ids.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = platform_ids.json; sourceTree = "<group>"; };
 		34C354112A88778400BB6B6B /* PlatformLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformLookup.swift; sourceTree = "<group>"; };
@@ -61,7 +62,7 @@
 		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		34CC8C0F2A8701F400608807 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		34CC8C122A87049B00608807 /* ShelfModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfModel.swift; sourceTree = "<group>"; };
-		34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		34E7733C2B56180A00C0AC94 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		34FE46A328C1B99D00C75B10 /* shelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE46A628C1B99D00C75B10 /* shelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfApp.swift; sourceTree = "<group>"; };
 		34FE46AD28C1B99D00C75B10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,7 +75,6 @@
 		34FE46C728C1B99E00C75B10 /* shelfUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfUITests.swift; sourceTree = "<group>"; };
 		34FE46C928C1B99E00C75B10 /* shelfUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		34FE46D628C1BC1000C75B10 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		B50124742AEEE106002CAD89 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCard.swift; sourceTree = "<group>"; };
@@ -89,6 +89,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */,
+				34E7733D2B56180A00C0AC94 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +110,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34AFBEAD2B5494F000CA4BC4 /* MobyWebView */ = {
+			isa = PBXGroup;
+			children = (
+				34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */,
+			);
+			path = MobyWebView;
+			sourceTree = "<group>";
+		};
 		34C3540C2A8840E500BB6B6B /* APIs */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,32 +127,31 @@
 			path = APIs;
 			sourceTree = "<group>";
 		};
-		34CC8C0E2A8701DC00608807 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				34CC8C0F2A8701F400608807 /* CoreDataManager.swift */,
-				34D7FECE2ABF78FB0075BB4A /* CloudKitManager.swift */,
-				B50124742AEEE106002CAD89 /* NotificationManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		34CC8C112A87047A00608807 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */,
 				34CC8C122A87049B00608807 /* ShelfModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
+		34E7733B2B56180A00C0AC94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				34E7733C2B56180A00C0AC94 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		34FE469A28C1B99D00C75B10 = {
 			isa = PBXGroup;
 			children = (
-				347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */,
 				34FE46A528C1B99D00C75B10 /* shelf */,
 				34FE46BC28C1B99E00C75B10 /* shelfTests */,
 				34FE46C628C1B99E00C75B10 /* shelfUITests */,
 				34FE46A428C1B99D00C75B10 /* Products */,
+				34E7733B2B56180A00C0AC94 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,7 +172,6 @@
 				34C3540F2A88773000BB6B6B /* platform_ids.json */,
 				34C3540C2A8840E500BB6B6B /* APIs */,
 				34CC8C112A87047A00608807 /* Models */,
-				34CC8C0E2A8701DC00608807 /* Managers */,
 				34FE46A628C1B99D00C75B10 /* shelfApp.swift */,
 				34FE46AF28C1B99E00C75B10 /* Assets.xcassets */,
 				B5D50C0C2AB4CDFE00AE1C14 /* Views */,
@@ -203,6 +210,7 @@
 		B5C388792AB6894000641BA9 /* CatalogueView */ = {
 			isa = PBXGroup;
 			children = (
+				34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */,
 				B5D50C162AB6432000AE1C14 /* CatalogueView.swift */,
 				34FE46D628C1BC1000C75B10 /* CardView.swift */,
 			);
@@ -220,6 +228,7 @@
 		B5C3887B2AB7B62D00641BA9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				34CC8C0F2A8701F400608807 /* CoreDataManager.swift */,
 				B5C3887C2AB7B64200641BA9 /* String+Extensions.swift */,
 			);
 			path = Classes;
@@ -228,12 +237,12 @@
 		B5D50C0C2AB4CDFE00AE1C14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				34AFBEAD2B5494F000CA4BC4 /* MobyWebView */,
 				B5C3887A2AB68BA400641BA9 /* GameSheetView */,
 				B5C388792AB6894000641BA9 /* CatalogueView */,
 				B5D50C0D2AB4FC2000AE1C14 /* PageView */,
 				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
 				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
-				34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -389,7 +398,6 @@
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
 				B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */,
-				34D7FECF2ABF78FB0075BB4A /* CloudKitManager.swift in Sources */,
 				B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */,
 				34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */,
 				B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */,
@@ -397,7 +405,7 @@
 				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
 				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
 				B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */,
-				B50124752AEEE106002CAD89 /* NotificationManager.swift in Sources */,
+				34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,

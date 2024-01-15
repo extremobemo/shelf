@@ -39,8 +39,9 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
       init(_ pageViewController: PageViewController) {
           parent = pageViewController
           controllers = parent.pages.map {
-              let hostingController = UIHostingController(rootView: $0)
-              return hostingController
+            let hostingController = UIHostingController(rootView: $0.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)))
+            hostingController.view.layer.cornerRadius = 12.0
+            return hostingController
           }
       }
 

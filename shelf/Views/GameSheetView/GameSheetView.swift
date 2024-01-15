@@ -10,106 +10,124 @@ import CoreData
 import Foundation
 
 struct AspectRatioImageView: View {
-    let uiImage: UIImage
-    
-    var body: some View {
-        Image(uiImage: uiImage)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .background(BlurView())
-    }
+  let uiImage: UIImage
+  
+  var body: some View {
+    Image(uiImage: uiImage)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+  }
 }
 
 struct GameSheetView: View {
-    @Environment(\.dismiss) var dismiss
+  @Environment(\.dismiss) var dismiss
   var game: Game
-    var body: some View {
+  var body: some View {
+    
+    ScrollView(content: {
+      
+      VStack(alignment: .leading) {
+        Text("1999").font(.system(size: 24)).fontWeight(.bold).foregroundStyle(.white)
         
-        if let screenshots = game.screenshots {
+        HStack {
+          Spacer()
+          
+          
+          if let screenshots = game.screenshots {
             let screenshotViews: [AspectRatioImageView] = screenshots.compactMap { screenshotData in
-                let imageData = screenshotData
-                let uiImage = UIImage(data: imageData)
-                return AspectRatioImageView(uiImage: uiImage!)
+              let imageData = screenshotData
+              let uiImage = UIImage(data: imageData)
+              return AspectRatioImageView(uiImage: uiImage!)
             }
             let cover = AspectRatioImageView(uiImage: UIImage(data: game.cover_art!)!)
-            //        .resizable()
-            //        .aspectRatio(contentMode: .fit),
-
             let pageViewController = PageViewController(pages: [cover] + screenshotViews)
-            pageViewController.padding(EdgeInsets(top: 8, leading: 8, bottom: 0, trailing: 8))
+            pageViewController.frame(height: 550) // 250 for iphones, 550 for ipad
+          }
+          Spacer()
         }
         
-      ScrollView(content: {
-            Text(game.title!).font(.largeTitle)
-                .multilineTextAlignment(.center)
-                .bold()
-                .padding(EdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0))
-        
-        
-        VStack(alignment: .leading) {
-            HStack {
-                Text("Genre")
-                Spacer()
-                Text(game.base_genre ?? "Not available")
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            Divider()
-            HStack {
-                Text("Perspective")
-                Spacer()
-                Text(game.perspective ?? "Not available")
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            Divider()
-
-            HStack {
-                Text("Gameplay")
-                Spacer()
-              Text(game.gameplayElems ?? "Not available")
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-                    }
-                    .padding()
+        Spacer()
+        Text("Genre").font(.title).fontWeight(.bold).foregroundStyle(.white)
+        Spacer()
+        HStack {
+          Text("Genre")
+          Spacer()
+          Text(game.base_genre ?? "Not available")
+        }
         .font(.subheadline)
         .foregroundStyle(.secondary)
-      //fix this so that another object creates the list of views based off game data.
-//        Image(uiImage: UIImage(data: game.cover_art!)!)
-//        .resizable()
-//        .aspectRatio(contentMode: .fit),
-//        
-//        Image(uiImage: UIImage(data: game.back_cover_art!)!)
-//         .resizable()
-//         .aspectRatio(contentMode: .fit)])
+        Divider()
+        HStack {
+          Text("Perspective")
+          Spacer()
+          Text(game.perspective ?? "Not available")
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        Divider()
         
-//        Image(uiImage: UIImage(data: game.screenshots![0])!)
-//        .resizable()
-//        .aspectRatio(contentMode: .fit),
-//        
-//       Image(uiImage: UIImage(data: game.screenshots![1])!)
-//         .resizable()
-//         .aspectRatio(contentMode: .fit),
-//        
-//       Image(uiImage: UIImage(data: game.screenshots![2])!)
-//         .resizable()
-//         .aspectRatio(contentMode: .fit),
-//        
-//       Image(uiImage: UIImage(data: game.screenshots![3])!)
-//         .resizable()
-//         .aspectRatio(contentMode: .fit),
-//        
-//       Image(uiImage: UIImage(data: game.screenshots![4])!)
-//         .resizable()
-//         .aspectRatio(contentMode: .fit)])
+        HStack(alignment: .top) {
+          Text("Gameplay")
+          Spacer()
+          Text(game.gameplayElems ?? "Not available").frame(maxWidth: 350, maxHeight: 48) //150 iphone, 350 ipad
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        Spacer()
+        Text("Description").font(.title).fontWeight(.bold).foregroundStyle(.white)
+        HTMLFormattedText(game.desc!).frame(height: 400).clipShape(.rect(cornerRadius: 12.0), style: .init())
+      }
+      .padding(EdgeInsets(top: 8.0, leading: 16.0, bottom: 0, trailing: 16.0))
+      .font(.subheadline)
+      .foregroundStyle(.secondary)
+    }).navigationTitle(game.title!)
+    
+  }
+}
 
-        //.font(.title)
-        //.padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-        
-            Text(game.desc!)
-                .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-        })
-        
+struct HTMLFormattedText: UIViewRepresentable {
+  
+  let text: String
+  private  let textView = UITextView()
+  
+  init(_ content: String) {
+    self.text = content
+  }
+  
+  func makeUIView(context: UIViewRepresentableContext<Self>) -> UITextView {
+    textView.dataDetectorTypes = .link
+    textView.isEditable = false
+    textView.isUserInteractionEnabled = true
+    textView.translatesAutoresizingMaskIntoConstraints = false
+    textView.isScrollEnabled = false
+    textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    textView.backgroundColor = .systemGray5
+    return textView
+  }
+  
+  func updateUIView(_ uiView: UITextView, context: UIViewRepresentableContext<Self>) {
+    DispatchQueue.main.async {
+      if let attributeText = self.converHTML(text: text) {
+        textView.attributedText = attributeText
+        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.textColor = UIColor.label
+      } else {
+        textView.text = ""
+      }
+      
     }
+  }
+  
+  private func converHTML(text: String) -> NSAttributedString?{
+    guard let data = text.data(using: .utf8) else {
+      return nil
+    }
+    
+    if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+      return attributedString
+    } else{
+      return nil
+    }
+  }
 }

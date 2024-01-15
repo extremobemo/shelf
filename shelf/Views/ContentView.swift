@@ -11,9 +11,9 @@ import VisionKit
 import AVKit
 
 struct ContentView: View {
-
+  
   @ObservedObject private var shelfModel: ShelfModel
-
+  
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
   }
