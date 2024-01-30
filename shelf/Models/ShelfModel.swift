@@ -13,6 +13,7 @@ import SwiftUI
 class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
   let itemController: NSFetchedResultsController<Game>
   @Published var games: [Game] = []
+  @Published var years: [Int64] = []
   private let context: NSManagedObjectContext
   
   init(context: NSManagedObjectContext) {
@@ -31,6 +32,7 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
     do {
       try itemController.performFetch()
       games = itemController.fetchedObjects ?? []
+      years = getAllYears()
     } catch {
       print("failed to fetch items")
     }
@@ -72,13 +74,24 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
     return games.filter { game in
       return game.platform_id == String(platform)
     }.count
+  }
     
+  func getAllYears() -> [Int64] {
+    let games = itemController.fetchedObjects
+    var years: [Int64] = []
+    for game in games! {
+      if(!years.contains(where: { $0 == game.releaseYear })) {
+        years.append(game.releaseYear)
+      }
+    }
+    return years
   }
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     do {
       try itemController.performFetch()
       games = itemController.fetchedObjects ?? []
+      years = getAllYears()
     } catch {
       print("failed to fetch items")
     }

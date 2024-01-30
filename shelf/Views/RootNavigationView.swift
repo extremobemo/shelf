@@ -18,6 +18,7 @@ struct RootNavigationView: View {
   @State var showingSection1 = true
   @State var showingSection2 = true
   
+  @State var sortByYear = false
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
     self.platforms = shelfModel.getAllPlatforms()
@@ -28,14 +29,7 @@ struct RootNavigationView: View {
     NavigationSplitView() {
       
       List(selection: $selection) {
-        Section(
-          header: SectionHeader(
-            title: "Catalogue",
-            isOn: $showingSection1,
-            onLabel: "Hide",
-            offLabel: "Show"
-          )
-        ){
+        Section(){
           if showingSection1 {
             ForEach([0] + platforms, id: \.self) { plat in
               HStack {
@@ -52,20 +46,18 @@ struct RootNavigationView: View {
               }
             }
           }
+        } header: {
+          Text("Catalogue")
         }
         
         Section(
-          header: SectionHeader(
-            title: "Custom Shelves",
-            isOn: $showingSection2,
-            onLabel: "Hide",
-            offLabel: "Show"
-          )
         ){
           if showingSection2 {
             Text("Beaten")
             Text("Backlog")
           }
+        } header: {
+          Text("Custom Shelves")
         }
         // Text(plat)
       }.navigationTitle("Shelf").toolbar {
@@ -85,12 +77,13 @@ struct RootNavigationView: View {
             }
           }
         }
-      }.listStyle(SidebarListStyle())
+      }.listStyle(.sidebar)
     }
   detail: {
     CatalogueView(shelfModel: shelfModel,
                   platformFilterID: selection,
-                  showingScanner: $showingScanner).navigationTitle(PlatformLookup.getPlaformName(platformID: selection ?? 0 ) ?? "FAIL").toolbar {
+                  showingScanner: $showingScanner,
+                  sortByYear: $sortByYear).navigationTitle(PlatformLookup.getPlaformName(platformID: selection ?? 0 ) ?? "FAIL").toolbar {
       ToolbarItem() {
         Menu {
           Button(action: {
@@ -99,6 +92,15 @@ struct RootNavigationView: View {
             HStack {
               Text("Scan Game")
               Image(systemName: "barcode.viewfinder")
+            }
+          }
+          
+          Button(action: {
+            sortByYear = !sortByYear
+          }) {
+            HStack {
+              Text("Sort by Year")
+              Image(systemName: "calendar.day.timeline.leading")
             }
           }
         } label: {
