@@ -12,6 +12,6 @@ struct PhotoCard: View {
   var photo: UIImage
     var body: some View {
       Image(uiImage: photo).resizable()
-            .aspectRatio(contentMode: .fit).frame(maxHeight: 400)
+            .aspectRatio(contentMode: .fit)
     }
 }

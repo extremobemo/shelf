@@ -17,9 +17,9 @@ import CoreData
 struct DataScanner: UIViewControllerRepresentable {
   private var shelfModel: ShelfModel
 
-  init(shelfModel: ShelfModel, game: Binding<String?>, platform_name: Binding<String?>) {
+  init(shelfModel: ShelfModel, game: Binding<String>, platform_name: Binding<String?>) {
     self.shelfModel = shelfModel
-    self._game = game
+    self._scannedGameTitle = game
     self._platform_name = platform_name
   }
 
@@ -58,7 +58,7 @@ struct DataScanner: UIViewControllerRepresentable {
             // Please make this cleaner and safer.
             let test = response?.url?.absoluteString.split(separator: "/").map { String($0) }
             let game = test?[4].split(separator: "?").map { String($0) }
-            self.parent.game = game![0]
+            self.parent.scannedGameTitle = game![0]
             self.parent.platform_name = test![3]
           }
         }
@@ -71,14 +71,14 @@ struct DataScanner: UIViewControllerRepresentable {
     }
   }
 
-  @Binding var game: String?
+  @Binding var scannedGameTitle: String
   @Binding var platform_name: String?
 
   func makeUIViewController(context: Context) -> DataScannerViewController {
     let scanner = DataScannerViewController(
       recognizedDataTypes: [.barcode()],
-      qualityLevel: .fast
-      , recognizesMultipleItems: false,
+      qualityLevel: .fast,
+      recognizesMultipleItems: false,
       isHighFrameRateTrackingEnabled: true,
       isGuidanceEnabled: true,
       isHighlightingEnabled: true)

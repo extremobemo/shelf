@@ -11,22 +11,13 @@ import CoreData
 
 
 class MobyGamesApi {
-
+  
+  let context = CoreDataManager.shared.persistentStoreContainer.viewContext
+  
   enum UnknownError: Error {
     case unknown(description: String)
   }
-
-  func saveCoreDataContext() throws {
-    let context = CoreDataManager.shared.persistentStoreContainer.viewContext
-
-    do {
-      try context.save()
-    } catch let error {
-      // Catch the specific Core Data error and rethrow it as an unknown error
-      throw UnknownError.unknown(description: "Core Data save error: \(error.localizedDescription)")
-    }
-  }
-
+  
   struct Cover: Codable {
     let comments: String?
     let description: String?
@@ -36,116 +27,87 @@ class MobyGamesApi {
     let thumbnail_image: URL
     let width: Int
   }
-
+  
   struct CoverGroup: Codable {
     let comments: String?
     let countries: [String]
     let covers: [Cover]
   }
-
+  
   struct ResponseData: Codable {
     let cover_groups: [CoverGroup]
   }
-
-    func buildGame(gameID: String, platformID: String, platformString: String) async -> Void {
-
+  
+  
+  // Maybe this func makes more sense in ShelfModel ...
+  func buildGame(gameID: String, platformID: String, platformString: String) async -> Void {
     if let entityDescription = NSEntityDescription.entity(forEntityName: "Game", in: CoreDataManager.shared.persistentStoreContainer.viewContext) {
       let newGame = NSManagedObject(entity: entityDescription, insertInto: nil) as! Game
-      newGame.desc = "Test Description"
-      newGame.title = "Test Title"
-      newGame.moby_id = Int64(gameID) ?? 0
-      newGame.platform_id = platformID
 
       do {
         let descriptionItems = try await getDescription(gameID: gameID)
-        do { sleep(2) } // Prevent API throttling
+        do { sleep(1) } // Prevent API throttling
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
-
+        
+        newGame.desc = descriptionItems.0
+        newGame.screenshots = descriptionItems.1
         newGame.title = descriptionItems.2
         newGame.base_genre = descriptionItems.3
         newGame.perspective = descriptionItems.4
         newGame.gameplayElems = descriptionItems.5
-        newGame.desc = descriptionItems.0
-        newGame.screenshots = descriptionItems.1
         newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
         newGame.back_cover_art = try? Data(contentsOf: coverArtItems.1!)
-
-        let context =  CoreDataManager.shared.persistentStoreContainer.viewContext
-        await context.perform {
-          context.insert(newGame)
+        
+        await self.context.perform {
+          self.context.insert(newGame)
         }
-        try self.saveCoreDataContext()
+        
+        try self.context.save()
       } catch {
         // UnknownError.unknown(description: "Error building CoreData Game object")
       }
     }
   }
-
-  func getGameplayInfo(gameID: String) async throws -> (String) {
-    var description: String = ""
-    var screenshots: [Data] = []
-
-    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
-
-    let (data, _) = try await URLSession.shared.data(from: getDescURL)
-
-    let test = String(data: data, encoding: .utf8) as String?
-    let dict = test?.toJSON() as? [String: AnyObject]
-
-    let desc = dict?["genres"] as? String // else {
-    //      throw UnknownError.unknown(description: "Description not found")
-    //    }
-    return ""
-  }
-
+  
   func getDescription(gameID: String) async throws -> (String, [Data], String, String, String, String) {
-    var description: String = ""
     var screenshots: [Data] = []
-
-    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
-
+    
+    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
+    
     let (data, _) = try await URLSession.shared.data(from: getDescURL)
-
+    
     let test = String(data: data, encoding: .utf8) as String?
     let dict = test?.toJSON() as? [String: AnyObject]
-
-    let desc = dict?["description"] as? String // else {
-//      throw UnknownError.unknown(description: "Description not found")
-//    }
-    let genres = dict?["genres"] as? [[String: Any]]
-
     
+    let desc = dict?["description"] as? String
     var base_genre: String = ""
     var perspectives: [String] = []
-
+    
     var gameplaycats: [String] = []
     if let genres = dict?["genres"] as? [[String: Any]] {
-        for genre in genres {
-          let basecat = genre["genre_category"] as? String
-            if basecat == "Basic Genres" {
-              base_genre = genre["genre_name"] as? String ?? "Not Available"
-            }
-
-          if basecat == "Perspective" {
-            perspectives.append(genre["genre_name"] as? String ?? "Not Available")
-          }
-
-          else {
-            gameplaycats.append(genre["genre_name"] as? String ?? "Not Available")
-          }
-
+      for genre in genres {
+        let basecat = genre["genre_category"] as? String
+        if basecat == "Basic Genres" {
+          base_genre = genre["genre_name"] as? String ?? "Not Available"
         }
+        
+        if basecat == "Perspective" {
+          perspectives.append(genre["genre_name"] as? String ?? "Not Available")
+        }
+        
+        else {
+          gameplaycats.append(genre["genre_name"] as? String ?? "Not Available")
+        }
+        
+      }
     } else {
-        print("Genres is nil or not in the expected format.")
+      print("Genres is nil or not in the expected format.")
     }
-
-    print(base_genre)
-    print(perspectives)
-
+    
     let perspective = (perspectives.map{String($0)}.joined(separator: ", "))
-
+    
     let gameplay = gameplaycats.map{String($0)}.joined(separator: ", ")
-
+    
     if let sampleScreenshots = dict?["sample_screenshots"] as? [AnyObject] {
       for object in sampleScreenshots {
         if let screenshotDict = object as? [String: Any] {
@@ -163,26 +125,25 @@ class MobyGamesApi {
         }
       }
     }
-
-    description = desc?.stripOutHtml()!.unescaped ?? ""
+    
     let title = dict?["title"] as? String
-    return (description, screenshots, title!, base_genre, perspective, gameplay)
+    return (desc!, screenshots, title!, base_genre, perspective, gameplay)
   }
-
+  
   func getCoverArt(gameID: String, platformID: String) async throws -> (URL?, URL?) {
-    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=PkyJXO8u7RGOkbno4uf3Aw==")!
-
+    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
+    
     let (data, _) = try await URLSession.shared.data(from: getDescURL)
-
+    
     let test = String(data: data, encoding: .utf8)
-
+    
     guard let jsonData = test?.data(using: .utf8) else {
       throw UnknownError.unknown(description: "Error getting json data from cover art request")
     }
-
+    
     do {
       let responseData = try JSONDecoder().decode(ResponseData.self, from: jsonData)
-
+      
       if let firstCoverGroup = responseData.cover_groups.first,
          let firstCover = firstCoverGroup.covers.first {
         let coverURL = firstCover.image
