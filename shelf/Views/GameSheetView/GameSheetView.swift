@@ -27,8 +27,6 @@ struct GameSheetView: View {
     ScrollView(content: {
       
       VStack(alignment: .leading) {
-        Text("1999").font(.system(size: 24)).fontWeight(.bold).foregroundStyle(.white)
-        
         HStack {
           Spacer()
           

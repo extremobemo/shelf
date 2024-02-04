@@ -58,6 +58,8 @@ class MobyGamesApi {
         newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
         newGame.back_cover_art = try? Data(contentsOf: coverArtItems.1!)
         
+        newGame.platform_id = platformID
+        
         await self.context.perform {
           self.context.insert(newGame)
         }
