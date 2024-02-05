@@ -26,7 +26,7 @@ struct CatalogueView: View {
   
   // Control Popovers
   @State private var presentingGameInfoSheet = false
-  @State var showingScanner = false
+  
   @State var presentingMobySearch: Bool = false
   
   // Display progress view
@@ -34,17 +34,21 @@ struct CatalogueView: View {
   
   // We use this to decide which cardViews to show
   private var platformFilterID: String?
+  @Binding var showingScanner: Bool
   let navTitle: String
+    
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel, platformFilterID: String?) {
+  init(shelfModel: ShelfModel, platformFilterID: String?, showingScanner: Binding<Bool>) {
     if platformFilterID != nil {
       self.navTitle = platformFilterID!
     } else {
       self.navTitle = "Catalogue"
     }
+    self._showingScanner = showingScanner
     self.platformFilterID = platformFilterID
+
     _shelfModel = StateObject(wrappedValue: shelfModel)
   }
   
@@ -58,7 +62,7 @@ struct CatalogueView: View {
         Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
           ForEach(shelfModel.games) { game in
             let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
-            if(plat_id == self.platformFilterID || self.platformFilterID == nil) {
+            if(plat_id == self.platformFilterID || self.platformFilterID == "Catalogue") {
               if game.title!.contains(searchText) || searchText.isEmpty {
                 NavigationLink(destination: GameSheetView(game: game)) {
                   CardView(imageName: game.cover_art).hoverEffect(.lift)
@@ -80,37 +84,13 @@ struct CatalogueView: View {
     .padding(EdgeInsets(top: 0, leading: 16.0, bottom: 0, trailing: 16.0))
     .sheet(isPresented: $presentingGameInfoSheet, onDismiss: {
       selectedGame = nil
-    }) { GameSheetView(game: selectedGame!) }
-      .toolbar {
-        ToolbarItem() {
-          if loadingNewGame {
-            ProgressView()
-          }
-          Button(action: {
-#if os(iOS)
-            AVCaptureDevice.requestAccess(for: .video) { response in
-              if response {
-                showingScanner = true
-              } else {
-                showingScanner = false
-              }
-            }
-#endif
-            showingScanner = true }) {
-              Image(systemName: "plus")
-            }.sheet(isPresented: $showingScanner) {
-              // Data scanner will write back the scanned title and Platform
-              // into `scannedGameTitle` & `scannedGamePlatform`
-              DataScanner(shelfModel: shelfModel,
-                          game: $scannedGameTitle,
-                          platform_name: $scannedGamePlatform)
-            }.onChange(of: scannedGameTitle, initial: false) { _, _ in
-              presentingMobySearch = true
-            }
-            .hoverEffect(.automatic)
+    }) { GameSheetView(game: selectedGame!) }.toolbar {
+      ToolbarItem() {
+        if loadingNewGame {
+          ProgressView()
         }
-        
       }
+    }
       .sheet(isPresented: $presentingMobySearch) {
         WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle),
                 loadingNewGame: $loadingNewGame,
@@ -118,17 +98,27 @@ struct CatalogueView: View {
                 platform_name: scannedGamePlatform,
                 isPresented: $presentingMobySearch)
       }
+      .sheet(isPresented: $showingScanner) {
+                    // Data scanner will write back the scanned title and Platform
+                    // into `scannedGameTitle` & `scannedGamePlatform`
+                    DataScanner(shelfModel: shelfModel,
+                                game: $scannedGameTitle,
+                                platform_name: $scannedGamePlatform)
+                  }.onChange(of: scannedGameTitle, initial: false) { _, _ in
+                    presentingMobySearch = true
+                  }
+                  .hoverEffect(.automatic)
+              }
     
   }
   
-  func createGameSearchURL(scannedGameTitle: String) -> URL {
-    let formattedTitle = scannedGameTitle.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
-    
-    // This might crash
-    return URL(string: "https://www.mobygames.com/search/?q=" + formattedTitle.unescaped)!
-  }
+func createGameSearchURL(scannedGameTitle: String) -> URL {
+  let formattedTitle = scannedGameTitle.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
   
+  // This might crash
+  return URL(string: "https://www.mobygames.com/search/?q=" + formattedTitle.unescaped)!
 }
+
 
 struct GameContextView: View {
   var game: Game
