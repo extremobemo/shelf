@@ -15,6 +15,9 @@ struct RootNavigationView: View {
   
   @State var showingScanner = false
   @State var selection: Int? = 0
+  @State var showingSection1 = true
+  @State var showingSection2 = true
+  
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
     self.platforms = shelfModel.getAllPlatforms()
@@ -23,22 +26,48 @@ struct RootNavigationView: View {
     
   var body: some View {
     NavigationSplitView() {
-      List([0] + self.platforms, id: \.self, selection: $selection) { plat in
-        HStack {
-          Text(PlatformLookup.getPlaformName(platformID: plat) ?? "FAIL")
-          Spacer()
-          
-          Capsule()
-            .fill(Color(UIColor.darkGray))
+      
+      List(selection: $selection) {
+        Section(
+          header: SectionHeader(
+            title: "Catalogue",
+            isOn: $showingSection1,
+            onLabel: "Hide",
+            offLabel: "Show"
+          )
+        ){
+          if showingSection1 {
+            ForEach([0] + platforms, id: \.self) { plat in
+              HStack {
+                Text(PlatformLookup.getPlaformName(platformID: plat) ?? "FAIL")
+                Spacer()
+                Capsule()
+                  .fill(Color(UIColor.systemGray5))
                   .overlay(
-                    Text(String(self.shelfModel.getGameCountForPlatform(platform: plat))).font(.system(size: 12,
-                                                                                                       weight: .medium))
+                    Text(String(self.shelfModel.getGameCountForPlatform(platform: plat)))
+                      .font(.system(size: 12, weight: .medium))
                   )
                   .frame(width: 36, height: 24, alignment: .center)
-          
-          Image(systemName: "chevron.right")
-          
+                Image(systemName: "chevron.right")
+              }
+            }
+          }
         }
+        
+        Section(
+          header: SectionHeader(
+            title: "Custom Shelves",
+            isOn: $showingSection2,
+            onLabel: "Hide",
+            offLabel: "Show"
+          )
+        ){
+          if showingSection2 {
+            Text("Beaten")
+            Text("Backlog")
+          }
+        }
+        // Text(plat)
       }.navigationTitle("Shelf").toolbar {
         ToolbarItem() {
           Menu {
@@ -56,10 +85,7 @@ struct RootNavigationView: View {
             }
           }
         }
-      }
-      
-      
-      
+      }.listStyle(SidebarListStyle())
     }
   detail: {
     CatalogueView(shelfModel: shelfModel,

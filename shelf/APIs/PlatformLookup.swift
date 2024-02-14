@@ -40,7 +40,7 @@ class PlatformLookup {
     
     static func getPlaformName(platformID: Int) -> String? {
       if (platformID == 0) {
-        return "Catalogue"
+        return "All"
       }
         let platforms = loadJson(filename: "platform_ids")
         let test = platforms?.last(where: { $0.platform_id == platformID })

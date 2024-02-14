@@ -63,7 +63,7 @@ struct CatalogueView: View {
         Masonry(.vertical, lines: 5, horizontalSpacing: 12, verticalSpacing: 12) {
           ForEach(shelfModel.games) { game in
             let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
-            if(plat_id == self.platformFilterID || self.platformFilterID == "Catalogue") {
+            if(plat_id == self.platformFilterID || self.platformFilterID == "All") {
               if game.title!.contains(searchText) || searchText.isEmpty {
                 NavigationLink(destination: GameSheetView(game: game)) {
                   CardView(imageName: game.cover_art).hoverEffect(.lift)
