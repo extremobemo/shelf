@@ -19,6 +19,7 @@ struct RootNavigationView: View {
   @State var showingSection2 = true
   
   @State var sortByYear = false
+  @State var selectMode = false
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
     self.platforms = shelfModel.getAllPlatforms()
@@ -83,16 +84,45 @@ struct RootNavigationView: View {
     CatalogueView(shelfModel: shelfModel,
                   platformFilterID: selection,
                   showingScanner: $showingScanner,
+                  selectMode: $selectMode,
                   sortByYear: $sortByYear).navigationTitle(PlatformLookup.getPlaformName(platformID: selection ?? 0 ) ?? "FAIL").toolbar {
       ToolbarItem() {
         Menu {
-          Button(action: {
-            showingScanner = true
-          }) {
-            HStack {
-              Text("Scan Game")
-              Image(systemName: "barcode.viewfinder")
+          
+          if !selectMode {
+            Button(action: {
+              showingScanner = true
+            }) {
+              HStack {
+                Text("Scan Game")
+                Image(systemName: "barcode.viewfinder")
+              }
+              
             }
+            
+            Button(action: {
+              selectMode = true
+            }) {
+              HStack {
+                Text("Select")
+                Image(systemName: "checkmark.circle")
+              }
+              
+            }
+            
+            Button(action: {
+              sortByYear = !sortByYear
+            }) {
+              HStack {
+                Text("Sort by Year")
+                Image(systemName: "calendar.day.timeline.leading")
+              }
+            }
+          } else {
+            Button(role: .destructive) {
+              selectMode = false
+            } label: {
+              Text("Cancel")
           }
           
           Button(action: {
@@ -103,6 +133,17 @@ struct RootNavigationView: View {
               Image(systemName: "calendar.day.timeline.leading")
             }
           }
+            Button(action: {
+              selectMode = true
+            }) {
+              HStack {
+                Text("Add to...")
+                Image(systemName: "plus")
+              }
+              
+            }
+        }
+
         } label: {
           Button(action: { }) {
             Image(systemName: "ellipsis.circle")
