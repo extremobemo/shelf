@@ -40,15 +40,16 @@ struct CatalogueView: View {
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel, platformFilterID: String?, showingScanner: Binding<Bool>) {
-    if platformFilterID != nil {
-      self.navTitle = platformFilterID!
+  init(shelfModel: ShelfModel, platformFilterID: Int?, showingScanner: Binding<Bool>) {
+    if platformFilterID != nil{
+      self.navTitle = PlatformLookup.getPlaformName(platformID: platformFilterID ?? 0) ?? "FAIL"
+      self.platformFilterID =  PlatformLookup.getPlaformName(platformID: platformFilterID!)
+
     } else {
       self.navTitle = "Catalogue"
     }
     self._showingScanner = showingScanner
-    self.platformFilterID = platformFilterID
-
+   
     _shelfModel = StateObject(wrappedValue: shelfModel)
   }
   
@@ -59,7 +60,7 @@ struct CatalogueView: View {
   var body: some View {
     NavigationStack {
       ScrollView(.vertical) {
-        Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+        Masonry(.vertical, lines: 5, horizontalSpacing: 12, verticalSpacing: 12) {
           ForEach(shelfModel.games) { game in
             let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
             if(plat_id == self.platformFilterID || self.platformFilterID == "Catalogue") {

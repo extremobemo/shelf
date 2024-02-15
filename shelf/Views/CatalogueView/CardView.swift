@@ -19,7 +19,7 @@ struct CardView: View {
         .aspectRatio(contentMode: .fit)
     }
     .cornerRadius(10)
-    .overlay( RoundedRectangle(cornerRadius: 10)
+    .overlay( RoundedRectangle(cornerRadius: 4)
       .stroke(Color(.sRGB,
                     red: 150/255,
                     green: 150/255,

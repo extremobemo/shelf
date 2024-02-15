@@ -47,8 +47,8 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
     self.context.refreshAllObjects()
   }
   
-  func getAllPlatforms() -> [String] {
-    var platforms: [String] = []
+  func getAllPlatforms() -> [Int] {
+    var platforms: [Int] = []
     let request: NSFetchRequest<Game> = Game.fetchRequest()
     request.returnsObjectsAsFaults = false
     
@@ -56,13 +56,23 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
       let games = itemController.fetchedObjects
       for game in games! {
         if let intValue = Int(game.platform_id!) {
-          if (!platforms.contains(PlatformLookup.getPlaformName(platformID: intValue))) {
-            platforms.append(PlatformLookup.getPlaformName(platformID: intValue))
+          if (!platforms.contains(intValue)) {
+            platforms.append(intValue)
           }
         }
       }
     }
     return platforms
+  }
+  
+  func getGameCountForPlatform(platform: Int) -> Int {
+    if (platform == 0) {
+      return games.count
+    }
+    return games.filter { game in
+      return game.platform_id == String(platform)
+    }.count
+    
   }
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
