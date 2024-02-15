@@ -33,23 +33,23 @@ struct CatalogueView: View {
   @State private var loadingNewGame: Bool = false
   
   // We use this to decide which cardViews to show
-  private var platformFilterID: String?
+  private var platformFilterID: Int?
   @Binding var showingScanner: Bool
-  let navTitle: String
-    
+  @Binding var sortByYear: Bool
+  //let navTitle: String
+  
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel, platformFilterID: Int?, showingScanner: Binding<Bool>) {
-    if platformFilterID != nil{
-      self.navTitle = PlatformLookup.getPlaformName(platformID: platformFilterID ?? 0) ?? "FAIL"
-      self.platformFilterID =  PlatformLookup.getPlaformName(platformID: platformFilterID!)
-
-    } else {
-      self.navTitle = "Catalogue"
-    }
-    self._showingScanner = showingScanner
+  init(shelfModel: ShelfModel, platformFilterID: Int?, showingScanner: Binding<Bool>, sortByYear: Binding<Bool>) {
+    
+      // self.navTitle = PlatformLookup.getPlaformName(platformID: platformFilterID ?? 0) ?? "FAIL"
+    self.platformFilterID = platformFilterID
    
+    self._showingScanner = showingScanner
+    self._sortByYear = sortByYear
+    self.platformFilterID = platformFilterID
+    
     _shelfModel = StateObject(wrappedValue: shelfModel)
   }
   
@@ -60,24 +60,55 @@ struct CatalogueView: View {
   var body: some View {
     NavigationStack {
       ScrollView(.vertical) {
-        Masonry(.vertical, lines: 5, horizontalSpacing: 12, verticalSpacing: 12) {
-          ForEach(shelfModel.games) { game in
-            let plat_id = PlatformLookup.getPlaformName(platformID: Int(game.platform_id!)!)
-            if(plat_id == self.platformFilterID || self.platformFilterID == "All") {
-              if game.title!.contains(searchText) || searchText.isEmpty {
-                NavigationLink(destination: GameSheetView(game: game)) {
-                  CardView(imageName: game.cover_art).hoverEffect(.lift)
-                    .onAppear { loadingNewGame = false }
-                    .contextMenu {
-                      GameContextView(game: game)
-                    }
-                }
+        
+        Spacer()
+        
+        let matchingGames = shelfModel.games.filter { game in
+          return (Int(game.platform_id!) == self.platformFilterID ?? 0 || self.platformFilterID == 0)
+          && (game.title!.contains(searchText) || searchText.isEmpty)
+        }
+        if sortByYear {
+          
+          ForEach(shelfModel.years.sorted(), id: \.self) { year in
+            let yearMatchingGames = matchingGames.filter { game in
+              return game.releaseYear == year
+            }
+            if !yearMatchingGames.isEmpty {
+              if sortByYear {
+                Text(String(year))
+                  .font(.title2)
+                  .fontWeight(.semibold)
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
               
+              Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+                ForEach(yearMatchingGames) { game in
+                  NavigationLink(destination: GameSheetView(game: game)) {
+                    CardView(imageName: game.cover_art).hoverEffect(.lift)
+                      .onAppear { loadingNewGame = false }
+                      .contextMenu {
+                        GameContextView(game: game)
+                      }
+                  }
+                }
+              }.masonryPlacementMode(.order)
             }
-          }
-        }.masonryPlacementMode(.order)
-      }.searchable(text: $searchText)
+          }.searchable(text: $searchText)
+        } else {
+          Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+            ForEach(matchingGames) { game in
+              NavigationLink(destination: GameSheetView(game: game)) {
+                CardView(imageName: game.cover_art).hoverEffect(.lift)
+                  .onAppear { loadingNewGame = false }
+                  .contextMenu {
+                    GameContextView(game: game)
+                  }
+              }
+            }
+          }.masonryPlacementMode(.order)
+            .searchable(text: $searchText)
+        }
+      }
     }
     .onChange(of: selectedGame, initial: false) { _, _ in
       if selectedGame != nil { presentingGameInfoSheet = true }
@@ -92,26 +123,26 @@ struct CatalogueView: View {
         }
       }
     }
-      .sheet(isPresented: $presentingMobySearch) {
-        WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle),
-                loadingNewGame: $loadingNewGame,
-                shelfModel: shelfModel,
-                platform_name: scannedGamePlatform,
-                isPresented: $presentingMobySearch)
-      }
-      .sheet(isPresented: $showingScanner) {
-                    // Data scanner will write back the scanned title and Platform
-                    // into `scannedGameTitle` & `scannedGamePlatform`
-                    DataScanner(shelfModel: shelfModel,
-                                game: $scannedGameTitle,
-                                platform_name: $scannedGamePlatform)
-                  }.onChange(of: scannedGameTitle, initial: false) { _, _ in
-                    presentingMobySearch = true
-                  }
-                  .hoverEffect(.automatic)
-              }
-    
+    .sheet(isPresented: $presentingMobySearch) {
+      WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle),
+              loadingNewGame: $loadingNewGame,
+              shelfModel: shelfModel,
+              platform_name: scannedGamePlatform,
+              isPresented: $presentingMobySearch)
+    }
+    .sheet(isPresented: $showingScanner) {
+      // Data scanner will write back the scanned title and Platform
+      // into `scannedGameTitle` & `scannedGamePlatform`
+      DataScanner(shelfModel: shelfModel,
+                  game: $scannedGameTitle,
+                  platform_name: $scannedGamePlatform)
+    }.onChange(of: scannedGameTitle, initial: false) { _, _ in
+      presentingMobySearch = true
+    }
+    .hoverEffect(.automatic)
   }
+  
+}
   
 func createGameSearchURL(scannedGameTitle: String) -> URL {
   let formattedTitle = scannedGameTitle.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"

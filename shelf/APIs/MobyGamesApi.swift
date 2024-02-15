@@ -45,16 +45,18 @@ class MobyGamesApi {
       let newGame = NSManagedObject(entity: entityDescription, insertInto: nil) as! Game
 
       do {
-        let descriptionItems = try await getDescription(gameID: gameID)
+        let descriptionItems = try await getDescription(gameID: gameID, platID: platformID)
         do { sleep(1) } // Prevent API throttling
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
         
+        newGame.platform_id = platformID
         newGame.desc = descriptionItems.0
         newGame.screenshots = descriptionItems.1
         newGame.title = descriptionItems.2
         newGame.base_genre = descriptionItems.3
         newGame.perspective = descriptionItems.4
         newGame.gameplayElems = descriptionItems.5
+        newGame.releaseYear = descriptionItems.6
         newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
         newGame.back_cover_art = try? Data(contentsOf: coverArtItems.1!)
         
@@ -71,7 +73,39 @@ class MobyGamesApi {
     }
   }
   
-  func getDescription(gameID: String) async throws -> (String, [Data], String, String, String, String) {
+  func extractYear(from dateString: String) -> Int? {
+      let dateFormatter = DateFormatter()
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Set the locale to ensure consistent date parsing
+      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0) // Set the timezone to GMT for consistent results
+
+      // Define an array of date formats to try
+      let dateFormats = [
+          "yyyy/M/d",
+          "yyyy",
+          "yyyy-MM",
+          "yyyy-MM-d"
+          // Add more formats if needed
+      ]
+
+      // Loop through each date format and attempt to parse the date
+      for format in dateFormats {
+          dateFormatter.dateFormat = format
+          if let date = dateFormatter.date(from: dateString) {
+              // Date successfully parsed, extract the year
+              let calendar = Calendar.current
+              let year = calendar.component(.year, from: date)
+              return year
+          }
+      }
+
+      // Unable to parse the date with any of the specified formats
+      return nil
+  }
+
+  // Example usage:
+ 
+  
+  func getDescription(gameID: String, platID: String) async throws -> (String, [Data], String, String, String, String, Int64) {
     var screenshots: [Data] = []
     
     let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
@@ -84,6 +118,22 @@ class MobyGamesApi {
     let desc = dict?["description"] as? String
     var base_genre: String = ""
     var perspectives: [String] = []
+    var releaseYear: Int64 = 0
+    
+    if let platforms = dict?["platforms"] as? [[String: Any]] {
+      for plat in platforms {
+        if plat["platform_id"] as? Int == Int(platID) {
+          print("MATCHED PLAT ID!!!!!")
+          if let year = extractYear(from: (plat["first_release_date"] as? String)!) {
+            print("Year: \(year)")
+            releaseYear = Int64(year)
+          } else {
+              print("Unable to extract year.")
+          }
+          print()
+        }
+      }
+    }
     
     var gameplaycats: [String] = []
     if let genres = dict?["genres"] as? [[String: Any]] {
@@ -129,7 +179,7 @@ class MobyGamesApi {
     }
     
     let title = dict?["title"] as? String
-    return (desc!, screenshots, title!, base_genre, perspective, gameplay)
+    return (desc!, screenshots, title!, base_genre, perspective, gameplay, releaseYear)
   }
   
   func getCoverArt(gameID: String, platformID: String) async throws -> (URL?, URL?) {

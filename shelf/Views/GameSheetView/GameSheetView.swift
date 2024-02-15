@@ -73,7 +73,7 @@ struct GameSheetView: View {
         .foregroundStyle(.secondary)
         Spacer()
         Text("Description").font(.title).fontWeight(.bold).foregroundStyle(.white)
-        HTMLFormattedText(game.desc!).frame(height: 400).clipShape(.rect(cornerRadius: 12.0), style: .init())
+        HTMLFormattedText(game.desc!).frame(height: 400).clipShape(.rect(cornerRadius: 4.0), style: .init())
       }
       .padding(EdgeInsets(top: 8.0, leading: 16.0, bottom: 0, trailing: 16.0))
       .font(.subheadline)

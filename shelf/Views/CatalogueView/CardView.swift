@@ -18,7 +18,7 @@ struct CardView: View {
         .resizable()
         .aspectRatio(contentMode: .fit)
     }
-    .cornerRadius(10)
+    .cornerRadius(4)
     .overlay( RoundedRectangle(cornerRadius: 4)
       .stroke(Color(.sRGB,
                     red: 150/255,

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		340E59DE2B7C86BD00E50054 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E59DD2B7C86BD00E50054 /* SectionHeader.swift */; };
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
 		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
@@ -53,7 +52,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		340E59DD2B7C86BD00E50054 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
 		347485A42A870CE80039FED3 /* ShelfGamesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfGamesModel.xcdatamodel; sourceTree = "<group>"; };
 		34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyWebView.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 				B5C388792AB6894000641BA9 /* CatalogueView */,
 				B5D50C0D2AB4FC2000AE1C14 /* PageView */,
 				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
-				340E59DD2B7C86BD00E50054 /* SectionHeader.swift */,
 				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
 			);
 			path = Views;
@@ -411,7 +408,6 @@
 				34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
-				340E59DE2B7C86BD00E50054 /* SectionHeader.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,
 				34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */,
 				34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */,
