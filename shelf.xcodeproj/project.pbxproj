@@ -10,6 +10,7 @@
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
 		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
+		349B475D2B828CF000BC4728 /* ConsolePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349B475C2B828CF000BC4728 /* ConsolePicker.swift */; };
 		34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */; };
 		34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */; };
 		34C354102A88773000BB6B6B /* platform_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = 34C3540F2A88773000BB6B6B /* platform_ids.json */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
 		347485A42A870CE80039FED3 /* ShelfGamesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfGamesModel.xcdatamodel; sourceTree = "<group>"; };
+		349B475C2B828CF000BC4728 /* ConsolePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsolePicker.swift; sourceTree = "<group>"; };
 		34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyWebView.swift; sourceTree = "<group>"; };
 		34C3540D2A88410900BB6B6B /* MobyGamesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyGamesApi.swift; sourceTree = "<group>"; };
 		34C3540F2A88773000BB6B6B /* platform_ids.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = platform_ids.json; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */,
+				349B475C2B828CF000BC4728 /* ConsolePicker.swift */,
 			);
 			path = MobyWebView;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */,
+				349B475D2B828CF000BC4728 /* ConsolePicker.swift in Sources */,
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
 				B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */,

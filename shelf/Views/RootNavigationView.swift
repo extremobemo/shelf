@@ -14,6 +14,7 @@ struct RootNavigationView: View {
   let gamecount: String
   
   @State var showingScanner = false
+  @State var presentingMobySearch = false
   @State var selection: Int? = 0
   @State var showingSection1 = true
   @State var showingSection2 = true
@@ -25,7 +26,7 @@ struct RootNavigationView: View {
     self.platforms = shelfModel.getAllPlatforms()
     self.gamecount = String(shelfModel.games.count)
   }
-    
+  
   var body: some View {
     NavigationSplitView() {
       
@@ -85,20 +86,34 @@ struct RootNavigationView: View {
                   platformFilterID: selection,
                   showingScanner: $showingScanner,
                   selectMode: $selectMode,
-                  sortByYear: $sortByYear).navigationTitle(PlatformLookup.getPlaformName(platformID: selection ?? 0 ) ?? "FAIL").toolbar {
+                  sortByYear: $sortByYear,
+                  presentingMobySearch: $presentingMobySearch).navigationTitle(PlatformLookup.getPlaformName(platformID: selection ?? 0 ) ?? "FAIL").toolbar {
       ToolbarItem() {
         Menu {
-          
           if !selectMode {
-            Button(action: {
-              showingScanner = true
-            }) {
-              HStack {
-                Text("Scan Game")
-                Image(systemName: "barcode.viewfinder")
+            Menu("Add Game...") {
+              Button(action: {
+                showingScanner = true
+              }) {
+                HStack {
+                  Text("Scan Game")
+                  Image(systemName: "barcode.viewfinder")
+                }
+                
               }
-              
+              Button(action: {
+                presentingMobySearch = true
+              }) {
+                HStack {
+                  Text("Search")
+                  Image(systemName: "magnifyingglass")
+                }
+                
+              }
             }
+            
+            
+            
             
             Button(action: {
               selectMode = true
@@ -123,16 +138,16 @@ struct RootNavigationView: View {
               selectMode = false
             } label: {
               Text("Cancel")
-          }
-          
-          Button(action: {
-            sortByYear = !sortByYear
-          }) {
-            HStack {
-              Text("Sort by Year")
-              Image(systemName: "calendar.day.timeline.leading")
             }
-          }
+            
+            Button(action: {
+              sortByYear = !sortByYear
+            }) {
+              HStack {
+                Text("Sort by Year")
+                Image(systemName: "calendar.day.timeline.leading")
+              }
+            }
             Button(action: {
               selectMode = true
             }) {
@@ -142,8 +157,8 @@ struct RootNavigationView: View {
               }
               
             }
-        }
-
+          }
+          
         } label: {
           Button(action: { }) {
             Image(systemName: "ellipsis.circle")

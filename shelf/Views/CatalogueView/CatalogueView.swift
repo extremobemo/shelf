@@ -27,7 +27,6 @@ struct CatalogueView: View {
   // Control Popovers
   @State private var presentingGameInfoSheet = false
   
-  @State var presentingMobySearch: Bool = false
   
   // Display progress view
   @State private var loadingNewGame: Bool = false
@@ -35,6 +34,7 @@ struct CatalogueView: View {
   // We use this to decide which cardViews to show
   private var platformFilterID: Int?
   @Binding var showingScanner: Bool
+  @Binding var presentingMobySearch: Bool
   @Binding var sortByYear: Bool
 
   @Binding var selectMode: Bool
@@ -47,9 +47,12 @@ struct CatalogueView: View {
        platformFilterID: Int?,
        showingScanner: Binding<Bool>,
        selectMode: Binding<Bool>,
-       sortByYear: Binding<Bool>) {
+       sortByYear: Binding<Bool>,
+       presentingMobySearch: Binding<Bool>) {
     self._showingScanner = showingScanner
     self._selectMode = selectMode
+    self._presentingMobySearch = presentingMobySearch
+    
     self.platformFilterID = platformFilterID
    
     self._showingScanner = showingScanner

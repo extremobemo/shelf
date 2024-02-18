@@ -41,20 +41,25 @@ struct WebView: UIViewRepresentable {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
       let urlToMatch = parent.url.absoluteString
-      
       if let urlStr = navigationAction.request.url?.absoluteString, urlStr != urlToMatch {
-        self.parent.loadingNewGame = true
         if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
-          self.parent.isPresented = false
-          if let id = PlatformLookup.getPlatformID(platform: parent.platform_name!) {
-            Task {
-              do {
-                await self.parent.shelfModel.addGame(game: test[3],
-                                                     platform: id,
-                                                     platformString: parent.platform_name!)
-                
-                // await self.parent.shelfModel.getColumns(count: 5)
-                
+          self.parent.loadingNewGame = true
+          if (parent.platform_name != nil) {
+            
+            if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
+              self.parent.isPresented = false
+              if let id = PlatformLookup.getPlatformID(platform: parent.platform_name!) {
+                Task {
+                  do {
+                    await self.parent.shelfModel.addGame(game: test[3],
+                                                         platform: id,
+                                                         platformString: parent.platform_name!)
+                  }
+                }
+              }
+            } else {
+              if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
+                // GET CONSOLE TYPE FROM USER, THEN SAME AS ABOVE.
               }
             }
           }
