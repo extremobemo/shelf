@@ -36,14 +36,20 @@ struct CatalogueView: View {
   private var platformFilterID: Int?
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
-  //let navTitle: String
-  
+
+  @Binding var selectMode: Bool
+  @State var selectedGames: [Game] = []
+      
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel, platformFilterID: Int?, showingScanner: Binding<Bool>, sortByYear: Binding<Bool>) {
-    
-      // self.navTitle = PlatformLookup.getPlaformName(platformID: platformFilterID ?? 0) ?? "FAIL"
+  init(shelfModel: ShelfModel, 
+       platformFilterID: Int?,
+       showingScanner: Binding<Bool>,
+       selectMode: Binding<Bool>,
+       sortByYear: Binding<Bool>) {
+    self._showingScanner = showingScanner
+    self._selectMode = selectMode
     self.platformFilterID = platformFilterID
    
     self._showingScanner = showingScanner
@@ -81,8 +87,9 @@ struct CatalogueView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
               }
               
-              Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+              Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
                 ForEach(yearMatchingGames) { game in
+                if !selectMode {
                   NavigationLink(destination: GameSheetView(game: game)) {
                     CardView(imageName: game.cover_art).hoverEffect(.lift)
                       .onAppear { loadingNewGame = false }
@@ -90,13 +97,47 @@ struct CatalogueView: View {
                         GameContextView(game: game)
                       }
                   }
+                } else {
+                  CardView(imageName: game.cover_art).hoverEffect(.lift)
+                    .onAppear { loadingNewGame = false }
+                    .contextMenu {
+                      GameContextView(game: game)
+                    }
+                    .onTapGesture{
+                      if !selectedGames.contains(game) {
+                        selectedGames.append(game)
+                      } else {
+                        selectedGames.removeAll(where: { $0 == game })
+                        if selectedGames.count == 0 {
+                          selectMode = false
+                        }
+                      }
+                    }
+                    .opacity(selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
+                    .overlay(alignment: .bottomTrailing) {
+                      if selectedGames.contains(where: { $0 == game }) {
+                        Circle()
+                            .stroke(.white, lineWidth: 4)
+                            .fill(.blue)
+                            .frame(width: 16, height: 16)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                        
+                      } else {
+                        Circle()
+                            .stroke(.white, lineWidth: 2)
+                            .frame(width: 16, height: 16)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                      }
+                  }
+                }
                 }
               }.masonryPlacementMode(.order)
             }
           }.searchable(text: $searchText)
         } else {
-          Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+          Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
             ForEach(matchingGames) { game in
+            if !selectMode {
               NavigationLink(destination: GameSheetView(game: game)) {
                 CardView(imageName: game.cover_art).hoverEffect(.lift)
                   .onAppear { loadingNewGame = false }
@@ -104,6 +145,39 @@ struct CatalogueView: View {
                     GameContextView(game: game)
                   }
               }
+            } else {
+              CardView(imageName: game.cover_art).hoverEffect(.lift)
+                .onAppear { loadingNewGame = false }
+                .contextMenu {
+                  GameContextView(game: game)
+                }
+                .onTapGesture{
+                  if !selectedGames.contains(game) {
+                    selectedGames.append(game)
+                  } else {
+                    selectedGames.removeAll(where: { $0 == game })
+                    if selectedGames.count == 0 {
+                      selectMode = false
+                    }
+                  }
+                }
+                .opacity(selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
+                .overlay(alignment: .bottomTrailing) {
+                  if selectedGames.contains(where: { $0 == game }) {
+                    Circle()
+                        .stroke(.white, lineWidth: 4)
+                        .fill(.blue)
+                        .frame(width: 16, height: 16)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                    
+                  } else {
+                    Circle()
+                        .stroke(.white, lineWidth: 2)
+                        .frame(width: 16, height: 16)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                  }
+              }
+            }
             }
           }.masonryPlacementMode(.order)
             .searchable(text: $searchText)

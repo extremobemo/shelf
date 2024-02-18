@@ -30,7 +30,6 @@ struct GameSheetView: View {
         HStack {
           Spacer()
           
-          
           if let screenshots = game.screenshots {
             let screenshotViews: [AspectRatioImageView] = screenshots.compactMap { screenshotData in
               let imageData = screenshotData
