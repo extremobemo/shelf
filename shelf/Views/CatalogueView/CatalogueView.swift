@@ -33,28 +33,30 @@ struct CatalogueView: View {
   @State private var loadingNewGame: Bool = false
   
   // We use this to decide which cardViews to show
-  private var platformFilterID: Int?
+  private var shelf: Shelf
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
+  @Binding var selectedGames: [Game]
 
   @Binding var selectMode: Bool
-  @State var selectedGames: [Game] = []
+  // @State var selectedGames: [Game] = []
       
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
   init(shelfModel: ShelfModel, 
-       platformFilterID: Int?,
+       shelf: Shelf,
        showingScanner: Binding<Bool>,
        selectMode: Binding<Bool>,
-       sortByYear: Binding<Bool>) {
+       sortByYear: Binding<Bool>,
+       selectedGames: Binding<[Game]>) {
     self._showingScanner = showingScanner
     self._selectMode = selectMode
-    self.platformFilterID = platformFilterID
+    self.shelf = shelf
    
     self._showingScanner = showingScanner
     self._sortByYear = sortByYear
-    self.platformFilterID = platformFilterID
+    self._selectedGames = selectedGames
     
     _shelfModel = StateObject(wrappedValue: shelfModel)
   }
@@ -70,8 +72,20 @@ struct CatalogueView: View {
         Spacer()
         
         let matchingGames = shelfModel.games.filter { game in
-          return (Int(game.platform_id!) == self.platformFilterID ?? 0 || self.platformFilterID == 0)
-          && (game.title!.contains(searchText) || searchText.isEmpty)
+          
+          if shelf.platform_id != nil {
+            return (Int(game.platform_id!) == self.shelf.platform_id ?? 0 || self.shelf.platform_id == 0)
+            && (game.title!.contains(searchText) || searchText.isEmpty)
+          } else {
+            if let games = shelf.customShelf?.game_ids {
+              if games.contains(where: { $0 == game.moby_id}) {
+                return true
+              } else { return false }
+            } else {
+              return false
+            }
+          }
+        
         }
         if sortByYear {
           
@@ -87,21 +101,21 @@ struct CatalogueView: View {
                   .frame(maxWidth: .infinity, alignment: .leading)
               }
               
-              Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
+              Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
                 ForEach(yearMatchingGames) { game in
                 if !selectMode {
                   NavigationLink(destination: GameSheetView(game: game)) {
                     CardView(imageName: game.cover_art).hoverEffect(.lift)
                       .onAppear { loadingNewGame = false }
                       .contextMenu {
-                        GameContextView(game: game)
+                        GameContextView(game: game, selectedGames: selectedGames)
                       }
                   }
                 } else {
                   CardView(imageName: game.cover_art).hoverEffect(.lift)
                     .onAppear { loadingNewGame = false }
                     .contextMenu {
-                      GameContextView(game: game)
+                      GameContextView(game: game, selectedGames: selectedGames)
                     }
                     .onTapGesture{
                       if !selectedGames.contains(game) {
@@ -135,25 +149,26 @@ struct CatalogueView: View {
             }
           }.searchable(text: $searchText)
         } else {
-          Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
+          Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
             ForEach(matchingGames) { game in
             if !selectMode {
               NavigationLink(destination: GameSheetView(game: game)) {
                 CardView(imageName: game.cover_art).hoverEffect(.lift)
                   .onAppear { loadingNewGame = false }
                   .contextMenu {
-                    GameContextView(game: game)
+                    GameContextView(game: game, selectedGames: selectedGames)
                   }
               }
             } else {
               CardView(imageName: game.cover_art).hoverEffect(.lift)
                 .onAppear { loadingNewGame = false }
                 .contextMenu {
-                  GameContextView(game: game)
+                  GameContextView(game: game, selectedGames: selectedGames)
                 }
                 .onTapGesture{
                   if !selectedGames.contains(game) {
                     selectedGames.append(game)
+                    print(game.moby_id)
                   } else {
                     selectedGames.removeAll(where: { $0 == game })
                     if selectedGames.count == 0 {
@@ -228,10 +243,13 @@ func createGameSearchURL(scannedGameTitle: String) -> URL {
 
 struct GameContextView: View {
   var game: Game
+  var selectedGames: [Game]
   
   var body: some View {
     Button {
-      CoreDataManager.shared.persistentStoreContainer.viewContext.delete(game)
+      selectedGames.forEach { game in
+        CoreDataManager.shared.persistentStoreContainer.viewContext.delete(game)
+      }
       try? CoreDataManager.shared.persistentStoreContainer.viewContext.save()
       CoreDataManager.shared.persistentStoreContainer.viewContext.refreshAllObjects()
     } label: {
