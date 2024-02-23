@@ -34,26 +34,26 @@ struct CatalogueView: View {
   
   // We use this to decide which cardViews to show
   private var shelf: Shelf
+  
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
   @Binding var selectedGames: [Game]
-
   @Binding var selectMode: Bool
-  // @State var selectedGames: [Game] = []
-      
+  
   private var mga = MobyGamesApi()
   let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel, 
+  init(shelfModel: ShelfModel,
        shelf: Shelf,
        showingScanner: Binding<Bool>,
        selectMode: Binding<Bool>,
        sortByYear: Binding<Bool>,
        selectedGames: Binding<[Game]>) {
+    
     self._showingScanner = showingScanner
     self._selectMode = selectMode
     self.shelf = shelf
-   
+    
     self._showingScanner = showingScanner
     self._sortByYear = sortByYear
     self._selectedGames = selectedGames
@@ -71,131 +71,34 @@ struct CatalogueView: View {
         
         Spacer()
         
-        let matchingGames = shelfModel.games.filter { game in
-          
-          if shelf.platform_id != nil {
-            return (Int(game.platform_id!) == self.shelf.platform_id ?? 0 || self.shelf.platform_id == 0)
-            && (game.title!.contains(searchText) || searchText.isEmpty)
-          } else {
-            if let games = shelf.customShelf?.game_ids {
-              if games.contains(where: { $0 == game.moby_id}) {
-                return true
-              } else { return false }
-            } else {
-              return false
-            }
-          }
+        let matchingGames = matchingGames(shelfModel: shelfModel,
+                                          customShelf: shelf.customShelf,
+                                          searchText: searchText,
+                                          platform_id: shelf.platform_id)
         
-        }
         if sortByYear {
           
           ForEach(shelfModel.years.sorted(), id: \.self) { year in
             let yearMatchingGames = matchingGames.filter { game in
               return game.releaseYear == year
             }
+            
             if !yearMatchingGames.isEmpty {
-              if sortByYear {
-                Text(String(year))
-                  .font(.title2)
-                  .fontWeight(.semibold)
-                  .frame(maxWidth: .infinity, alignment: .leading)
-              }
               
-              Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
-                ForEach(yearMatchingGames) { game in
-                if !selectMode {
-                  NavigationLink(destination: GameSheetView(game: game)) {
-                    CardView(imageName: game.cover_art).hoverEffect(.lift)
-                      .onAppear { loadingNewGame = false }
-                      .contextMenu {
-                        GameContextView(game: game, selectedGames: selectedGames)
-                      }
-                  }
-                } else {
-                  CardView(imageName: game.cover_art).hoverEffect(.lift)
-                    .onAppear { loadingNewGame = false }
-                    .contextMenu {
-                      GameContextView(game: game, selectedGames: selectedGames)
-                    }
-                    .onTapGesture{
-                      if !selectedGames.contains(game) {
-                        selectedGames.append(game)
-                      } else {
-                        selectedGames.removeAll(where: { $0 == game })
-                        if selectedGames.count == 0 {
-                          selectMode = false
-                        }
-                      }
-                    }
-                    .opacity(selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
-                    .overlay(alignment: .bottomTrailing) {
-                      if selectedGames.contains(where: { $0 == game }) {
-                        Circle()
-                            .stroke(.white, lineWidth: 4)
-                            .fill(.blue)
-                            .frame(width: 16, height: 16)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
-                        
-                      } else {
-                        Circle()
-                            .stroke(.white, lineWidth: 2)
-                            .frame(width: 16, height: 16)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
-                      }
-                  }
-                }
-                }
-              }.masonryPlacementMode(.order)
+              Text(String(year))
+                .font(.title2)
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+              
+              StandardMasonry(showingScanner: $showingScanner,sortByYear: $sortByYear,
+                              selectedGames: $selectedGames, selectMode: $selectMode,
+                              matchingGames: yearMatchingGames)
             }
           }.searchable(text: $searchText)
         } else {
-          Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
-            ForEach(matchingGames) { game in
-            if !selectMode {
-              NavigationLink(destination: GameSheetView(game: game)) {
-                CardView(imageName: game.cover_art).hoverEffect(.lift)
-                  .onAppear { loadingNewGame = false }
-                  .contextMenu {
-                    GameContextView(game: game, selectedGames: selectedGames)
-                  }
-              }
-            } else {
-              CardView(imageName: game.cover_art).hoverEffect(.lift)
-                .onAppear { loadingNewGame = false }
-                .contextMenu {
-                  GameContextView(game: game, selectedGames: selectedGames)
-                }
-                .onTapGesture{
-                  if !selectedGames.contains(game) {
-                    selectedGames.append(game)
-                    print(game.moby_id)
-                  } else {
-                    selectedGames.removeAll(where: { $0 == game })
-                    if selectedGames.count == 0 {
-                      selectMode = false
-                    }
-                  }
-                }
-                .opacity(selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
-                .overlay(alignment: .bottomTrailing) {
-                  if selectedGames.contains(where: { $0 == game }) {
-                    Circle()
-                        .stroke(.white, lineWidth: 4)
-                        .fill(.blue)
-                        .frame(width: 16, height: 16)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
-                    
-                  } else {
-                    Circle()
-                        .stroke(.white, lineWidth: 2)
-                        .frame(width: 16, height: 16)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
-                  }
-              }
-            }
-            }
-          }.masonryPlacementMode(.order)
-            .searchable(text: $searchText)
+          StandardMasonry(showingScanner: $showingScanner,sortByYear: $sortByYear,
+                          selectedGames: $selectedGames, selectMode: $selectMode,
+                          matchingGames: matchingGames).searchable(text: $searchText)
         }
       }
     }
@@ -213,18 +116,11 @@ struct CatalogueView: View {
       }
     }
     .sheet(isPresented: $presentingMobySearch) {
-      WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle),
-              loadingNewGame: $loadingNewGame,
-              shelfModel: shelfModel,
-              platform_name: scannedGamePlatform,
-              isPresented: $presentingMobySearch)
+      WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
+              shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch)
     }
     .sheet(isPresented: $showingScanner) {
-      // Data scanner will write back the scanned title and Platform
-      // into `scannedGameTitle` & `scannedGamePlatform`
-      DataScanner(shelfModel: shelfModel,
-                  game: $scannedGameTitle,
-                  platform_name: $scannedGamePlatform)
+      DataScanner(shelfModel: shelfModel, game: $scannedGameTitle, platform_name: $scannedGamePlatform)
     }.onChange(of: scannedGameTitle, initial: false) { _, _ in
       presentingMobySearch = true
     }
@@ -232,7 +128,25 @@ struct CatalogueView: View {
   }
   
 }
-  
+
+func matchingGames(shelfModel: ShelfModel, customShelf: CustomShelf?,
+                   searchText: String, platform_id: Int?) -> [Game] {
+  return shelfModel.games.filter { game in
+    if platform_id != nil {
+      return (Int(game.platform_id!)! == platform_id ?? 0 || platform_id == 0)
+      && (game.title!.contains(searchText) || searchText.isEmpty)
+    } else {
+      if let games = customShelf?.game_ids {
+        if games.contains(where: { $0 == game.moby_id }) {
+          return true
+        } else { return false }
+      } else {
+        return false
+      }
+    }
+  }
+}
+
 func createGameSearchURL(scannedGameTitle: String) -> URL {
   let formattedTitle = scannedGameTitle.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
   

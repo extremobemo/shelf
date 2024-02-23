@@ -20,6 +20,7 @@ struct RootNavigationView: View {
   @State private var presentAlert = false
   @State var showingScanner = false
   @State var selection: Shelf? = Shelf(name: "All", platform_id: 0, customShelf: nil)
+  
   @State var showingSection1 = true
   @State var showingSection2 = true
   @State var selectingDestination = false
@@ -41,6 +42,8 @@ struct RootNavigationView: View {
         Section(){
           if showingSection1 {
             ForEach(platforms, id: \.self) { plat in
+              
+              // Make this a custom View
               HStack {
                 Text(PlatformLookup.getPlaformName(platformID: plat.platform_id!) ?? "All")
                 Spacer()
@@ -53,6 +56,8 @@ struct RootNavigationView: View {
                   .frame(width: 36, height: 24, alignment: .center)
                 Image(systemName: "chevron.right")
               }
+              //-------------------------------------------------------//
+              
             }
           }
         } header: {
@@ -63,6 +68,8 @@ struct RootNavigationView: View {
         ){
           if showingSection2 {
             ForEach(shelves, id: \.self) { shelf in
+              
+              // Make this a custom View
               HStack {
                 Text(shelf.name!).contextMenu {
                   Button(action: {
@@ -88,6 +95,8 @@ struct RootNavigationView: View {
                   )
                   .frame(width: 36, height: 24, alignment: .center)
                 Image(systemName: "chevron.right")
+               //-------------------------------------------------------//
+                
               }
             }
                 }
@@ -112,7 +121,6 @@ struct RootNavigationView: View {
             }) {
               Image(systemName: "list.dash")
             }.alert("Create new", isPresented: $presentAlert, actions: {
-              // Any view other than Button would be ignored
               TextField("Custom Name", text: $shelfName)
               Button("Cancel", action: {})
               Button("Create", action: {
@@ -120,9 +128,6 @@ struct RootNavigationView: View {
                   await shelfModel.createNewShelf(shelfName: shelfName)
                 }
               })
-          }, message: {
-              // Any view other than Text would be ignored
-              //TextField("TextField", text: .constant("Enter name for custom shelf"))
           })
           }
         }
