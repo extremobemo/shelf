@@ -39,70 +39,27 @@ struct RootNavigationView: View {
     NavigationSplitView() {
       
       List(selection: $selection) {
-        Section(){
+        
+        Section() {
           if showingSection1 {
             ForEach(platforms, id: \.self) { plat in
-              
-              // Make this a custom View
-              HStack {
-                Text(PlatformLookup.getPlaformName(platformID: plat.platform_id!) ?? "All")
-                Spacer()
-                Capsule()
-                  .fill(Color(UIColor.systemGray5))
-                  .overlay(
-                    Text(String(self.shelfModel.getGameCountForPlatform(platform: plat.platform_id!)))
-                      .font(.system(size: 12, weight: .medium))
-                  )
-                  .frame(width: 36, height: 24, alignment: .center)
-                Image(systemName: "chevron.right")
-              }
-              //-------------------------------------------------------//
-              
+              ConsoleListRow(platformID: plat.platform_id!, count: shelfModel.getGameCountForPlatform(platform: plat.platform_id!))
             }
           }
         } header: {
           Text("Catalogue")
         }
         
-        Section(
-        ){
+        Section() {
           if showingSection2 {
             ForEach(shelves, id: \.self) { shelf in
-              
-              // Make this a custom View
-              HStack {
-                Text(shelf.name!).contextMenu {
-                  Button(action: {
-                    CoreDataManager.shared.persistentStoreContainer.viewContext.delete(shelf.customShelf!)
-                    try? CoreDataManager.shared.persistentStoreContainer.viewContext.save()
-                    CoreDataManager.shared.persistentStoreContainer.viewContext.refreshAllObjects()
-                  }) {
-                    Text("Delete")
-                  }
-                  
-                  Button(action: {
-                    // Action for Rename button
-                  }) {
-                    Text("Rename")
-                  }
-                }
-                Spacer()
-                Capsule()
-                  .fill(Color(UIColor.systemGray5))
-                  .overlay(
-                    Text(String(shelf.customShelf?.game_ids?.count ?? 0))
-                      .font(.system(size: 12, weight: .medium))
-                  )
-                  .frame(width: 36, height: 24, alignment: .center)
-                Image(systemName: "chevron.right")
-               //-------------------------------------------------------//
-                
-              }
+              CustomShelfListRow(count: shelf.customShelf?.game_ids?.count ?? 0, shelf: shelf)
             }
                 }
         } header: {
           Text("Custom Shelves")
         }
+        
       }
       .navigationTitle("Shelf").toolbar {
         ToolbarItem() {
@@ -204,7 +161,7 @@ struct RootNavigationView: View {
             Image(systemName: "ellipsis.circle")
           }
         }
-        .id(UUID())
+        // .id(UUID())
       }
     }
   }.sheet(isPresented: $selectingDestination) {
@@ -230,7 +187,6 @@ struct RootNavigationView: View {
         .navigationBarItems(trailing: Button("Cancel",
                                              action: {}))
     }
-
   }
   }
   

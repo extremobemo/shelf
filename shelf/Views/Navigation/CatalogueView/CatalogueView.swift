@@ -71,10 +71,8 @@ struct CatalogueView: View {
         
         Spacer()
         
-        let matchingGames = matchingGames(shelfModel: shelfModel,
-                                          customShelf: shelf.customShelf,
-                                          searchText: searchText,
-                                          platform_id: shelf.platform_id)
+        let matchingGames = matchingGames(shelfModel: shelfModel, customShelf: shelf.customShelf,
+                                          searchText: searchText, platform_id: shelf.platform_id)
         
         if sortByYear {
           

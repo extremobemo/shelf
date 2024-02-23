@@ -18,6 +18,8 @@
 		34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C0F2A8701F400608807 /* CoreDataManager.swift */; };
 		34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C122A87049B00608807 /* ShelfModel.swift */; };
 		34D672EF2B886A3F00121919 /* StandardMasonry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672EE2B886A3F00121919 /* StandardMasonry.swift */; };
+		34D672F52B89310100121919 /* ConsoleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672F42B89310100121919 /* ConsoleListRow.swift */; };
+		34D672F72B89326E00121919 /* CustomShelfListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672F62B89326E00121919 /* CustomShelfListRow.swift */; };
 		34E7733D2B56180A00C0AC94 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E7733C2B56180A00C0AC94 /* CloudKit.framework */; };
 		34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelfApp.swift */; };
 		34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AD28C1B99D00C75B10 /* ContentView.swift */; };
@@ -64,6 +66,8 @@
 		34CC8C0F2A8701F400608807 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		34CC8C122A87049B00608807 /* ShelfModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfModel.swift; sourceTree = "<group>"; };
 		34D672EE2B886A3F00121919 /* StandardMasonry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardMasonry.swift; sourceTree = "<group>"; };
+		34D672F42B89310100121919 /* ConsoleListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleListRow.swift; sourceTree = "<group>"; };
+		34D672F62B89326E00121919 /* CustomShelfListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShelfListRow.swift; sourceTree = "<group>"; };
 		34E7733C2B56180A00C0AC94 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		34FE46A328C1B99D00C75B10 /* shelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE46A628C1B99D00C75B10 /* shelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfApp.swift; sourceTree = "<group>"; };
@@ -154,6 +158,26 @@
 				34FE46AF28C1B99E00C75B10 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		34D672F32B8930C900121919 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
+				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
+				B5C388792AB6894000641BA9 /* CatalogueView */,
+				34D672F82B8934E500121919 /* Home */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		34D672F82B8934E500121919 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				34D672F62B89326E00121919 /* CustomShelfListRow.swift */,
+				34D672F42B89310100121919 /* ConsoleListRow.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		34E7733B2B56180A00C0AC94 /* Frameworks */ = {
@@ -256,12 +280,10 @@
 		B5D50C0C2AB4CDFE00AE1C14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				34D672F32B8930C900121919 /* Navigation */,
 				34AFBEAD2B5494F000CA4BC4 /* MobyWebView */,
 				B5C3887A2AB68BA400641BA9 /* GameSheetView */,
-				B5C388792AB6894000641BA9 /* CatalogueView */,
 				B5D50C0D2AB4FC2000AE1C14 /* PageView */,
-				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
-				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -413,6 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34D672F72B89326E00121919 /* CustomShelfListRow.swift in Sources */,
 				34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */,
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
@@ -428,6 +451,7 @@
 				34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
+				34D672F52B89310100121919 /* ConsoleListRow.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,
 				34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */,
 				34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */,
