@@ -11,6 +11,7 @@ import CoreData
 
 
 class MobyGamesApi {
+  // The API class probably shouldnt write directly to iCloud, rather return data to ShelfModel for it to handle.
   
   let context = CoreDataManager.shared.persistentStoreContainer.viewContext
   
@@ -49,6 +50,7 @@ class MobyGamesApi {
         do { sleep(1) } // Prevent API throttling
         let coverArtItems = try await getCoverArt(gameID: gameID, platformID: platformID)
         
+        newGame.moby_id = Int64(gameID) ?? 0
         newGame.platform_id = platformID
         newGame.desc = descriptionItems.0
         newGame.screenshots = descriptionItems.1

@@ -11,26 +11,39 @@ import CloudKit
 import SwiftUI
 
 class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+  
   let itemController: NSFetchedResultsController<Game>
+  let shelfItemController: NSFetchedResultsController<CustomShelf>
+
   @Published var games: [Game] = []
   @Published var years: [Int64] = []
+  
   private let context: NSManagedObjectContext
   
   init(context: NSManagedObjectContext) {
     self.context = context
     let fetchRequest = NSFetchRequest<Game>(entityName: "Game")
+    let shelfFetchRequest = NSFetchRequest<CustomShelf>(entityName: "CustomShelf")
     fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Game.title, ascending: true)]
+    shelfFetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \CustomShelf.name, ascending: true)]
     
     itemController = NSFetchedResultsController(fetchRequest: fetchRequest, 
                                                 managedObjectContext: context,
                                                 sectionNameKeyPath: nil,
                                                 cacheName: nil)
     
+    shelfItemController = NSFetchedResultsController(fetchRequest: shelfFetchRequest,
+                                                managedObjectContext: context,
+                                                sectionNameKeyPath: nil,
+                                                cacheName: nil)
+    
     super.init()
     itemController.delegate = self
+    shelfItemController.delegate = self
     
     do {
       try itemController.performFetch()
+      try shelfItemController.performFetch()
       games = itemController.fetchedObjects ?? []
       years = getAllYears()
     } catch {
@@ -38,19 +51,70 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
     }
   }
   
+  func createNewShelf(shelfName: String) async -> Void {
+    if let entityDescription = NSEntityDescription.entity(forEntityName: "CustomShelf", in: CoreDataManager.shared.persistentStoreContainer.viewContext) {
+      let newShelf = NSManagedObject(entity: entityDescription, insertInto: nil) as! CustomShelf
+
+      do {
+        newShelf.name = shelfName
+        newShelf.game_ids = []
+        
+        await self.context.perform {
+          self.context.insert(newShelf)
+        }
+        
+        try self.context.save()
+      } catch {
+        // UnknownError.unknown(description: "Error building CoreData Game object")
+      }
+    }
+  }
+  
+  func getAllCustomShelves() -> [Shelf] {
+    var platforms: [Shelf] = []
+    let request: NSFetchRequest<CustomShelf> = CustomShelf.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    
+    do {
+      if let shelves = shelfItemController.fetchedObjects {
+        for shelf in shelves {
+          platforms.append(Shelf(name: shelf.name, platform_id: nil, customShelf: shelf))
+        }
+      }
+    }
+    return platforms
+  }
+  
+  func addGamesToShelf(shelf: Shelf, games: [Game]) {
+    
+    let name = shelf.name!
+    
+    let fetchRequest : NSFetchRequest<CustomShelf> = CustomShelf.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+    let results = try? context.fetch(fetchRequest)
+    if let container = results?.first {
+      container.game_ids = games.map { Int($0.moby_id) }
+       try? context.save()
+    }
+  }
+  
+  
+  
   func addGame(game: String, platform: Int, platformString: String) async {
     let mga = MobyGamesApi()
     await mga.buildGame(gameID: game, platformID: String(platform), platformString: platformString)
   }
   
-  func deleteGame(game: Game) {
-    self.context.delete(game)
+  func deleteGame(games: [Game]) {
+    games.forEach { game in
+      self.context.delete(game)
+    }
     try? self.context.save()
     self.context.refreshAllObjects()
   }
   
-  func getAllPlatforms() -> [Int] {
-    var platforms: [Int] = []
+  func getAllPlatforms() -> [Shelf] {
+    var platforms: [Shelf] = []
     let request: NSFetchRequest<Game> = Game.fetchRequest()
     request.returnsObjectsAsFaults = false
     
@@ -58,13 +122,13 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
       let games = itemController.fetchedObjects
       for game in games! {
         if let intValue = Int(game.platform_id!) {
-          if (!platforms.contains(intValue)) {
-            platforms.append(intValue)
+          if (!platforms.contains { $0.platform_id == intValue} ) {
+            platforms.append(Shelf(name: nil, platform_id: intValue, customShelf: nil))
           }
         }
       }
     }
-    return platforms
+    return [Shelf(name: "All", platform_id: 0, customShelf: nil)] + platforms
   }
   
   func getGameCountForPlatform(platform: Int) -> Int {
@@ -99,5 +163,20 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
   
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     print("WILL CHANGE")
+  }
+}
+
+struct Shelf: Identifiable, Hashable {
+  
+  let id = UUID()
+  let name: String?
+  let platform_id: Int?
+  let customShelf: CustomShelf?
+ 
+    
+  init(name: String?, platform_id: Int?, customShelf: CustomShelf?) {
+    self.name = name
+    self.platform_id = platform_id
+    self.customShelf = customShelf
   }
 }
