@@ -34,7 +34,7 @@ struct RootNavigationView: View {
     self.shelves = shelfModel.getAllCustomShelves()
     self.gamecount = String(shelfModel.games.count)
   }
-    
+  
   var body: some View {
     NavigationSplitView() {
       
@@ -55,7 +55,7 @@ struct RootNavigationView: View {
             ForEach(shelves, id: \.self) { shelf in
               CustomShelfListRow(count: shelf.customShelf?.game_ids?.count ?? 0, shelf: shelf)
             }
-                }
+          }
         } header: {
           Text("Custom Shelves")
         }
@@ -63,129 +63,41 @@ struct RootNavigationView: View {
       }
       .navigationTitle("Shelf").toolbar {
         ToolbarItem() {
-          Menu {
-            Button(action: {
-              presentAlert = true
-            }) {
-              HStack {
-                Text("New Shelf")
-                Image(systemName: "plus")
-              }
-            }
-          } label: {
-            Button(action: {
-              presentAlert = true
-            }) {
-              Image(systemName: "list.dash")
-            }.alert("Create new", isPresented: $presentAlert, actions: {
-              TextField("Custom Name", text: $shelfName)
-              Button("Cancel", action: {})
-              Button("Create", action: {
-                Task {
-                  await shelfModel.createNewShelf(shelfName: shelfName)
-                }
-              })
-          })
-          }
+          HomeMenu(shelfModel: shelfModel, presentAlert: $presentAlert, shelfName: $shelfName)
         }
       }.listStyle(.sidebar)
     }
   detail: {
-    CatalogueView(shelfModel: shelfModel,
-                  shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
-                  showingScanner: $showingScanner,
-                  selectMode: $selectMode,
-                  sortByYear: $sortByYear,
+    CatalogueView(shelfModel: shelfModel, shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
+                  showingScanner: $showingScanner, selectMode: $selectMode, sortByYear: $sortByYear,
                   selectedGames: $selectedGames).navigationTitle((PlatformLookup.getPlaformName(platformID:
-                                                                                            selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
-      ToolbarItem() {
-        Menu {
-          
-          if !selectMode {
-            Button(action: {
-              showingScanner = true
-            }) {
-              HStack {
-                Text("Scan Game")
-                Image(systemName: "barcode.viewfinder")
-              }
-              
-            }
-            
-            Button(action: {
-              selectMode = true
-            }) {
-              HStack {
-                Text("Select")
-                Image(systemName: "checkmark.circle")
-              }
-              
-            }
-            
-            Button(action: {
-              sortByYear = !sortByYear
-            }) {
-              HStack {
-                Text("Sort by Year")
-                Image(systemName: "calendar.day.timeline.leading")
-              }
-            }
-          } else {
-            Button(role: .destructive) {
-              selectMode = false
-            } label: {
-              Text("Cancel")
-          }
-          
-          Button(action: {
-            sortByYear = !sortByYear
-          }) {
-            HStack {
-              Text("Sort by Year")
-              Image(systemName: "calendar.day.timeline.leading")
-            }
-          }
-            Button(action: {
-              selectingDestination = true
-            }) {
-              HStack {
-                Text("Add to...")
-                Image(systemName: "plus")
-              }
-              
-            }
-        }
-
-        } label: {
-          Button(action: { }) {
-            Image(systemName: "ellipsis.circle")
-          }
-        }
-        // .id(UUID())
-      }
-    }
+                                                                                                  selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
+                    ToolbarItem() {
+                      CatalogueMenu(selectMode: $selectMode, showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
+                    }
+                  }
   }.sheet(isPresented: $selectingDestination) {
     NavigationView {
-        VStack {
-          List(){
-            ForEach(shelves, id: \.self) { shelf in
-              Button(action: {
-                shelfModel.addGamesToShelf(shelf: shelf, games: selectedGames)
-                selectingDestination = false
-                selectMode = false
-              }) {
-                HStack {
-                  Text(shelf.name!)
-                  Spacer()
-                  Image(systemName: "plus")
-                }
+      VStack {
+        List() {
+          ForEach(shelves, id: \.self) { shelf in
+            Button(action: {
+              shelfModel.addGamesToShelf(shelf: shelf, games: selectedGames)
+              selectingDestination = false
+              selectMode = false
+            }) {
+              HStack {
+                Text(shelf.name!)
+                Spacer()
+                Image(systemName: "plus")
               }
             }
           }
         }
-        .navigationTitle("Add to...")
-        .navigationBarItems(trailing: Button("Cancel",
-                                             action: {}))
+      }
+      .navigationTitle("Add to...")
+      .navigationBarItems(trailing: Button("Cancel",
+                                           action: {}))
     }
   }
   }

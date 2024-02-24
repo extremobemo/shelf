@@ -15,7 +15,6 @@ struct CustomShelfListRow: View {
   
   var body: some View {
     
-    
     HStack {
       Text(shelf.name!).contextMenu {
         Button(action: {

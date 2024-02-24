@@ -7,49 +7,32 @@
 
 import Foundation
 import SwiftUI
-import VisionKit
 import AVKit
-import CloudKit
-import SwiftUIMasonry
 import CoreData
 
 struct CatalogueView: View {
   
   @StateObject var shelfModel: ShelfModel
-  
-  // Toolbar filter string
+  private var shelf: Shelf
+
   @State private var searchText: String = ""
-  
-  // DataScanner will populate these fields.
+
   @State private var scannedGameTitle: String = ""
   @State private var scannedGamePlatform: String?
-  
-  // Control Popovers
   @State private var presentingGameInfoSheet = false
-  
   @State var presentingMobySearch: Bool = false
-  
-  // Display progress view
   @State private var loadingNewGame: Bool = false
-  
-  // We use this to decide which cardViews to show
-  private var shelf: Shelf
-  
+ 
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
   @Binding var selectedGames: [Game]
   @Binding var selectMode: Bool
   
   private var mga = MobyGamesApi()
-  let container = CKContainer(identifier: "iCloud.icloud.extremobemo.shelf-proj")
   
-  init(shelfModel: ShelfModel,
-       shelf: Shelf,
-       showingScanner: Binding<Bool>,
-       selectMode: Binding<Bool>,
-       sortByYear: Binding<Bool>,
-       selectedGames: Binding<[Game]>) {
-    
+  init(shelfModel: ShelfModel, shelf: Shelf, showingScanner: Binding<Bool>,
+       selectMode: Binding<Bool>, sortByYear: Binding<Bool>, selectedGames: Binding<[Game]>) {
+  
     self._showingScanner = showingScanner
     self._selectMode = selectMode
     self.shelf = shelf
@@ -147,8 +130,6 @@ func matchingGames(shelfModel: ShelfModel, customShelf: CustomShelf?,
 
 func createGameSearchURL(scannedGameTitle: String) -> URL {
   let formattedTitle = scannedGameTitle.replacingOccurrences(of: "-", with: " ", options: NSString.CompareOptions.literal, range: nil).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "FAIL"
-  
-  // This might crash
   return URL(string: "https://www.mobygames.com/search/?q=" + formattedTitle.unescaped)!
 }
 
