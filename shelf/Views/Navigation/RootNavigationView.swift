@@ -27,6 +27,8 @@ struct RootNavigationView: View {
   
   @State var sortByYear = false
   @State var selectMode = false
+  @State var presentingMobySearch = false
+
   
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
@@ -70,10 +72,11 @@ struct RootNavigationView: View {
   detail: {
     CatalogueView(shelfModel: shelfModel, shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
                   showingScanner: $showingScanner, selectMode: $selectMode, sortByYear: $sortByYear,
-                  selectedGames: $selectedGames).navigationTitle((PlatformLookup.getPlaformName(platformID:
+                  selectedGames: $selectedGames, presentingMobySearch: $presentingMobySearch).navigationTitle((PlatformLookup.getPlaformName(platformID:
                                                                                                   selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
                     ToolbarItem() {
-                      CatalogueMenu(selectMode: $selectMode, showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
+                      CatalogueMenu(presentingMobySearch: $presentingMobySearch,selectMode: $selectMode,
+                                    showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
                     }
                   }
   }.sheet(isPresented: $selectingDestination) {

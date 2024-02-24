@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CatalogueMenu: View {
   
+  @Binding var presentingMobySearch: Bool
   @Binding var selectMode: Bool
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
@@ -19,10 +20,22 @@ struct CatalogueMenu: View {
     
     Menu {
       if !selectMode {
-        Button(action: { showingScanner = true }) {
-          HStack {
-            Text("Scan Game")
-            Image(systemName: "barcode.viewfinder")
+        Menu("Add Game...") {
+          Button(action: {
+            showingScanner = true
+          }) {
+            HStack {
+              Text("Scan Game")
+              Image(systemName: "barcode.viewfinder")
+            }
+          }
+          Button(action: {
+            presentingMobySearch = true
+          }) {
+            HStack {
+              Text("Search")
+              Image(systemName: "magnifyingglass")
+            }
           }
         }
         Button(action: { selectMode = true }) {
