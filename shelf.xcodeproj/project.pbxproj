@@ -17,6 +17,11 @@
 		34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */; };
 		34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C0F2A8701F400608807 /* CoreDataManager.swift */; };
 		34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CC8C122A87049B00608807 /* ShelfModel.swift */; };
+		34D672EF2B886A3F00121919 /* StandardMasonry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672EE2B886A3F00121919 /* StandardMasonry.swift */; };
+		34D672F52B89310100121919 /* ConsoleListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672F42B89310100121919 /* ConsoleListRow.swift */; };
+		34D672F72B89326E00121919 /* CustomShelfListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672F62B89326E00121919 /* CustomShelfListRow.swift */; };
+		34D672FB2B8987FD00121919 /* CatalogueMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672FA2B8987FD00121919 /* CatalogueMenu.swift */; };
+		34D672FD2B89894000121919 /* HomeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672FC2B89894000121919 /* HomeMenu.swift */; };
 		34E7733D2B56180A00C0AC94 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E7733C2B56180A00C0AC94 /* CloudKit.framework */; };
 		34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelfApp.swift */; };
 		34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AD28C1B99D00C75B10 /* ContentView.swift */; };
@@ -59,9 +64,14 @@
 		34C3540F2A88773000BB6B6B /* platform_ids.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = platform_ids.json; sourceTree = "<group>"; };
 		34C354112A88778400BB6B6B /* PlatformLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformLookup.swift; sourceTree = "<group>"; };
 		34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerViewController.swift; sourceTree = "<group>"; };
-		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		34CB1A0B28E2501500AE3AC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34CC8C0F2A8701F400608807 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		34CC8C122A87049B00608807 /* ShelfModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfModel.swift; sourceTree = "<group>"; };
+		34D672EE2B886A3F00121919 /* StandardMasonry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardMasonry.swift; sourceTree = "<group>"; };
+		34D672F42B89310100121919 /* ConsoleListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleListRow.swift; sourceTree = "<group>"; };
+		34D672F62B89326E00121919 /* CustomShelfListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShelfListRow.swift; sourceTree = "<group>"; };
+		34D672FA2B8987FD00121919 /* CatalogueMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogueMenu.swift; sourceTree = "<group>"; };
+		34D672FC2B89894000121919 /* HomeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenu.swift; sourceTree = "<group>"; };
 		34E7733C2B56180A00C0AC94 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		34FE46A328C1B99D00C75B10 /* shelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE46A628C1B99D00C75B10 /* shelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfApp.swift; sourceTree = "<group>"; };
@@ -130,10 +140,58 @@
 		34CC8C112A87047A00608807 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				34C3540F2A88773000BB6B6B /* platform_ids.json */,
 				347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */,
 				34CC8C122A87049B00608807 /* ShelfModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		34D672ED2B886A3200121919 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				34D672EE2B886A3F00121919 /* StandardMasonry.swift */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
+		};
+		34D672F22B8875FA00121919 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				34FE46B228C1B99E00C75B10 /* Preview Content */,
+				34FE46AF28C1B99E00C75B10 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		34D672F32B8930C900121919 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				34D672F92B89877E00121919 /* ContextMenus */,
+				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
+				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
+				B5C388792AB6894000641BA9 /* CatalogueView */,
+				34D672F82B8934E500121919 /* Home */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		34D672F82B8934E500121919 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				34D672F62B89326E00121919 /* CustomShelfListRow.swift */,
+				34D672F42B89310100121919 /* ConsoleListRow.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		34D672F92B89877E00121919 /* ContextMenus */ = {
+			isa = PBXGroup;
+			children = (
+				34D672FA2B8987FD00121919 /* CatalogueMenu.swift */,
+				34D672FC2B89894000121919 /* HomeMenu.swift */,
+			);
+			path = ContextMenus;
 			sourceTree = "<group>";
 		};
 		34E7733B2B56180A00C0AC94 /* Frameworks */ = {
@@ -168,16 +226,14 @@
 		34FE46A528C1B99D00C75B10 /* shelf */ = {
 			isa = PBXGroup;
 			children = (
+				34CB1A0B28E2501500AE3AC0 /* Info.plist */,
+				34FE46B128C1B99E00C75B10 /* shelf.entitlements */,
+				34D672F22B8875FA00121919 /* Resources */,
 				B5C3887B2AB7B62D00641BA9 /* Classes */,
-				34C3540F2A88773000BB6B6B /* platform_ids.json */,
 				34C3540C2A8840E500BB6B6B /* APIs */,
 				34CC8C112A87047A00608807 /* Models */,
 				34FE46A628C1B99D00C75B10 /* shelfApp.swift */,
-				34FE46AF28C1B99E00C75B10 /* Assets.xcassets */,
 				B5D50C0C2AB4CDFE00AE1C14 /* Views */,
-				34FE46B228C1B99E00C75B10 /* Preview Content */,
-				34CB1A0B28E2501500AE3AC0 /* Info.plist */,
-				34FE46B128C1B99E00C75B10 /* shelf.entitlements */,
 			);
 			path = shelf;
 			sourceTree = "<group>";
@@ -210,6 +266,7 @@
 		B5C388792AB6894000641BA9 /* CatalogueView */ = {
 			isa = PBXGroup;
 			children = (
+				34D672ED2B886A3200121919 /* Masonry */,
 				34CB1A0928E24CDC00AE3AC0 /* DataScannerViewController.swift */,
 				B5D50C162AB6432000AE1C14 /* CatalogueView.swift */,
 				34FE46D628C1BC1000C75B10 /* CardView.swift */,
@@ -237,12 +294,10 @@
 		B5D50C0C2AB4CDFE00AE1C14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				34D672F32B8930C900121919 /* Navigation */,
 				34AFBEAD2B5494F000CA4BC4 /* MobyWebView */,
 				B5C3887A2AB68BA400641BA9 /* GameSheetView */,
-				B5C388792AB6894000641BA9 /* CatalogueView */,
 				B5D50C0D2AB4FC2000AE1C14 /* PageView */,
-				B5D50C142AB642A200AE1C14 /* RootNavigationView.swift */,
-				34FE46AD28C1B99D00C75B10 /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -394,13 +449,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34D672F72B89326E00121919 /* CustomShelfListRow.swift in Sources */,
 				34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */,
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,
 				B5D50C172AB6432000AE1C14 /* CatalogueView.swift in Sources */,
 				B5D50C0F2AB4FC3B00AE1C14 /* PageViewController.swift in Sources */,
 				B5C3887D2AB7B64200641BA9 /* String+Extensions.swift in Sources */,
 				34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */,
+				34D672EF2B886A3F00121919 /* StandardMasonry.swift in Sources */,
 				B5D50C132AB4FE5E00AE1C14 /* PageView.swift in Sources */,
+				34D672FD2B89894000121919 /* HomeMenu.swift in Sources */,
 				34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */,
 				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
 				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
@@ -408,6 +466,8 @@
 				34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,
+				34D672F52B89310100121919 /* ConsoleListRow.swift in Sources */,
+				34D672FB2B8987FD00121919 /* CatalogueMenu.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,
 				34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */,
 				34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */,
@@ -574,7 +634,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"shelf/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"shelf/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -622,7 +682,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"shelf/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"shelf/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 65NKDVMMB6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
