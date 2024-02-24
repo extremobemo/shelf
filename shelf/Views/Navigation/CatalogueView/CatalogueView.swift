@@ -16,13 +16,13 @@ struct CatalogueView: View {
   private var shelf: Shelf
 
   @State private var searchText: String = ""
-
   @State private var scannedGameTitle: String = ""
   @State private var scannedGamePlatform: String?
   @State private var presentingGameInfoSheet = false
   @State private var loadingNewGame: Bool = false
   @State var selectingPlatform: Bool = false
- 
+  @State var searchedGame: String = ""
+  
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
   @Binding var selectedGames: [Game]
@@ -74,13 +74,13 @@ struct CatalogueView: View {
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity, alignment: .leading)
               
-              StandardMasonry(showingScanner: $showingScanner,sortByYear: $sortByYear,
+              StandardMasonry(loadingNewGame: $loadingNewGame, showingScanner: $showingScanner, sortByYear: $sortByYear,
                               selectedGames: $selectedGames, selectMode: $selectMode,
                               matchingGames: yearMatchingGames)
             }
           }.searchable(text: $searchText)
         } else {
-          StandardMasonry(showingScanner: $showingScanner,sortByYear: $sortByYear,
+          StandardMasonry(loadingNewGame: $loadingNewGame, showingScanner: $showingScanner,sortByYear: $sortByYear,
                           selectedGames: $selectedGames, selectMode: $selectMode,
                           matchingGames: matchingGames).searchable(text: $searchText)
         }
@@ -102,39 +102,20 @@ struct CatalogueView: View {
     .sheet(isPresented: $presentingMobySearch) {
       if scannedGamePlatform != nil {
         WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
-                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch).onDisappear() {
+                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
+                searchedGame: $searchedGame).onDisappear() {
           scannedGamePlatform = nil
         }
       } else {
         WebView(url: createGameSearchURL(scannedGameTitle: ""), loadingNewGame: $loadingNewGame,
-                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch)
+                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
+                searchedGame: $searchedGame)
       }
     }
     
     .sheet(isPresented: $selectingPlatform) {
-      NavigationView {
-        VStack {
-          List() {
-            ForEach(["Gameboy", "Playstation"], id: \.self) { p in
-              Button(action: {
-               
-              }) {
-                HStack {
-                  Text(p)
-                  Spacer()
-                  Image(systemName: "plus")
-                }
-              }
-            }
-          }
-        }
-        .navigationTitle("Add to...")
-        .navigationBarItems(trailing: Button("Cancel",
-                                             action: {}))
-      }
+      PlatformSelector(shelfModel: shelfModel, searchedGame: $searchedGame, selectingPlatform: $selectingPlatform)
     }
-    
-    
     
     .sheet(isPresented: $showingScanner) {
       DataScanner(shelfModel: shelfModel, game: $scannedGameTitle, platform_name: $scannedGamePlatform)

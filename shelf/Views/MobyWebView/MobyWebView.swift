@@ -14,11 +14,14 @@ struct WebView: UIViewRepresentable {
   var url: URL
 
   @Binding var loadingNewGame: Bool
+  
   @ObservedObject var shelfModel: ShelfModel
   var platform_name: String?
   @Binding var isPresented: Bool
   @Binding var selectingPlatform: Bool
   @Binding var presentingMobySearch: Bool
+  @Binding var searchedGame: String
+
 
   
   func updateUIView(_ webView: WKWebView, context: Context) {
@@ -67,7 +70,12 @@ struct WebView: UIViewRepresentable {
             if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
               self.parent.presentingMobySearch = false
               self.parent.selectingPlatform = true
+              self.parent.searchedGame = test[3]
+              
+              
+              
               // GET CONSOLE TYPE FROM USER, THEN SAME AS ABOVE.
+            
             }
           }
         }

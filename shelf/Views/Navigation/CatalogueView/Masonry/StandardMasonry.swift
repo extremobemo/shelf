@@ -11,7 +11,7 @@ import SwiftUIMasonry
 
 struct StandardMasonry: View {
   
-  @State private var loadingNewGame: Bool = false
+  @Binding var loadingNewGame: Bool
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
   @Binding var selectedGames: [Game]
@@ -20,7 +20,7 @@ struct StandardMasonry: View {
   let matchingGames: [Game]
   var body: some View {
     
-    Masonry(.vertical, lines: 5, horizontalSpacing: 8, verticalSpacing: 8) {
+    Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
       ForEach(matchingGames) { game in
         if !selectMode {
           NavigationLink(destination: GameSheetView(game: game)) {
