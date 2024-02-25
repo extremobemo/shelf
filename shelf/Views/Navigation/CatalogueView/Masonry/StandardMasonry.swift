@@ -24,14 +24,14 @@ struct StandardMasonry: View {
       ForEach(matchingGames) { game in
         if !selectMode {
           NavigationLink(destination: GameSheetView(game: game)) {
-            CardView(imageName: game.cover_art).hoverEffect(.lift)
+            CardView(imageName: game.cover_art![0]).hoverEffect(.lift)
               .onAppear { loadingNewGame = false }
               .contextMenu {
                 GameContextView(game: game, selectedGames: selectedGames)
               }
           }
         } else {
-          CardView(imageName: game.cover_art).hoverEffect(.lift)
+          CardView(imageName: game.cover_art![0]).hoverEffect(.lift)
             .onAppear { loadingNewGame = false }
             .contextMenu {
               GameContextView(game: game, selectedGames: selectedGames)

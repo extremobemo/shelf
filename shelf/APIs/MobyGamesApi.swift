@@ -59,8 +59,8 @@ class MobyGamesApi {
         newGame.perspective = descriptionItems.4
         newGame.gameplayElems = descriptionItems.5
         newGame.releaseYear = descriptionItems.6
-        newGame.cover_art = try? Data(contentsOf: coverArtItems.0!)
-        newGame.back_cover_art = try? Data(contentsOf: coverArtItems.1!)
+        newGame.cover_art = coverArtItems
+        // newGame.back_cover_art = try? Data(contentsOf: coverArtItems.1!)
         
         newGame.platform_id = platformID
         
@@ -184,7 +184,9 @@ class MobyGamesApi {
     return (desc!, screenshots, title!, base_genre, perspective, gameplay, releaseYear)
   }
   
-  func getCoverArt(gameID: String, platformID: String) async throws -> (URL?, URL?) {
+  func getCoverArt(gameID: String, platformID: String) async throws -> [Data] {
+    var art: [Data] = []
+
     let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
     
     let (data, _) = try await URLSession.shared.data(from: getDescURL)
@@ -198,17 +200,22 @@ class MobyGamesApi {
     do {
       let responseData = try JSONDecoder().decode(ResponseData.self, from: jsonData)
       
-      if let firstCoverGroup = responseData.cover_groups.first,
-         let firstCover = firstCoverGroup.covers.first {
-        let coverURL = firstCover.image
-        return (coverURL, firstCoverGroup.covers[1].image)
+      if let firstCoverGroup = responseData.cover_groups.first {
+        firstCoverGroup.covers.forEach { cover in
+          do {
+            if let imageData = try? Data(contentsOf: cover.image) {
+              art.append(imageData)
+            }
+          }
+        }
+        return art
       } else {
-        return (nil, nil) // No cover URL found
+        return art // No cover URL found
       }
     } catch {
       print("Error decoding JSON: \(error)")
       //throw SomeError("Error decoding JSON")
     }
-    return (nil, nil)
+    return art
   }
 }

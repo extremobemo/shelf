@@ -36,8 +36,15 @@ struct GameSheetView: View {
               let uiImage = UIImage(data: imageData)
               return AspectRatioImageView(uiImage: uiImage!)
             }
-            let cover = AspectRatioImageView(uiImage: UIImage(data: game.cover_art!)!)
-            let pageViewController = PageViewController(pages: [cover] + screenshotViews)
+            
+            let cover_art: [AspectRatioImageView] = game.cover_art!.compactMap { screenshotData in
+              let imageData = screenshotData
+              let uiImage = UIImage(data: imageData)
+              return AspectRatioImageView(uiImage: uiImage!)
+            }
+            
+            let cover = AspectRatioImageView(uiImage: UIImage(data: game.cover_art![0])!)
+            let pageViewController = PageViewController(pages: cover_art + screenshotViews)
             pageViewController.frame(height: 550) // 250 for iphones, 550 for ipad
           }
           Spacer()
