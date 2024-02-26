@@ -10,11 +10,11 @@ import SwiftUI
 struct CardView: View {
   @Environment(\.managedObjectContext) private var viewContext
   
-  let imageName: Data?
+  let imageName: Data
   var body: some View {
     
     VStack {
-      Image(uiImage: UIImage(data: imageName!)!)
+      Image(uiImage: UIImage(data: imageName)!)
         .resizable()
         .aspectRatio(contentMode: .fit)
     }
