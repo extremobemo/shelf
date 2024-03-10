@@ -13,125 +13,238 @@ struct AspectRatioImageView: View {
   let uiImage: UIImage
   
   var body: some View {
-    Image(uiImage: uiImage)
-      .resizable()
-      .aspectRatio(contentMode: .fit)
+    GeometryReader { geo in
+        ZStack {
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: geo.frame(in: .global).size.width * 0.95, height: geo.frame(in: .global).size.height * 0.95)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding()
+                .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
+                .background(.regularMaterial)
+
+        }
+    }
   }
-}
+  }
 
 struct GameSheetView: View {
   @Environment(\.dismiss) var dismiss
+  @State private var favoriteColor = 0
   var game: Game
+  @State var textHeight: CGFloat = 0
   var body: some View {
-    
+  GeometryReader { geo in
+
     ScrollView(content: {
-      
       VStack(alignment: .leading) {
-        HStack {
-          Spacer()
-          
-          if let screenshots = game.screenshots {
-            let screenshotViews: [AspectRatioImageView] = screenshots.compactMap { screenshotData in
-              let imageData = screenshotData
-              let uiImage = UIImage(data: imageData)
-              return AspectRatioImageView(uiImage: uiImage!)
-            }
-            
-            let cover_art: [AspectRatioImageView] = game.cover_art!.compactMap { screenshotData in
-              let imageData = screenshotData
-              let uiImage = UIImage(data: imageData)
-              return AspectRatioImageView(uiImage: uiImage!)
-            }
-            
-            let cover = AspectRatioImageView(uiImage: UIImage(data: game.cover_art![0])!)
-            let pageViewController = PageViewController(pages: cover_art + screenshotViews)
-            pageViewController.frame(height: 550) // 250 for iphones, 550 for ipad
+        if let screenshots = game.screenshots, let physical_media = game.cover_art {
+          CarouselView(images: physical_media + screenshots)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(height: geo.frame(in: .global).size.height) //* 0.9)
+            .frame(maxHeight: 300) //550 for iPad, 300 for iPhone
+
+          Spacer().frame(height: 8)
+          Picker("What is your favorite color?", selection: $favoriteColor) {
+            Text("All").tag(0)
+            Text("Physical").tag(1)
+            Text("Screenshots").tag(2)
           }
-          Spacer()
+          .pickerStyle(.segmented)
         }
         
-        Spacer()
-        Text("Genre").font(.title).fontWeight(.bold).foregroundStyle(.white)
-        Spacer()
-        HStack {
-          Text("Genre")
-          Spacer()
-          Text(game.base_genre ?? "Not available")
-        }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        Divider()
-        HStack {
-          Text("Perspective")
-          Spacer()
-          Text(game.perspective ?? "Not available")
-        }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
-        Divider()
+        Spacer().frame(height: 24)
         
-        HStack(alignment: .top) {
-          Text("Gameplay")
+        HStack {
           Spacer()
-          Text(game.gameplayElems ?? "Not available").frame(maxWidth: 350, maxHeight: 48) //150 iphone, 350 ipad
+          Link(destination: URL(string: "https://www.mobygames.com/game/" + String(game.moby_id))!) {
+            Text("View on MobyGames").fontWeight(.medium).foregroundStyle(.white).font(.system(size: 13))
+          }
+          .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 12))
+          .background(Color.accentColor)
+          .clipShape(Capsule())
         }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+        
+        Text("Information").font(.title).fontWeight(.bold).foregroundStyle(.white)
         Spacer()
-        Text("Description").font(.title).fontWeight(.bold).foregroundStyle(.white)
-        HTMLFormattedText(game.desc!).frame(height: 400).clipShape(.rect(cornerRadius: 4.0), style: .init())
+        VStack {
+          HStack {
+            Text("Genre").foregroundStyle(.white)
+            Spacer()
+            Text(game.base_genre ?? "Not available").foregroundStyle(.white)
+          }
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          Divider()
+          HStack {
+            Text("Perspective").foregroundStyle(.white)
+            Spacer()
+            Text(game.perspective ?? "Not available").foregroundStyle(.white)
+          }
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          Divider()
+          
+          HStack(alignment: .top) {
+            Text("Gameplay").foregroundStyle(.white)
+            Spacer()
+            Text(game.gameplayElems ?? "Not available").frame(width: 200, height: 48) //150 iphone, 350 ipad
+              .multilineTextAlignment(.trailing)
+              .foregroundStyle(.white)
+          }
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+        }.padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+        
+        Spacer().frame(height: 16)
+        
+        Text("Description").font(.title)
+          .fontWeight(.bold)
+          .foregroundStyle(.white)
+          .frame(height: 24)
+
+        AttributedText(game.desc!, HTMLFormatter(), delegate: nil)
+          .frame(minHeight: 1)
+          .padding(EdgeInsets(top: 0, leading: 4, bottom: 12, trailing: 8))
+        Spacer()
       }
-      .padding(EdgeInsets(top: 8.0, leading: 16.0, bottom: 0, trailing: 16.0))
+      .padding(EdgeInsets(top: 8.0, leading: 12.0, bottom: 16.0, trailing: 12.0))
       .font(.subheadline)
       .foregroundStyle(.secondary)
-    }).navigationTitle(game.title!)
-    
+      Text("Data provided by MobyGames.").font(.footnote).foregroundStyle(.gray)
+    }).navigationTitle(game.title!).navigationBarTitleDisplayMode(.large).toolbar {
+      ToolbarItem() {
+        
+        Menu {
+          ShareLink(item: URL(string: "https://www.mobygames.com/game/" + String(game.moby_id))!)
+        } label: {
+          Button(action: {  }) {
+            Image(systemName: "ellipsis.circle")
+          }
+        }
+      }
+    }
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+
+    }
   }
 }
 
-struct HTMLFormattedText: UIViewRepresentable {
-  
-  let text: String
-  private  let textView = UITextView()
-  
-  init(_ content: String) {
-    self.text = content
-  }
-  
-  func makeUIView(context: UIViewRepresentableContext<Self>) -> UITextView {
-    textView.dataDetectorTypes = .link
-    textView.isEditable = false
-    textView.isUserInteractionEnabled = true
-    textView.translatesAutoresizingMaskIntoConstraints = false
-    textView.isScrollEnabled = false
-    textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    textView.backgroundColor = .systemGray5
-    return textView
-  }
-  
-  func updateUIView(_ uiView: UITextView, context: UIViewRepresentableContext<Self>) {
-    DispatchQueue.main.async {
-      if let attributeText = self.converHTML(text: text) {
-        textView.attributedText = attributeText
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        textView.textColor = UIColor.label
-      } else {
-        textView.text = ""
-      }
-      
-    }
-  }
-  
-  private func converHTML(text: String) -> NSAttributedString?{
-    guard let data = text.data(using: .utf8) else {
-      return nil
+
+
+
+
+
+
+
+
+
+
+
+
+protocol StringFormatter {
+    func format(string: String) -> NSAttributedString?
+}
+
+struct AttributedText: UIViewRepresentable {
+    typealias UIViewType = UITextView
+    
+    @State
+    private var attributedText: NSAttributedString?
+    private let text: String
+    private let formatter: StringFormatter
+    private var delegate: UITextViewDelegate?
+    
+    init(_ text: String, _ formatter: StringFormatter, delegate: UITextViewDelegate? = nil) {
+        self.text = text
+        self.formatter = formatter
+        self.delegate = delegate
     }
     
-    if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-      return attributedString
-    } else{
-      return nil
+    func makeUIView(context: Context) -> UIViewType {
+        let view = ContentTextView()
+        view.setContentHuggingPriority(.defaultLow, for: .vertical)
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+      view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+      view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+//        view.contentInset = .zero
+        //view.textContainer.lineFragmentPadding = 0
+        view.delegate = delegate
+        view.backgroundColor = .clear
+        return view
     }
-  }
-}
+    
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        guard let attributedText = attributedText else {
+            generateAttributedText()
+            return
+        }
+        
+        uiView.attributedText = attributedText
+        uiView.invalidateIntrinsicContentSize()
+    }
+    
+    private func generateAttributedText() {
+        guard attributedText == nil else { return }
+        // create attributedText on main thread since HTML formatter will crash SwiftUI
+        DispatchQueue.main.async {
+            self.attributedText = self.formatter.format(string: self.text)
+        }
+    }
+    
+    /// ContentTextView
+    /// subclass of UITextView returning contentSize as intrinsicContentSize
+  private class ContentTextView: UITextView {
+      override var canBecomeFirstResponder: Bool { false }
+      
+      override var intrinsicContentSize: CGSize {
+          frame.height > 0 ? contentSize : super.intrinsicContentSize
+      }
+
+      init() {
+          super.init(frame: .zero, textContainer: nil)
+          setupAutoResizingMask()
+      }
+      
+      required init?(coder: NSCoder) {
+          fatalError("init(coder:) has not been implemented")
+      }
+
+      private func setupAutoResizingMask() {
+          // Set autoresizing mask to allow flexible width
+          autoresizingMask = [.flexibleWidth]
+      }
+  }}
+class HTMLFormatter: StringFormatter {
+        func format(string: String) -> NSAttributedString? {
+          var final: NSAttributedString?
+            guard let data = string.data(using: .utf8) else { return nil }
+                    do {
+                        let attributedText = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+                        
+                        // Define the desired font
+                        let font = UIFont(name: "YourFontName", size: 16) // Adjust the font name and size as per your requirement
+
+                        // Apply the font attribute to the entire attributed string
+                        let mutableAttributedText = NSMutableAttributedString(attributedString: attributedText)
+                        mutableAttributedText.addAttribute(NSAttributedString.Key.font, value: font ?? UIFont.systemFont(ofSize: 16), range: NSRange(location: 0, length: attributedText.length))
+                      mutableAttributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.label, range: NSRange(location: 0, length: attributedText.length))
+
+                     
+                      // Create a range that covers the entire string
+                     
+                      final = mutableAttributedText.attributedSubstring(from:  NSRange(location: 0, length: mutableAttributedText.string.count))
+                        // Now use 'mutableAttributedText' for further use
+                    } catch {
+                        print("Error converting HTML data to attributed string: \(error)")
+                    }
+            
+            return final
+        }
+    }
