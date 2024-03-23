@@ -93,7 +93,14 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
     fetchRequest.predicate = NSPredicate(format: "name == %@", name)
     let results = try? context.fetch(fetchRequest)
     if let container = results?.first {
-      container.game_ids = games.map { Int($0.moby_id) }
+      if container.game_ids != nil {
+        container.game_ids! += games.filter {
+          !container.game_ids!.contains(Int($0.moby_id))
+        }.map { Int($0.moby_id) }
+      } else {
+        container.game_ids! = games.map { Int($0.moby_id) }
+      }
+     
        try? context.save()
     }
   }

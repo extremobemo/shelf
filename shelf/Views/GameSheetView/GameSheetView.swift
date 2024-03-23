@@ -11,6 +11,7 @@ import Foundation
 
 struct AspectRatioImageView: View {
   let uiImage: UIImage
+  private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
   
   var body: some View {
     GeometryReader { geo in
@@ -34,6 +35,9 @@ struct AspectRatioImageView: View {
   }
 
 struct GameSheetView: View {
+  
+  private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+
   @Environment(\.dismiss) var dismiss
   @State private var favoriteColor = 0
   var game: Game
@@ -44,10 +48,13 @@ struct GameSheetView: View {
     ScrollView(content: {
       VStack(alignment: .leading) {
         if let screenshots = game.screenshots, let physical_media = game.cover_art {
+          
           CarouselView(images: physical_media + screenshots)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .frame(height: geo.frame(in: .global).size.height) //* 0.9)
-            .frame(maxHeight: 300) //550 for iPad, 300 for iPhone
+          
+            
+            .frame(maxHeight: getCarouselHeight()) //550 for iPad, 300 for iPhone
 
           Spacer().frame(height: 8)
           Picker("What is your favorite color?", selection: $favoriteColor) {
@@ -132,6 +139,14 @@ struct GameSheetView: View {
     .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 
     }
+  }
+  
+  private func getCarouselHeight() -> CGFloat {
+      if idiom == .pad {
+          return 550
+      } else {
+          return 300
+      }
   }
 }
 

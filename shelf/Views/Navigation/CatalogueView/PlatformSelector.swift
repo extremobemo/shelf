@@ -14,7 +14,7 @@ struct PlatformSelector: View {
   @Binding var searchedGame: String
   @Binding var selectingPlatform: Bool
   
-  @State private var searchText: String = ""
+  @State var searchText: String = ""
 
 
   init(shelfModel: ShelfModel, searchedGame: Binding<String>, selectingPlatform: Binding<Bool>) {
@@ -30,51 +30,108 @@ struct PlatformSelector: View {
       VStack {
         List() {
           Section() {
-            ForEach(shelfModel.getAllPlatforms(), id: \.self) { p in
-              Button(action: {
-                selectingPlatform = false
-                Task {
-                  do {
-                    await shelfModel.addGame(game: searchedGame,
-                                                         platform: p.platform_id ?? 0,
-                                                         platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here")
+            if searchText == "" {
+              
+              ForEach(shelfModel.getAllPlatforms(), id: \.self) { p in
+                
+                Button(action: {
+                  selectingPlatform = false
+                  Task {
+                    do {
+                      await shelfModel.addGame(game: searchedGame,
+                                                           platform: p.platform_id ?? 0,
+                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here")
+                    }
+                  }
+                }) {
+                  HStack {
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here"))
+                      .foregroundStyle(.white)
+  //                  Spacer()
+  //                  Image(systemName: "plus")
                   }
                 }
-              }) {
-                HStack {
-                  Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here"))
-                  Spacer()
-                  Image(systemName: "plus")
+              }
+            } else {
+              ForEach(shelfModel.getAllPlatforms().filter { p in
+                print(searchText)
+                return PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0)?.contains(searchText) == true
+              }, id: \.self) { p in
+                
+                Button(action: {
+                  selectingPlatform = false
+                  Task {
+                    do {
+                      await shelfModel.addGame(game: searchedGame,
+                                                           platform: p.platform_id ?? 0,
+                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here")
+                    }
+                  }
+                }) {
+                  HStack {
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here"))
+                      .foregroundStyle(.white)
+  //                  Spacer()
+  //                  Image(systemName: "plus")
+                  }
                 }
               }
             }
+
           } header: {
             Text("My platforms")
           }
           
           Section() {
-            let plats = PlatformLookup.getAllPlatformNames()
-            let names = plats.map { $0.0 }
-            let ids = plats.map { $0.1 }
-            ForEach(names.indices) { index in
-            
-              Button(action: {
-                selectingPlatform = false
-                Task {
-                  do {
-                    await shelfModel.addGame(game: searchedGame,
-                                                   platform: ids[index],
-                                                   platformString: names[index])
+            if searchText == "" {
+              let plats = PlatformLookup.getAllPlatformNames()
+              let names = plats.map { $0.0 }
+              let ids = plats.map { $0.1 }
+              ForEach(names.indices) { index in
+              
+                Button(action: {
+                  selectingPlatform = false
+                  Task {
+                    do {
+                      await shelfModel.addGame(game: searchedGame,
+                                                     platform: ids[index],
+                                                     platformString: names[index])
+                    }
+                  }
+                }) {
+                  HStack {
+                    Text(names[index]).foregroundStyle(.white)
                   }
                 }
-              }) {
-                HStack {
-                  Text(names[index])
-                  Spacer()
-                  Image(systemName: "plus")
+              }
+            } else {
+              let plats = PlatformLookup.getAllPlatformNames().filter { p in
+                return p.0.contains(searchText)
+              }
+              
+              let names = plats.map { $0.0 }
+              let ids = plats.map { $0.1 }
+              
+              ForEach(plats, id: \.0) { plat in
+              
+                Button(action: {
+                  selectingPlatform = false
+                  Task {
+                    do {
+                      await shelfModel.addGame(game: searchedGame,
+                                               platform: plat.1,
+                                               platformString: plat.0)
+                    }
+                  }
+                }) {
+                  HStack {
+                    // Text(plats[index].0)
+                    Text(plat.0).foregroundStyle(.white)
+                  }
                 }
               }
             }
+
           } header: {
             Text("Other")
           }

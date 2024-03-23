@@ -70,13 +70,14 @@ struct CatalogueView: View {
             if !yearMatchingGames.isEmpty {
               
               Text(String(year))
-                .font(.title2)
+                .font(.title)
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity, alignment: .leading)
               
               StandardMasonry(loadingNewGame: $loadingNewGame, showingScanner: $showingScanner, sortByYear: $sortByYear,
                               selectedGames: $selectedGames, selectMode: $selectMode,
                               matchingGames: yearMatchingGames)
+              Spacer().frame(height: 48)
             }
           }.searchable(text: $searchText)
         } else {
