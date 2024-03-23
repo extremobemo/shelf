@@ -11,6 +11,8 @@ import SwiftUIMasonry
 
 struct StandardMasonry: View {
   
+  private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+
   @Binding var loadingNewGame: Bool
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
@@ -20,18 +22,22 @@ struct StandardMasonry: View {
   let matchingGames: [Game]
   var body: some View {
     
-    Masonry(.vertical, lines: 3, horizontalSpacing: 8, verticalSpacing: 8) {
+    Masonry(.vertical, lines: getCarouselHeight(), horizontalSpacing: 8, verticalSpacing: 8) {
       ForEach(matchingGames) { game in
+        let cover_art = game.cover_art?.first
         if !selectMode {
           NavigationLink(destination: GameSheetView(game: game)) {
-            CardView(imageName: game.cover_art![0]).hoverEffect(.lift)
-              .onAppear { loadingNewGame = false }
-              .contextMenu {
-                GameContextView(game: game, selectedGames: selectedGames)
+            
+           
+              CardView(imageName: cover_art).hoverEffect(.lift)
+                .onAppear { loadingNewGame = false }
+                .contextMenu {
+                  GameContextView(game: game, selectedGames: selectedGames)
               }
+            
           }
         } else {
-          CardView(imageName: game.cover_art![0]).hoverEffect(.lift)
+          CardView(imageName: cover_art).hoverEffect(.lift)
             .onAppear { loadingNewGame = false }
             .contextMenu {
               GameContextView(game: game, selectedGames: selectedGames)
@@ -65,5 +71,13 @@ struct StandardMasonry: View {
         }
       }
     }.masonryPlacementMode(.order)
+  }
+  
+  private func getCarouselHeight() -> Int {
+      if idiom == .pad {
+          return 4
+      } else {
+          return 3
+      }
   }
 }

@@ -16,7 +16,8 @@ struct CarouselView: View {
   
   let images: [Data]
   let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-  
+  private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+
   var body: some View {
     GeometryReader { geo in
       ZStack {
@@ -35,7 +36,7 @@ struct CarouselView: View {
           .clipShape(RoundedRectangle(cornerRadius: 12))
           .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
           
-        }.frame(maxWidth: geo.size.width, maxHeight: 300)  // 550 for iPad, 300 for iPhone
+        }.frame(maxWidth: geo.size.width, maxHeight: getCarouselHeight())  // 550 for iPad, 300 for iPhone
           .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
       }
       
@@ -45,5 +46,13 @@ struct CarouselView: View {
         }
       }
     }
+  }
+  
+  private func getCarouselHeight() -> CGFloat {
+      if idiom == .pad {
+          return 550
+      } else {
+          return 300
+      }
   }
 }

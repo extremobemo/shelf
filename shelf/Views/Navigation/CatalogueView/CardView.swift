@@ -10,13 +10,20 @@ import SwiftUI
 struct CardView: View {
   @Environment(\.managedObjectContext) private var viewContext
   
-  let imageName: Data
+  let imageName: Data?
   var body: some View {
     
+    
     VStack {
-      Image(uiImage: UIImage(data: imageName)!)
-        .resizable()
-        .aspectRatio(contentMode: .fit)
+      if let data = imageName {
+        Image(uiImage: UIImage(data: data)!)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+      } else {
+        Image(systemName: "xmark")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+      }
     }
     .cornerRadius(4)
     .overlay( RoundedRectangle(cornerRadius: 4)

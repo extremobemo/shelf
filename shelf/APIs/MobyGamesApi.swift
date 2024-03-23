@@ -181,7 +181,7 @@ class MobyGamesApi {
     }
     
     let title = dict?["title"] as? String
-    return (desc!, screenshots, title!, base_genre, perspective, gameplay, releaseYear)
+    return (desc ?? "Description not available", screenshots, title!, base_genre, perspective, gameplay, releaseYear)
   }
   
   func getCoverArt(gameID: String, platformID: String) async throws -> [Data] {
