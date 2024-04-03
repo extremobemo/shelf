@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34140E2C2B94EE80008338D8 /* Carousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34140E2B2B94EE80008338D8 /* Carousel.swift */; };
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
 		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		34140E2B2B94EE80008338D8 /* Carousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carousel.swift; sourceTree = "<group>"; };
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
 		347485A42A870CE80039FED3 /* ShelfGamesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfGamesModel.xcdatamodel; sourceTree = "<group>"; };
 		34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyWebView.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				B5D50C0E2AB4FC3B00AE1C14 /* PageViewController.swift */,
 				B5D50C102AB4FDD200AE1C14 /* PhotoCard.swift */,
 				B5D50C122AB4FE5E00AE1C14 /* PageView.swift */,
+				34140E2B2B94EE80008338D8 /* Carousel.swift */,
 			);
 			path = PageView;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
 				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
 				B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */,
+				34140E2C2B94EE80008338D8 /* Carousel.swift in Sources */,
 				34AFBEAF2B54951700CA4BC4 /* MobyWebView.swift in Sources */,
 				347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */,
 				34FE46D728C1BC1000C75B10 /* CardView.swift in Sources */,

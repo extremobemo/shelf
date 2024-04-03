@@ -90,9 +90,7 @@ struct RootNavigationView: View {
               selectMode = false
             }) {
               HStack {
-                Text(shelf.name!)
-                Spacer()
-                Image(systemName: "plus")
+                Text(shelf.name!).foregroundStyle(.white)
               }
             }
           }
