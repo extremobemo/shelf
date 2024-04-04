@@ -60,6 +60,14 @@ struct CatalogueView: View {
         let matchingGames = matchingGames(shelfModel: shelfModel, customShelf: shelf.customShelf,
                                           searchText: searchText, platform_id: shelf.platform_id)
         
+        if shelfModel.games.count == 0 {
+          VStack {
+            Spacer()
+            Text("Add games to view collection").foregroundStyle(.gray)
+            Spacer()
+          }
+        }
+        
         if sortByYear {
           
           ForEach(shelfModel.years.sorted(), id: \.self) { year in
