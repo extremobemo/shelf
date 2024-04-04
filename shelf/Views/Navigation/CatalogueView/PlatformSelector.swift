@@ -40,15 +40,13 @@ struct PlatformSelector: View {
                     do {
                       await shelfModel.addGame(game: searchedGame,
                                                            platform: p.platform_id ?? 0,
-                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here")
+                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "error")
                     }
                   }
                 }) {
                   HStack {
-                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here"))
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any"))
                       .foregroundStyle(.white)
-  //                  Spacer()
-  //                  Image(systemName: "plus")
                   }
                 }
               }
@@ -64,15 +62,13 @@ struct PlatformSelector: View {
                     do {
                       await shelfModel.addGame(game: searchedGame,
                                                            platform: p.platform_id ?? 0,
-                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here")
+                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any")
                     }
                   }
                 }) {
                   HStack {
-                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "This one shouldn't be here"))
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "error"))
                       .foregroundStyle(.white)
-  //                  Spacer()
-  //                  Image(systemName: "plus")
                   }
                 }
               }
@@ -88,7 +84,6 @@ struct PlatformSelector: View {
               let names = plats.map { $0.0 }
               let ids = plats.map { $0.1 }
               ForEach(names.indices) { index in
-              
                 Button(action: {
                   selectingPlatform = false
                   Task {
