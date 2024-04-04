@@ -113,7 +113,7 @@ struct CatalogueView: View {
         WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
                 shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
                 searchedGame: $searchedGame).onDisappear() {
-          scannedGamePlatform = nil
+          // scannedGamePlatform = nil
         }
       } else {
         WebView(url: createGameSearchURL(scannedGameTitle: ""), loadingNewGame: $loadingNewGame,
