@@ -108,7 +108,8 @@ struct CatalogueView: View {
         }
       }
     }
-    .sheet(isPresented: $presentingMobySearch) {
+    
+    .fullScreenCover(isPresented: $presentingMobySearch) {
       if scannedGamePlatform != nil {
         WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
                 shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
