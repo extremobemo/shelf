@@ -103,10 +103,7 @@ struct PlatformSelector: View {
               let plats = PlatformLookup.getAllPlatformNames().filter { p in
                 return p.0.contains(searchText)
               }
-              
-              let names = plats.map { $0.0 }
-              let ids = plats.map { $0.1 }
-              
+                            
               ForEach(plats, id: \.0) { plat in
               
                 Button(action: {
