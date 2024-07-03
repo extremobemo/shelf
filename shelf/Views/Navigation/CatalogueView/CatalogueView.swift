@@ -98,6 +98,9 @@ struct CatalogueView: View {
     .onChange(of: selectedGame, initial: false) { _, _ in
       if selectedGame != nil { presentingGameInfoSheet = true }
     }
+//    .onChange(of: $selectedGames, initial: true) { _, _ in
+//      // selectedGames = []
+//    }
     .padding(EdgeInsets(top: 0, leading: 16.0, bottom: 0, trailing: 16.0))
     .sheet(isPresented: $presentingGameInfoSheet, onDismiss: {
       selectedGame = nil
@@ -146,7 +149,7 @@ func matchingGames(shelfModel: ShelfModel, customShelf: CustomShelf?,
       
     } else {
       if let games = customShelf?.game_ids {
-        if searchText == "" { return true }
+        if searchText == "", games.contains(where: { $0 == game.moby_id }) { return true }
         return games.contains(where: {
           $0 == game.moby_id &&
           game.title!.contains(searchText)
