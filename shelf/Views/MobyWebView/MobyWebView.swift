@@ -22,8 +22,6 @@ struct WebView: UIViewRepresentable {
   @Binding var presentingMobySearch: Bool
   @Binding var searchedGame: String
 
-
-  
   func updateUIView(_ webView: WKWebView, context: Context) {
     let request = URLRequest(url: url)
     webView.load(request)
@@ -53,7 +51,6 @@ struct WebView: UIViewRepresentable {
         if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
           self.parent.loadingNewGame = true
           if (parent.platform_name != nil) {
-            if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
               self.parent.isPresented = false
               if let id = PlatformLookup.getPlatformID(platform: parent.platform_name!) {
                 Task {
@@ -65,17 +62,17 @@ struct WebView: UIViewRepresentable {
                 }
               }
             }
-            }
           else {
-            if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
-              self.parent.presentingMobySearch = false
-              self.parent.selectingPlatform = true
-              self.parent.searchedGame = test[3]
-              
-              
-              
-              // GET CONSOLE TYPE FROM USER, THEN SAME AS ABOVE.
-            
+            if isValidMobyGamesURL(navigationAction.request.url?.absoluteString ?? "") {
+              if let test = navigationAction.request.url?.absoluteString.split(separator: "/").map({ String($0) }), test.count > 3 {
+                self.parent.presentingMobySearch = false
+                self.parent.selectingPlatform = true
+                self.parent.searchedGame = test[3]
+                // GET CONSOLE TYPE FROM USER, THEN SAME AS ABOVE.
+              }
+            } else {
+              self.parent.isPresented = false
+              // Probably should present some type of error to the user here. 
             }
           }
         }
@@ -83,4 +80,17 @@ struct WebView: UIViewRepresentable {
       decisionHandler(.allow)
     }
   }
+}
+
+func isValidMobyGamesURL(_ urlString: String) -> Bool {
+    // Regular expression pattern to match "https://www.mobygames.com/game/"
+    let pattern = #"^https:\/\/www\.mobygames\.com\/game\/.*"#
+    
+    // Create regular expression object
+    guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+        return false // Return false if regex object creation fails
+    }
+    
+    // Evaluate the URL against the regular expression
+    return regex.firstMatch(in: urlString, options: [], range: NSRange(location: 0, length: urlString.utf16.count)) != nil
 }
