@@ -138,15 +138,19 @@ struct CatalogueView: View {
 
 func matchingGames(shelfModel: ShelfModel, customShelf: CustomShelf?,
                    searchText: String, platform_id: Int?) -> [Game] {
+  
   return shelfModel.games.filter { game in
     if platform_id != nil {
       return (Int(game.platform_id!)! == platform_id ?? 0 || platform_id == 0)
       && (game.title!.contains(searchText) || searchText.isEmpty)
+      
     } else {
       if let games = customShelf?.game_ids {
-        if games.contains(where: { $0 == game.moby_id }) {
-          return true
-        } else { return false }
+        if searchText == "" { return true }
+        return games.contains(where: {
+          $0 == game.moby_id &&
+          game.title!.contains(searchText)
+        })
       } else {
         return false
       }
