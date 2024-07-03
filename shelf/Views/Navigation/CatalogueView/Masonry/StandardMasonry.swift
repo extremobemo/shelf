@@ -71,6 +71,9 @@ struct StandardMasonry: View {
         }
       }
     }.masonryPlacementMode(.order)
+      .onChange(of: selectMode) {
+        selectedGames = []
+      }
   }
   
   private func getCarouselHeight() -> Int {
