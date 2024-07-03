@@ -16,7 +16,6 @@ struct PlatformSelector: View {
   
   @State var searchText: String = ""
 
-
   init(shelfModel: ShelfModel, searchedGame: Binding<String>, selectingPlatform: Binding<Bool>) {
     
     self._searchedGame = searchedGame

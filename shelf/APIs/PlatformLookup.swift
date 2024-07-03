@@ -34,8 +34,6 @@ class PlatformLookup {
   
   static func getAllPlatformNames() -> [(String, Int)] {
     
-    //let result: [(String, Int)]
-    
     let platforms = loadJson(filename: "platform_ids")
     return (platforms?.map { ($0.platform_name, $0.platform_id) })!
   }
