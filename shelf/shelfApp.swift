@@ -14,6 +14,7 @@ struct shelf_projApp: App {
         WindowGroup {
             ContentView(shelfModel: ShelfModel(context: viewContext))
                 .environment(\.managedObjectContext, viewContext)
+                .preferredColorScheme(.dark)
         }
     }
 }
