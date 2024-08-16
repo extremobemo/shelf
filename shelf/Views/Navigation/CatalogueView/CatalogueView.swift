@@ -14,7 +14,7 @@ struct CatalogueView: View {
   
   @StateObject var shelfModel: ShelfModel
   private var shelf: Shelf
-
+  
   @State private var searchText: String = ""
   @State private var scannedGameTitle: String = ""
   @State private var scannedGamePlatform: String?
@@ -28,13 +28,14 @@ struct CatalogueView: View {
   @Binding var selectedGames: [Game]
   @Binding var selectMode: Bool
   @Binding var presentingMobySearch: Bool
+  @State private var shouldShowDisclaimer = true
   
   private var mga = MobyGamesApi()
   
   init(shelfModel: ShelfModel, shelf: Shelf, showingScanner: Binding<Bool>,
        selectMode: Binding<Bool>, sortByYear: Binding<Bool>, selectedGames: Binding<[Game]>,
        presentingMobySearch: Binding<Bool>) {
-  
+    
     self._showingScanner = showingScanner
     self._selectMode = selectMode
     self._presentingMobySearch = presentingMobySearch
@@ -114,15 +115,45 @@ struct CatalogueView: View {
     
     .fullScreenCover(isPresented: $presentingMobySearch) {
       if scannedGamePlatform != nil {
-        WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
-                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
-                searchedGame: $searchedGame).onDisappear() {
-          // scannedGamePlatform = nil
+        VStack {
+          HStack {
+            Spacer()
+            Button(action: {
+              presentingMobySearch = false
+            }) {
+              Text("Close").frame(height: 12).padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 8))
+            }
+          }
+          .frame(height: 16)
+          .shadow(radius: 0)
+          
+          WebView(url: createGameSearchURL(scannedGameTitle: scannedGameTitle), loadingNewGame: $loadingNewGame,
+                  shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
+                  searchedGame: $searchedGame)
+          .alert(isPresented: $shouldShowDisclaimer) {
+            Alert(title: Text("Redirecting to MobyGames"), message: Text("You are being redirected to an external website that is not affiliated with Shelf. Shelf is not responsible for the content or experience on the site."), dismissButton: .default(Text("Got it!")) )
+          }
         }
       } else {
-        WebView(url: createGameSearchURL(scannedGameTitle: ""), loadingNewGame: $loadingNewGame,
-                shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
-                searchedGame: $searchedGame)
+        VStack {
+          HStack {
+            Spacer()
+            Button(action: {
+              presentingMobySearch = false
+            }) {
+              Text("Close").frame(height: 12).padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 8))
+            }
+          }
+          .frame(height: 16)
+          .shadow(radius: 0)
+          
+          WebView(url: createGameSearchURL(scannedGameTitle: ""), loadingNewGame: $loadingNewGame,
+                  shelfModel: shelfModel, platform_name: scannedGamePlatform, isPresented: $presentingMobySearch, selectingPlatform: $selectingPlatform, presentingMobySearch: $presentingMobySearch,
+                  searchedGame: $searchedGame)
+          .alert(isPresented: $shouldShowDisclaimer) {
+            Alert(title: Text("Redirecting to MobyGames"), message: Text("You are being redirected to an external website that is not affiliated with Shelf. Shelf is not responsible for the content or experience on the site."), dismissButton: .default(Text("Got it!")) )
+          }
+        }
       }
     }
     
