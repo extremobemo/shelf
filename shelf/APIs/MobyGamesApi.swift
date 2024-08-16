@@ -39,12 +39,11 @@ class MobyGamesApi {
     let cover_groups: [CoverGroup]
   }
   
-  
   // Maybe this func makes more sense in ShelfModel ...
   func buildGame(gameID: String, platformID: String, platformString: String) async -> Void {
     if let entityDescription = NSEntityDescription.entity(forEntityName: "Game", in: CoreDataManager.shared.persistentStoreContainer.viewContext) {
       let newGame = NSManagedObject(entity: entityDescription, insertInto: nil) as! Game
-
+      
       do {
         let descriptionItems = try await getDescription(gameID: gameID, platID: platformID)
         do { sleep(1) } // Prevent API throttling
@@ -76,36 +75,33 @@ class MobyGamesApi {
   }
   
   func extractYear(from dateString: String) -> Int? {
-      let dateFormatter = DateFormatter()
-      dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Set the locale to ensure consistent date parsing
-      dateFormatter.timeZone = TimeZone(secondsFromGMT: 0) // Set the timezone to GMT for consistent results
-
-      // Define an array of date formats to try
-      let dateFormats = [
-          "yyyy/M/d",
-          "yyyy",
-          "yyyy-MM",
-          "yyyy-MM-d"
-          // Add more formats if needed
-      ]
-
-      // Loop through each date format and attempt to parse the date
-      for format in dateFormats {
-          dateFormatter.dateFormat = format
-          if let date = dateFormatter.date(from: dateString) {
-              // Date successfully parsed, extract the year
-              let calendar = Calendar.current
-              let year = calendar.component(.year, from: date)
-              return year
-          }
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Set the locale to ensure consistent date parsing
+    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0) // Set the timezone to GMT for consistent results
+    
+    // Define an array of date formats to try
+    let dateFormats = [
+      "yyyy/M/d",
+      "yyyy",
+      "yyyy-MM",
+      "yyyy-MM-d"
+      // Add more formats if needed
+    ]
+    
+    // Loop through each date format and attempt to parse the date
+    for format in dateFormats {
+      dateFormatter.dateFormat = format
+      if let date = dateFormatter.date(from: dateString) {
+        // Date successfully parsed, extract the year
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        return year
       }
-
-      // Unable to parse the date with any of the specified formats
-      return nil
+    }
+    
+    // Unable to parse the date with any of the specified formats
+    return nil
   }
-
-  // Example usage:
- 
   
   func getDescription(gameID: String, platID: String) async throws -> (String, [Data], String, String, String, String, Int64) {
     var screenshots: [Data] = []
@@ -125,14 +121,11 @@ class MobyGamesApi {
     if let platforms = dict?["platforms"] as? [[String: Any]] {
       for plat in platforms {
         if plat["platform_id"] as? Int == Int(platID) {
-          print("MATCHED PLAT ID!!!!!")
           if let year = extractYear(from: (plat["first_release_date"] as? String)!) {
-            print("Year: \(year)")
             releaseYear = Int64(year)
           } else {
-              print("Unable to extract year.")
+            // Something
           }
-          print()
         }
       }
     }
@@ -155,7 +148,7 @@ class MobyGamesApi {
         
       }
     } else {
-      print("Genres is nil or not in the expected format.")
+      // ("Genres is nil or not in the expected format.")
     }
     
     let perspective = (perspectives.map{String($0)}.joined(separator: ", "))
@@ -186,7 +179,7 @@ class MobyGamesApi {
   
   func getCoverArt(gameID: String, platformID: String) async throws -> [Data] {
     var art: [Data] = []
-
+    
     let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
     
     let (data, _) = try await URLSession.shared.data(from: getDescURL)
@@ -200,7 +193,9 @@ class MobyGamesApi {
     do {
       let responseData = try JSONDecoder().decode(ResponseData.self, from: jsonData)
       
-      if let firstCoverGroup = responseData.cover_groups.first {
+      if let firstCoverGroup = responseData.cover_groups.first(where: { cover_group in
+        cover_group.countries.contains(["United States"])
+      }) {
         firstCoverGroup.covers.forEach { cover in
           do {
             if let imageData = try? Data(contentsOf: cover.image) {
@@ -213,8 +208,7 @@ class MobyGamesApi {
         return art // No cover URL found
       }
     } catch {
-      print("Error decoding JSON: \(error)")
-      //throw SomeError("Error decoding JSON")
+      // Something
     }
     return art
   }
