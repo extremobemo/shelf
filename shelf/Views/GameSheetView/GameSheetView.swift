@@ -51,18 +51,10 @@ struct GameSheetView: View {
           
           CarouselView(images: physical_media + screenshots)
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .frame(height: geo.frame(in: .global).size.height) //* 0.9)
-          
-            
-            .frame(maxHeight: getCarouselHeight()) //550 for iPad, 300 for iPhone
+            .frame(height: geo.frame(in: .global).size.height)
+            .frame(maxHeight: getCarouselHeight())
 
           Spacer().frame(height: 8)
-          Picker("What is your favorite color?", selection: $favoriteColor) {
-            Text("All").tag(0)
-            Text("Physical").tag(1)
-            Text("Screenshots").tag(2)
-          }
-          .pickerStyle(.segmented)
         }
         
         Spacer().frame(height: 24)
@@ -80,6 +72,14 @@ struct GameSheetView: View {
         Text("Information").font(.title).fontWeight(.bold).foregroundStyle(.white)
         Spacer()
         VStack {
+          HStack {
+            Text("Release").foregroundStyle(.white)
+            Spacer()
+            Text(String(game.releaseYear)).foregroundStyle(.white)
+          }
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+          Divider()
           HStack {
             Text("Genre").foregroundStyle(.white)
             Spacer()
