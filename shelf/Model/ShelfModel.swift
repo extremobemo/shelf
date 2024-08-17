@@ -122,7 +122,7 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
           
           // Update each CustomShelf's list of games
           shelves.forEach { shelf in
-            if shelf.game_ids!.contains(Int(game.moby_id)) {
+            if ((shelf.game_ids?.contains(Int(game.moby_id))) == true) {
               shelf.game_ids?.removeAll(where: {$0 == Int(game.moby_id)})
               }
           }

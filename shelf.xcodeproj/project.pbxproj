@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		34140E2C2B94EE80008338D8 /* Carousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34140E2B2B94EE80008338D8 /* Carousel.swift */; };
 		342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342E7D3328C9A5F500DC00FC /* GameSheetView.swift */; };
+		34727B922C7116D70022B5AD /* CatalogueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34727B912C7116D10022B5AD /* CatalogueViewModel.swift */; };
+		34727B942C7117B60022B5AD /* DataScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34727B932C7117AF0022B5AD /* DataScannerViewModel.swift */; };
 		347485A52A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */; };
 		3486CA852C6FF4F300CB1875 /* CoverKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3486CA842C6FF4EA00CB1875 /* CoverKitView.swift */; };
 		348783AE2B53BC3C00B6415B /* SwiftUIMasonry in Frameworks */ = {isa = PBXBuildFile; productRef = 348783AD2B53BC3C00B6415B /* SwiftUIMasonry */; };
@@ -60,6 +62,8 @@
 /* Begin PBXFileReference section */
 		34140E2B2B94EE80008338D8 /* Carousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carousel.swift; sourceTree = "<group>"; };
 		342E7D3328C9A5F500DC00FC /* GameSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSheetView.swift; sourceTree = "<group>"; };
+		34727B912C7116D10022B5AD /* CatalogueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogueViewModel.swift; sourceTree = "<group>"; };
+		34727B932C7117AF0022B5AD /* DataScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerViewModel.swift; sourceTree = "<group>"; };
 		347485A42A870CE80039FED3 /* ShelfGamesModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfGamesModel.xcdatamodel; sourceTree = "<group>"; };
 		3486CA842C6FF4EA00CB1875 /* CoverKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverKitView.swift; sourceTree = "<group>"; };
 		34AFBEAE2B54951700CA4BC4 /* MobyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobyWebView.swift; sourceTree = "<group>"; };
@@ -122,6 +126,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34727B902C7116B30022B5AD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				34727B932C7117AF0022B5AD /* DataScannerViewModel.swift */,
+				34727B912C7116D10022B5AD /* CatalogueViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		34AFBEAD2B5494F000CA4BC4 /* MobyWebView */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,14 +152,15 @@
 			path = APIs;
 			sourceTree = "<group>";
 		};
-		34CC8C112A87047A00608807 /* Models */ = {
+		34CC8C112A87047A00608807 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				34727B902C7116B30022B5AD /* ViewModels */,
 				34C3540F2A88773000BB6B6B /* platform_ids.json */,
 				347485A32A870CE80039FED3 /* ShelfGamesModel.xcdatamodeld */,
 				34CC8C122A87049B00608807 /* ShelfModel.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		34D672ED2B886A3200121919 /* Masonry */ = {
@@ -233,7 +247,7 @@
 				34D672F22B8875FA00121919 /* Resources */,
 				B5C3887B2AB7B62D00641BA9 /* Classes */,
 				34C3540C2A8840E500BB6B6B /* APIs */,
-				34CC8C112A87047A00608807 /* Models */,
+				34CC8C112A87047A00608807 /* Model */,
 				34FE46A628C1B99D00C75B10 /* shelfApp.swift */,
 				B5D50C0C2AB4CDFE00AE1C14 /* Views */,
 			);
@@ -382,7 +396,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					34FE46A228C1B99D00C75B10 = {
 						CreatedOnToolsVersion = 14.0;
@@ -464,6 +478,7 @@
 				34D672FD2B89894000121919 /* HomeMenu.swift in Sources */,
 				34C3540E2A88410900BB6B6B /* MobyGamesApi.swift in Sources */,
 				34CB1A0A28E24CDC00AE3AC0 /* DataScannerViewController.swift in Sources */,
+				34727B922C7116D70022B5AD /* CatalogueViewModel.swift in Sources */,
 				B5D50C152AB642A200AE1C14 /* RootNavigationView.swift in Sources */,
 				B5D50C112AB4FDD200AE1C14 /* PhotoCard.swift in Sources */,
 				34140E2C2B94EE80008338D8 /* Carousel.swift in Sources */,
@@ -474,6 +489,7 @@
 				34D672FB2B8987FD00121919 /* CatalogueMenu.swift in Sources */,
 				34CC8C132A87049B00608807 /* ShelfModel.swift in Sources */,
 				34C354122A88778400BB6B6B /* PlatformLookup.swift in Sources */,
+				34727B942C7117B60022B5AD /* DataScannerViewModel.swift in Sources */,
 				34CC8C102A8701F400608807 /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -725,7 +741,6 @@
 		34FE46D128C1B99E00C75B10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -749,7 +764,6 @@
 		34FE46D228C1B99E00C75B10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -773,7 +787,6 @@
 		34FE46D428C1B99E00C75B10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -796,7 +809,6 @@
 		34FE46D528C1B99E00C75B10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;

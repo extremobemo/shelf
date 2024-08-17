@@ -12,7 +12,8 @@ import SwiftUIMasonry
 struct StandardMasonry: View {
   
   private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
-
+  @ObservedObject var shelfModel: ShelfModel
+  
   @Binding var loadingNewGame: Bool
   @Binding var showingScanner: Bool
   @Binding var sortByYear: Bool
@@ -20,6 +21,7 @@ struct StandardMasonry: View {
   @Binding var selectMode: Bool
   
   let matchingGames: [Game]
+  
   var body: some View {
     
     Masonry(.vertical, lines: getCarouselHeight(), horizontalSpacing: 8, verticalSpacing: 8) {
@@ -32,7 +34,7 @@ struct StandardMasonry: View {
               CardView(imageName: cover_art).hoverEffect(.lift)
                 .onAppear { loadingNewGame = false }
                 .contextMenu {
-                  GameContextView(game: game, selectedGames: selectedGames)
+                  GameContextView(game: game, selectedGames: selectedGames, shelfModel: shelfModel)
               }
             
           }
@@ -40,7 +42,7 @@ struct StandardMasonry: View {
           CardView(imageName: cover_art).hoverEffect(.lift)
             .onAppear { loadingNewGame = false }
             .contextMenu {
-              GameContextView(game: game, selectedGames: selectedGames)
+              GameContextView(game: game, selectedGames: selectedGames, shelfModel: shelfModel)
             }
             .onTapGesture{
               if !selectedGames.contains(game) {

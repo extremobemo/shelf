@@ -10,19 +10,19 @@ import SwiftUI
 
 struct CatalogueMenu: View {
   
-  @Binding var presentingMobySearch: Bool
-  @Binding var selectMode: Bool
-  @Binding var showingScanner: Bool
-  @Binding var sortByYear: Bool
-  @Binding var selectingDestination: Bool
+  @ObservedObject var viewModel: CatalogueViewModel
+  
+  init(viewModel: CatalogueViewModel) {
+      self.viewModel = viewModel
+  }
   
   var body: some View {
     
     Menu {
-      if !selectMode {
+      if !viewModel.selectMode {
         Menu("Add Game...") {
           Button(action: {
-            showingScanner = true
+            viewModel.showingScanner = true
           }) {
             HStack {
               Text("Scan Game")
@@ -30,7 +30,7 @@ struct CatalogueMenu: View {
             }
           }
           Button(action: {
-            presentingMobySearch = true
+            viewModel.presentingMobySearch = true
           }) {
             HStack {
               Text("Search")
@@ -38,29 +38,30 @@ struct CatalogueMenu: View {
             }
           }
         }
-        Button(action: { selectMode = true }) {
+        Button(action: { viewModel.selectMode = true }) {
           HStack {
             Text("Select")
             Image(systemName: "checkmark.circle")
           }
         }
-        Button(action: { sortByYear = !sortByYear }) {
+        Button(action: { viewModel.sortByYear = !viewModel.sortByYear }) {
           HStack {
             Text("Sort by Year")
             Image(systemName: "calendar.day.timeline.leading")
           }
         }
       } else {
-        Button(role: .destructive) { selectMode = false } label: {
+        Button(role: .destructive) { viewModel.selectMode = false } label: {
           Text("Cancel")
         }
-        Button(action: { sortByYear = !sortByYear }) {
+        Button(action: { viewModel.sortByYear = !viewModel.sortByYear }) {
           HStack {
             Text("Sort by Year")
             Image(systemName: "calendar.day.timeline.leading")
           }
         }
-        Button(action: { selectingDestination = true }) {
+        Button(action: { viewModel.selectingDestination = true
+        }) {
           HStack {
             Text("Add to...")
             Image(systemName: "plus")

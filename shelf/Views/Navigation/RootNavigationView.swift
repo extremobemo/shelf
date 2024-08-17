@@ -7,13 +7,13 @@
 
 import Foundation
 import SwiftUI
+
 struct RootNavigationView: View {
   
   @ObservedObject private var shelfModel: ShelfModel
+  
   private var platforms: [Shelf]
   private var shelves: [Shelf]
-  
-  let gamecount: String
   
   @State private var selectedGames: [Game] = []
   @State private var shelfName: String = ""
@@ -28,6 +28,9 @@ struct RootNavigationView: View {
   @State var sortByYear = false
   @State var selectMode = false
   @State var presentingMobySearch = false
+  
+  let gamecount: String
+  @StateObject private var catalogueViewModel = CatalogueViewModel()
   
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
@@ -69,35 +72,18 @@ struct RootNavigationView: View {
       }.listStyle(.sidebar)
     }
     detail: {
-      CatalogueView(shelfModel: shelfModel, shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
-                    showingScanner: $showingScanner, selectMode: $selectMode, sortByYear: $sortByYear,
-                    selectedGames: $selectedGames, presentingMobySearch: $presentingMobySearch).navigationTitle((PlatformLookup.getPlaformName(platformID:
-                                                                                                                                                selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
-                      ToolbarItem() {
-                        CatalogueMenu(presentingMobySearch: $presentingMobySearch,selectMode: $selectMode,
-                                      showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
-                      }
-                    }
-    }.sheet(isPresented: $selectingDestination) {
-      NavigationView {
-        VStack {
-          List() {
-            ForEach(shelves, id: \.self) { shelf in
-              Button(action: {
-                shelfModel.addGamesToShelf(shelf: shelf, games: selectedGames)
-                selectingDestination = false
-                selectMode = false
-              }) {
-                HStack {
-                  Text(shelf.name!).foregroundStyle(.white)
-                }
-              }
-            }
+      CatalogueView(
+          shelfModel: shelfModel,
+          shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
+          catalogueModel: catalogueViewModel
+      )
+      .navigationTitle("All")
+      .toolbar { // Ensure the .toolbar block is correct
+          ToolbarItem(placement: .navigationBarTrailing) { // Ensure the correct placement is used
+              CatalogueMenu(
+                viewModel: catalogueViewModel
+              )
           }
-        }
-        .navigationTitle("Add to...")
-        .navigationBarItems(trailing: Button("Cancel",
-                                             action: {}))
       }
     }
   }

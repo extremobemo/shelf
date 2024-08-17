@@ -20,10 +20,7 @@ struct ConsoleListRow: View {
       Spacer()
       Capsule()
         .fill(Color(UIColor.systemGray5))
-        .overlay(
-          Text(String(count))
-            .font(.system(size: 12, weight: .medium))
-        )
+        .overlay(Text(String(count)).font(.system(size: 12, weight: .medium)))
         .frame(width: 36, height: 24, alignment: .center)
       Image(systemName: "chevron.right")
     }
