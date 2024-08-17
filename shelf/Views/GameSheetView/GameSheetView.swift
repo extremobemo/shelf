@@ -48,11 +48,12 @@ struct GameSheetView: View {
     ScrollView(content: {
       VStack(alignment: .leading) {
         if let screenshots = game.screenshots, let physical_media = game.cover_art {
+          CoverKitView(front: UIImage(data: physical_media[0])!, back: UIImage(data: physical_media[1])!).frame(height: getCarouselHeight())
           
-          CarouselView(images: physical_media + screenshots)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .frame(height: geo.frame(in: .global).size.height)
-            .frame(maxHeight: getCarouselHeight())
+//          CarouselView(images: screenshots)
+//            .clipShape(RoundedRectangle(cornerRadius: 12))
+//            .frame(height: geo.frame(in: .global).size.height)
+//            .frame(maxHeight: getCarouselHeight())
 
           Spacer().frame(height: 8)
         }

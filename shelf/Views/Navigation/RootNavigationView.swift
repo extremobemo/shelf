@@ -28,7 +28,6 @@ struct RootNavigationView: View {
   @State var sortByYear = false
   @State var selectMode = false
   @State var presentingMobySearch = false
-
   
   init(shelfModel: ShelfModel) {
     self.shelfModel = shelfModel
@@ -69,39 +68,38 @@ struct RootNavigationView: View {
         }
       }.listStyle(.sidebar)
     }
-  detail: {
-    CatalogueView(shelfModel: shelfModel, shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
-                  showingScanner: $showingScanner, selectMode: $selectMode, sortByYear: $sortByYear,
-                  selectedGames: $selectedGames, presentingMobySearch: $presentingMobySearch).navigationTitle((PlatformLookup.getPlaformName(platformID:
-                                                                                                  selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
-                    ToolbarItem() {
-                      CatalogueMenu(presentingMobySearch: $presentingMobySearch,selectMode: $selectMode,
-                                    showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
+    detail: {
+      CatalogueView(shelfModel: shelfModel, shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
+                    showingScanner: $showingScanner, selectMode: $selectMode, sortByYear: $sortByYear,
+                    selectedGames: $selectedGames, presentingMobySearch: $presentingMobySearch).navigationTitle((PlatformLookup.getPlaformName(platformID:
+                                                                                                                                                selection?.platform_id ?? 0) ?? selection?.customShelf?.name) ?? "All").toolbar {
+                      ToolbarItem() {
+                        CatalogueMenu(presentingMobySearch: $presentingMobySearch,selectMode: $selectMode,
+                                      showingScanner: $showingScanner, sortByYear: $sortByYear, selectingDestination: $selectingDestination)
+                      }
                     }
-                  }
-  }.sheet(isPresented: $selectingDestination) {
-    NavigationView {
-      VStack {
-        List() {
-          ForEach(shelves, id: \.self) { shelf in
-            Button(action: {
-              shelfModel.addGamesToShelf(shelf: shelf, games: selectedGames)
-              selectingDestination = false
-              selectMode = false
-            }) {
-              HStack {
-                Text(shelf.name!).foregroundStyle(.white)
+    }.sheet(isPresented: $selectingDestination) {
+      NavigationView {
+        VStack {
+          List() {
+            ForEach(shelves, id: \.self) { shelf in
+              Button(action: {
+                shelfModel.addGamesToShelf(shelf: shelf, games: selectedGames)
+                selectingDestination = false
+                selectMode = false
+              }) {
+                HStack {
+                  Text(shelf.name!).foregroundStyle(.white)
+                }
               }
             }
           }
         }
+        .navigationTitle("Add to...")
+        .navigationBarItems(trailing: Button("Cancel",
+                                             action: {}))
       }
-      .navigationTitle("Add to...")
-      .navigationBarItems(trailing: Button("Cancel",
-                                           action: {}))
     }
   }
-  }
-  
 }
 

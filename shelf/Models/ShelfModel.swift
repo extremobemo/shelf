@@ -16,6 +16,8 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
   let shelfItemController: NSFetchedResultsController<CustomShelf>
 
   @Published var games: [Game] = []
+  @Published var shelves: [CustomShelf] = []
+  
   @Published var years: [Int64] = []
   
   private let context: NSManagedObjectContext
@@ -45,6 +47,7 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
       try itemController.performFetch()
       try shelfItemController.performFetch()
       games = itemController.fetchedObjects ?? []
+      shelves = shelfItemController.fetchedObjects ?? []
       years = getAllYears()
     } catch {
       print("failed to fetch items")
@@ -113,11 +116,21 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
   }
   
   func deleteGame(games: [Game]) {
-    games.forEach { game in
-      self.context.delete(game)
-    }
-    try? self.context.save()
-    self.context.refreshAllObjects()
+      games.forEach { game in
+          // Delete the game from the context
+          self.context.delete(game)
+          
+          // Update each CustomShelf's list of games
+          shelves.forEach { shelf in
+            if shelf.game_ids!.contains(Int(game.moby_id)) {
+              shelf.game_ids?.removeAll(where: {$0 == Int(game.moby_id)})
+              }
+          }
+      }
+      
+      // Save the context and refresh all objects
+      try? self.context.save()
+      self.context.refreshAllObjects()
   }
   
   func getAllPlatforms() -> [Shelf] {
