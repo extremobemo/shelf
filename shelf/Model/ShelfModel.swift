@@ -133,7 +133,7 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
       self.context.refreshAllObjects()
   }
   
-  func getAllPlatforms() -> [Shelf] {
+  func getAllPlatforms(forPlatforPicker: Bool = false) -> [Shelf] {
     var platforms: [Shelf] = []
     let request: NSFetchRequest<Game> = Game.fetchRequest()
     request.returnsObjectsAsFaults = false
@@ -148,7 +148,7 @@ class ShelfModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate
         }
       }
     }
-    return [Shelf(name: "All", platform_id: 0, customShelf: nil)] + platforms
+    return forPlatforPicker ? platforms : [Shelf(name: "All", platform_id: 0, customShelf: nil)] + platforms
   }
   
   func getGameCountForPlatform(platform: Int) -> Int {

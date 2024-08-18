@@ -28,6 +28,7 @@
 		34D672FD2B89894000121919 /* HomeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D672FC2B89894000121919 /* HomeMenu.swift */; };
 		34E7733D2B56180A00C0AC94 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E7733C2B56180A00C0AC94 /* CloudKit.framework */; };
 		34E8984D2B8A96D100E58703 /* PlatformSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E8984C2B8A96D100E58703 /* PlatformSelector.swift */; };
+		34EB0CA52C717F9F003463DE /* GameContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EB0CA42C717F8F003463DE /* GameContext.swift */; };
 		34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46A628C1B99D00C75B10 /* shelfApp.swift */; };
 		34FE46AE28C1B99D00C75B10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE46AD28C1B99D00C75B10 /* ContentView.swift */; };
 		34FE46B028C1B99E00C75B10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE46AF28C1B99E00C75B10 /* Assets.xcassets */; };
@@ -81,6 +82,7 @@
 		34D672FC2B89894000121919 /* HomeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenu.swift; sourceTree = "<group>"; };
 		34E7733C2B56180A00C0AC94 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		34E8984C2B8A96D100E58703 /* PlatformSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSelector.swift; sourceTree = "<group>"; };
+		34EB0CA42C717F8F003463DE /* GameContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameContext.swift; sourceTree = "<group>"; };
 		34FE46A328C1B99D00C75B10 /* shelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE46A628C1B99D00C75B10 /* shelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shelfApp.swift; sourceTree = "<group>"; };
 		34FE46AD28C1B99D00C75B10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		34D672F92B89877E00121919 /* ContextMenus */ = {
 			isa = PBXGroup;
 			children = (
+				34EB0CA42C717F8F003463DE /* GameContext.swift */,
 				34D672FA2B8987FD00121919 /* CatalogueMenu.swift */,
 				34D672FC2B89894000121919 /* HomeMenu.swift */,
 			);
@@ -467,6 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3486CA852C6FF4F300CB1875 /* CoverKitView.swift in Sources */,
+				34EB0CA52C717F9F003463DE /* GameContext.swift in Sources */,
 				34D672F72B89326E00121919 /* CustomShelfListRow.swift in Sources */,
 				34FE46A728C1B99D00C75B10 /* shelfApp.swift in Sources */,
 				342E7D3428C9A5F500DC00FC /* GameSheetView.swift in Sources */,

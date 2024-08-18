@@ -15,19 +15,20 @@ struct RootNavigationView: View {
   private var platforms: [Shelf]
   private var shelves: [Shelf]
   
-  @State private var selectedGames: [Game] = []
   @State private var shelfName: String = ""
   @State private var presentAlert = false
   @State var showingScanner = false
-  @State var selection: Shelf? = Shelf(name: "All", platform_id: 0, customShelf: nil)
   
   @State var showingSection1 = true
   @State var showingSection2 = true
   @State var selectingDestination = false
   
   @State var sortByYear = false
-  @State var selectMode = false
   @State var presentingMobySearch = false
+  
+  @State private var hasAppeared = false
+  
+  @State private var lastShelf: Shelf?
   
   let gamecount: String
   @StateObject private var catalogueViewModel = CatalogueViewModel()
@@ -42,7 +43,7 @@ struct RootNavigationView: View {
   var body: some View {
     NavigationSplitView() {
       
-      List(selection: $selection) {
+      List(selection: $catalogueViewModel.selection) {
         
         Section() {
           if showingSection1 {
@@ -65,6 +66,19 @@ struct RootNavigationView: View {
         }
         
       }
+      .onChange(of: catalogueViewModel.selection) {
+        if lastShelf == nil {
+          lastShelf = catalogueViewModel.selection
+        }
+      }
+      .onAppear {
+        if lastShelf == nil {
+          if let firstPlatform = platforms.first {
+            catalogueViewModel.selection = firstPlatform
+          }
+        }
+      }
+      
       .navigationTitle("Shelf").toolbar {
         ToolbarItem() {
           HomeMenu(shelfModel: shelfModel, presentAlert: $presentAlert, shelfName: $shelfName)
@@ -73,17 +87,22 @@ struct RootNavigationView: View {
     }
     detail: {
       CatalogueView(
-          shelfModel: shelfModel,
-          shelf: selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
-          catalogueModel: catalogueViewModel
+        shelfModel: shelfModel,
+        shelf: catalogueViewModel.selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
+        catalogueModel: catalogueViewModel
       )
       .navigationTitle("All")
       .toolbar { // Ensure the .toolbar block is correct
-          ToolbarItem(placement: .navigationBarTrailing) { // Ensure the correct placement is used
-              CatalogueMenu(
-                viewModel: catalogueViewModel
-              )
+        ToolbarItem(placement: .navigationBarTrailing) {
+          CatalogueMenu(
+            viewModel: catalogueViewModel
+          )
+        }
+        ToolbarItem() {
+          if catalogueViewModel.loadingNewGame {
+            ProgressView()
           }
+        }
       }
     }
   }

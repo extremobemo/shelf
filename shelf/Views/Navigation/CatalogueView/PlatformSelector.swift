@@ -31,7 +31,7 @@ struct PlatformSelector: View {
           Section() {
             if searchText == "" {
               
-              ForEach(shelfModel.getAllPlatforms(), id: \.self) { p in
+              ForEach(shelfModel.getAllPlatforms(forPlatforPicker: true), id: \.self) { p in
                 
                 Button(action: {
                   selectingPlatform = false
@@ -43,7 +43,7 @@ struct PlatformSelector: View {
                   }
                 }) {
                   HStack {
-                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any"))
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "REMOVE???"))
                       .foregroundStyle(.white)
                   }
                 }

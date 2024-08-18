@@ -12,51 +12,46 @@ import SwiftUIMasonry
 struct StandardMasonry: View {
   
   private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+  
   @ObservedObject var shelfModel: ShelfModel
+  @ObservedObject var catalogueDataModel: CatalogueViewModel
   
-  @Binding var loadingNewGame: Bool
-  @Binding var showingScanner: Bool
-  @Binding var sortByYear: Bool
-  @Binding var selectedGames: [Game]
-  @Binding var selectMode: Bool
-  
-  let matchingGames: [Game]
+  var games: [Game]
   
   var body: some View {
     
     Masonry(.vertical, lines: getCarouselHeight(), horizontalSpacing: 8, verticalSpacing: 8) {
-      ForEach(matchingGames) { game in
+      ForEach(games, id: \.self) { (game: Game) in
         let cover_art = game.cover_art?.first
-        if !selectMode {
+        if !catalogueDataModel.selectMode {
           NavigationLink(destination: GameSheetView(game: game)) {
-            
-           
-              CardView(imageName: cover_art).hoverEffect(.lift)
-                .onAppear { loadingNewGame = false }
-                .contextMenu {
-                  GameContextView(game: game, selectedGames: selectedGames, shelfModel: shelfModel)
+            CardView(imageName: cover_art).hoverEffect(.lift)
+              .onAppear {
+                catalogueDataModel.loadingNewGame = false
               }
-            
+              .contextMenu {
+                GameContextView(game: game, selectedGames: catalogueDataModel.selectedGames, shelfModel: shelfModel)
+              }
           }
         } else {
           CardView(imageName: cover_art).hoverEffect(.lift)
-            .onAppear { loadingNewGame = false }
+            .onAppear { catalogueDataModel.loadingNewGame = false }
             .contextMenu {
-              GameContextView(game: game, selectedGames: selectedGames, shelfModel: shelfModel)
+              GameContextView(game: game, selectedGames: catalogueDataModel.selectedGames, shelfModel: shelfModel)
             }
             .onTapGesture{
-              if !selectedGames.contains(game) {
-                selectedGames.append(game)
+              if !catalogueDataModel.selectedGames.contains(game) {
+                catalogueDataModel.selectedGames.append(game)
               } else {
-                selectedGames.removeAll(where: { $0 == game })
-                if selectedGames.count == 0 {
-                  selectMode = false
+                catalogueDataModel.selectedGames.removeAll(where: { $0 == game })
+                if catalogueDataModel.selectedGames.count == 0 {
+                  catalogueDataModel.selectMode = false
                 }
               }
             }
-            .opacity(selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
+            .opacity(catalogueDataModel.selectedGames.contains(where: { $0 == game }) ? 0.4 : 1.0)
             .overlay(alignment: .bottomTrailing) {
-              if selectedGames.contains(where: { $0 == game }) {
+              if catalogueDataModel.selectedGames.contains(where: { $0 == game }) {
                 Circle()
                   .stroke(.white, lineWidth: 4)
                   .fill(.blue)
@@ -73,16 +68,16 @@ struct StandardMasonry: View {
         }
       }
     }.masonryPlacementMode(.order)
-      .onChange(of: selectMode) {
-        selectedGames = []
+      .onChange(of: catalogueDataModel.selectMode) {
+        catalogueDataModel.selectedGames = []
       }
   }
   
   private func getCarouselHeight() -> Int {
-      if idiom == .pad {
-          return 4
-      } else {
-          return 3
-      }
+    if idiom == .pad {
+      return 4
+    } else {
+      return 3
+    }
   }
 }
