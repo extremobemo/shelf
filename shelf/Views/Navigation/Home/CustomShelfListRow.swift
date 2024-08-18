@@ -22,9 +22,14 @@ struct CustomShelfListRow: View {
           try? CoreDataManager.shared.persistentStoreContainer.viewContext.save()
           CoreDataManager.shared.persistentStoreContainer.viewContext.refreshAllObjects()
         }) { Text("Delete") }
-        Button(action: { }) { Text("Rename") }
+        
+        Button(action: {
+            // Rename custom shelf
+        }) { Text("Rename") }
       }
+      
       Spacer()
+      
       Capsule()
         .fill(Color(UIColor.systemGray5))
         .overlay(

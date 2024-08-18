@@ -13,7 +13,6 @@ struct CardView: View {
   let imageName: Data?
   var body: some View {
     
-    
     VStack {
       if let data = imageName {
         Image(uiImage: UIImage(data: data)!)
@@ -27,10 +26,6 @@ struct CardView: View {
     }
     .cornerRadius(4)
     .overlay( RoundedRectangle(cornerRadius: 4)
-      .stroke(Color(.sRGB,
-                    red: 150/255,
-                    green: 150/255,
-                    blue: 150/255,
-                    opacity: 0.3), lineWidth: 1))
+    .stroke(Color(.sRGB, red: 150/255, green: 150/255, blue: 150/255, opacity: 0.3), lineWidth: 1))
   }
 }

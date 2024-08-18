@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 struct PlatformSelector: View {
- 
+  
   @StateObject var shelfModel: ShelfModel
   @Binding var searchedGame: String
   @Binding var selectingPlatform: Bool
   
   @State var searchText: String = ""
-
+  
   init(shelfModel: ShelfModel, searchedGame: Binding<String>, selectingPlatform: Binding<Bool>) {
     
     self._searchedGame = searchedGame
@@ -23,7 +23,7 @@ struct PlatformSelector: View {
     
     _shelfModel = StateObject(wrappedValue: shelfModel)
   }
- 
+  
   var body: some View {
     NavigationView {
       VStack {
@@ -31,20 +31,19 @@ struct PlatformSelector: View {
           Section() {
             if searchText == "" {
               
-              ForEach(shelfModel.getAllPlatforms(), id: \.self) { p in
+              ForEach(shelfModel.getAllPlatforms(forPlatforPicker: true), id: \.self) { p in
                 
                 Button(action: {
                   selectingPlatform = false
                   Task {
                     do {
-                      await shelfModel.addGame(game: searchedGame,
-                                                           platform: p.platform_id ?? 0,
-                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "error")
+                      await shelfModel.addGame(game: searchedGame, platform: p.platform_id ?? 0,
+                                               platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "error")
                     }
                   }
                 }) {
                   HStack {
-                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any"))
+                    Text(String(PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "REMOVE???"))
                       .foregroundStyle(.white)
                   }
                 }
@@ -59,9 +58,8 @@ struct PlatformSelector: View {
                   selectingPlatform = false
                   Task {
                     do {
-                      await shelfModel.addGame(game: searchedGame,
-                                                           platform: p.platform_id ?? 0,
-                                                           platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any")
+                      await shelfModel.addGame(game: searchedGame, platform: p.platform_id ?? 0,
+                                               platformString: PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0) ?? "Any")
                     }
                   }
                 }) {
@@ -72,7 +70,7 @@ struct PlatformSelector: View {
                 }
               }
             }
-
+            
           } header: {
             Text("My platforms")
           }
@@ -88,8 +86,8 @@ struct PlatformSelector: View {
                   Task {
                     do {
                       await shelfModel.addGame(game: searchedGame,
-                                                     platform: ids[index],
-                                                     platformString: names[index])
+                                               platform: ids[index],
+                                               platformString: names[index])
                     }
                   }
                 }) {
@@ -102,9 +100,9 @@ struct PlatformSelector: View {
               let plats = PlatformLookup.getAllPlatformNames().filter { p in
                 return p.0.contains(searchText)
               }
-                            
-              ForEach(plats, id: \.0) { plat in
               
+              ForEach(plats, id: \.0) { plat in
+                
                 Button(action: {
                   selectingPlatform = false
                   Task {
@@ -122,13 +120,13 @@ struct PlatformSelector: View {
                 }
               }
             }
-
+            
           } header: {
             Text("Other")
           }
         } .searchable(text: $searchText)
       }
-     
+      
       .navigationTitle("Select Platform...")
     }
   }

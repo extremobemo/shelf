@@ -10,8 +10,7 @@ import SwiftUI
 
 struct PhotoCard: View {
   var photo: UIImage
-    var body: some View {
-      Image(uiImage: photo).resizable()
-            .aspectRatio(contentMode: .fit)
-    }
+  var body: some View {
+    Image(uiImage: photo).resizable().aspectRatio(contentMode: .fit)
+  }
 }

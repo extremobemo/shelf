@@ -199,7 +199,9 @@ class MobyGamesApi {
         firstCoverGroup.covers.forEach { cover in
           do {
             if let imageData = try? Data(contentsOf: cover.image) {
-              art.append(imageData)
+              if (cover.scan_of.contains("Front") || cover.scan_of.contains("Back")) {
+                art.append(imageData)
+              }
             }
           }
         }
