@@ -15,7 +15,7 @@ struct GameContextView: View {
   
   var body: some View {
     Button {
-      shelfModel.deleteGame(games: selectedGames)
+      shelfModel.deleteGame(games: selectedGames.count > 1 ? selectedGames : [game])
     } label: {
       Label("Delete Game", systemImage: "trash")
     }
