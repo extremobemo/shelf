@@ -91,7 +91,8 @@ struct RootNavigationView: View {
         shelf: catalogueViewModel.selection ?? Shelf(name: nil, platform_id: nil, customShelf: nil),
         catalogueModel: catalogueViewModel
       )
-      .navigationTitle("All")
+      .navigationTitle((catalogueViewModel.selection?.name ?? PlatformLookup.getPlaformName(platformID: catalogueViewModel.selection?.platform_id ?? 0)) ?? "0")
+      
       .toolbar { // Ensure the .toolbar block is correct
         ToolbarItem(placement: .navigationBarTrailing) {
           CatalogueMenu(

@@ -28,7 +28,7 @@ struct CoverKitView: UIViewRepresentable {
     
     let cameraNode = SCNNode()
     cameraNode.camera = SCNCamera()
-    cameraNode.position = SCNVector3(x: 0, y: 0, z: 7)
+    cameraNode.position = SCNVector3(x: 0, y: 0, z: 8)
     scene.rootNode.addChildNode(cameraNode)
     
     let material = SCNMaterial()

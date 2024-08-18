@@ -51,7 +51,7 @@ struct PlatformSelector: View {
             } else {
               ForEach(shelfModel.getAllPlatforms().filter { p in
                 print(searchText)
-                return PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0)?.contains(searchText) == true
+                return PlatformLookup.getPlaformName(platformID: p.platform_id ?? 0)?.lowercased().contains(searchText.lowercased()) == true
               }, id: \.self) { p in
                 
                 Button(action: {
@@ -98,7 +98,7 @@ struct PlatformSelector: View {
               }
             } else {
               let plats = PlatformLookup.getAllPlatformNames().filter { p in
-                return p.0.contains(searchText)
+                return p.0.lowercased().contains(searchText.lowercased())
               }
               
               ForEach(plats, id: \.0) { plat in
@@ -124,7 +124,7 @@ struct PlatformSelector: View {
           } header: {
             Text("Other")
           }
-        } .searchable(text: $searchText)
+        }.searchable(text: $searchText)
       }
       
       .navigationTitle("Select Platform...")

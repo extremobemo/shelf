@@ -20,24 +20,27 @@ struct CatalogueMenu: View {
     
     Menu {
       if !viewModel.selectMode {
-        Menu("Add Game...") {
-          Button(action: {
-            viewModel.showingScanner = true
-          }) {
-            HStack {
-              Text("Scan Game")
-              Image(systemName: "barcode.viewfinder")
+        if viewModel.selection?.customShelf == nil {
+          Menu("Add Game...") {
+            Button(action: {
+              viewModel.showingScanner = true
+            }) {
+              HStack {
+                Text("Scan Game")
+                Image(systemName: "barcode.viewfinder")
+              }
             }
-          }
-          Button(action: {
-            viewModel.presentingMobySearch = true
-          }) {
-            HStack {
-              Text("Search")
-              Image(systemName: "magnifyingglass")
+            Button(action: {
+              viewModel.presentingMobySearch = true
+            }) {
+              HStack {
+                Text("Search")
+                Image(systemName: "magnifyingglass")
+              }
             }
           }
         }
+       
         Button(action: { viewModel.selectMode = true }) {
           HStack {
             Text("Select")
@@ -54,12 +57,7 @@ struct CatalogueMenu: View {
         Button(role: .destructive) { viewModel.selectMode = false } label: {
           Text("Cancel")
         }
-        Button(action: { viewModel.sortByYear = !viewModel.sortByYear }) {
-          HStack {
-            Text("Sort by Year")
-            Image(systemName: "calendar.day.timeline.leading")
-          }
-        }
+        
         Button(action: { viewModel.selectingDestination = true
         }) {
           HStack {

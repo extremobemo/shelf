@@ -26,14 +26,14 @@ class CatalogueViewModel: ObservableObject {
       
       if let year = year {
         return (Int(game.platform_id!)! == selection?.platform_id ?? 0 || selection?.platform_id == 0)
-        && (game.title!.contains(searchText) || searchText.isEmpty) && game.releaseYear == year
+        && (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty) && game.releaseYear == year
       } else {
         
         if ((selection?.customShelf?.game_ids?.isEmpty) == false) {
           return (selection?.customShelf?.game_ids?.contains(Int(game.moby_id))) == true
         }
         
-        return (Int(game.platform_id!)! == selection?.platform_id ?? 0 || selection?.platform_id == 0) && (game.title!.contains(searchText) || searchText.isEmpty)
+        return (Int(game.platform_id!)! == selection?.platform_id ?? 0 || selection?.platform_id == 0) && (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty)
       }
     }
   }
