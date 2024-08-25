@@ -23,16 +23,18 @@ class CatalogueViewModel: ObservableObject {
   
   func matchingGames(shelfModel: ShelfModel, year: Int? = nil) -> [Game] {
     return shelfModel.games.filter { game in
-      
       if let year = year {
+        if ((selection?.customShelf?.game_ids?.isEmpty) == false) {
+          return (selection?.customShelf?.game_ids?.contains(Int(game.moby_id))) == true
+          && (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty) && game.releaseYear == year
+        }
         return (Int(game.platform_id!)! == selection?.platform_id ?? 0 || selection?.platform_id == 0)
         && (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty) && game.releaseYear == year
       } else {
-        
-        if ((selection?.customShelf?.game_ids?.isEmpty) == false) {
-          return (selection?.customShelf?.game_ids?.contains(Int(game.moby_id))) == true
+        if selection?.customShelf != nil {
+          return (selection?.customShelf?.game_ids?.contains(Int(game.moby_id))) == true &&
+          (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty)
         }
-        
         return (Int(game.platform_id!)! == selection?.platform_id ?? 0 || selection?.platform_id == 0) && (game.title!.lowercased().contains(searchText.lowercased()) || searchText.isEmpty)
       }
     }

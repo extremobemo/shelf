@@ -40,6 +40,7 @@ struct HomeMenu: View {
         Button("Create", action: {
           Task {
             await shelfModel.createNewShelf(shelfName: shelfName)
+            shelfName = ""
           }
         })
       })

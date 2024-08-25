@@ -65,6 +65,7 @@ struct WebView: UIViewRepresentable {
         return
       }
       parent.catalogueModel.presentingMobySearch = false
+      parent.dataScannerModel.scannedGamePlatform = nil
       if let id = PlatformLookup.getPlatformID(platform: platform) {
         Task {
           do {

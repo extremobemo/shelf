@@ -158,7 +158,10 @@ struct CatalogueView: View {
           }
         }
         .navigationTitle("Add to...")
-        .navigationBarItems(trailing: Button("Cancel", action: { }))
+        .navigationBarItems(trailing: Button("Cancel", action: {
+          catalogueModel.selectingDestination = false
+          catalogueModel.selectMode = false
+        }))
       }
     }
   }
