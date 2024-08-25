@@ -102,16 +102,38 @@ class MobyGamesApi {
     // Unable to parse the date with any of the specified formats
     return nil
   }
+
+  func fetchData(gameID: String) async -> [String: AnyObject]? {
+    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
+    
+    let maxRetries = 5
+    for attempt in 1...maxRetries {
+      do {
+        let (data, _) = try await URLSession.shared.data(from: getDescURL)
+        if let test = String(data: data, encoding: .utf8),
+           let dict = test.toJSON() as? [String: AnyObject] {
+          if dict["error"] == nil {
+            return dict
+          }
+        }
+      } catch {
+        print("Attempt \(attempt) failed with error: \(error.localizedDescription)")
+      }
+      
+      try? await Task.sleep(for: .seconds(1))
+    }
+    return nil
+  }
+
   
   func getDescription(gameID: String, platID: String) async throws -> (String, [Data], String, String, String, String, Int64) {
     var screenshots: [Data] = []
     
-    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
+    let dict = await fetchData(gameID: gameID)
     
-    let (data, _) = try await URLSession.shared.data(from: getDescURL)
-    
-    let test = String(data: data, encoding: .utf8) as String?
-    let dict = test?.toJSON() as? [String: AnyObject]
+    if (dict?["error"] != nil) {
+      throw UnknownError.unknown(description: "Failed Fetch")
+    }
     
     let desc = dict?["description"] as? String
     var base_genre: String = ""
@@ -177,12 +199,30 @@ class MobyGamesApi {
     return (desc ?? "Description not available", screenshots, title!, base_genre, perspective, gameplay, releaseYear)
   }
   
+  func fetchCoverArtData(gameID: String, platformID: String) async -> Data? {
+    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
+    let maxRetries = 5
+    
+    for attempt in 1...maxRetries {
+      do {
+        let (data, _) = try await URLSession.shared.data(from: getDescURL)
+        return data
+      } catch {
+        print("Attempt \(attempt) failed with error: \(error.localizedDescription)")
+      }
+      
+      try? await Task.sleep(for: .seconds(1))
+    }
+    return nil
+  }
+
+  
   func getCoverArt(gameID: String, platformID: String) async throws -> [Data] {
     var art: [Data] = []
     
-    let getDescURL = URL(string: "https://api.mobygames.com/v1/games/\(gameID)/platforms/\(platformID)/covers?format=normal&api_key=moby_tWADxWI4LPPc4Sze3gF4w8cb9Mi")!
-    
-    let (data, _) = try await URLSession.shared.data(from: getDescURL)
+    guard let data = await fetchCoverArtData(gameID: gameID, platformID: platformID) else {
+      throw UnknownError.unknown(description: "Failed to fetch photos after retries")
+    }
     
     let test = String(data: data, encoding: .utf8)
     

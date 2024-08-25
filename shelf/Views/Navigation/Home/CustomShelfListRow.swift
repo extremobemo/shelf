@@ -22,10 +22,6 @@ struct CustomShelfListRow: View {
           try? CoreDataManager.shared.persistentStoreContainer.viewContext.save()
           CoreDataManager.shared.persistentStoreContainer.viewContext.refreshAllObjects()
         }) { Text("Delete") }
-        
-        Button(action: {
-            // Rename custom shelf
-        }) { Text("Rename") }
       }
       
       Spacer()

@@ -49,12 +49,29 @@ struct GameSheetView: View {
           
           if let screenshots = game.screenshots, let physical_media = game.cover_art {
             if assetType == 0 {
-              CoverKitView(front: UIImage(data: physical_media[0])!, back: UIImage(data: physical_media[1])!).frame(height: getCarouselHeight())
+              if physical_media.count > 1 {
+                CoverKitView(front: UIImage(data: physical_media[0])!, back: UIImage(data: physical_media[1])!).frame(height: getCarouselHeight())
+                      .frame(height: getCarouselHeight())
+              } else {
+                HStack {
+                  Spacer()
+                  Text("NTSC box art not available")
+                  Spacer()
+                }.frame(height: getCarouselHeight(), alignment: .center)
+              }
             } else {
-              CarouselView(images: screenshots)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .frame(height: geo.frame(in: .global).size.height)
-                .frame(maxHeight: getCarouselHeight())
+              if screenshots.count > 0 {
+                CarouselView(images: screenshots)
+                  .clipShape(RoundedRectangle(cornerRadius: 12))
+                  .frame(height: geo.frame(in: .global).size.height)
+                  .frame(maxHeight: getCarouselHeight())
+              } else {
+                HStack {
+                  Spacer()
+                  Text("Screenshots not available")
+                  Spacer()
+                }.frame(height: getCarouselHeight(), alignment: .center)
+              }
             }
             
             Spacer().frame(height: 16)

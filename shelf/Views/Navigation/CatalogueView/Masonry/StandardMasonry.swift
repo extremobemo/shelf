@@ -25,7 +25,7 @@ struct StandardMasonry: View {
         let cover_art = game.cover_art?.first
         if !catalogueDataModel.selectMode {
           NavigationLink(destination: GameSheetView(game: game)) {
-            CardView(imageName: cover_art).hoverEffect(.lift)
+            CardView(imageName: cover_art, gameTitle: game.title ?? "Title not found").hoverEffect(.lift)
               .onAppear {
                 catalogueDataModel.loadingNewGame = false
               }
@@ -34,7 +34,7 @@ struct StandardMasonry: View {
               }
           }
         } else {
-          CardView(imageName: cover_art).hoverEffect(.lift)
+          CardView(imageName: cover_art, gameTitle: game.title ?? "Title not found").hoverEffect(.lift)
             .onAppear { catalogueDataModel.loadingNewGame = false }
             .contextMenu {
               GameContextView(game: game, selectedGames: catalogueDataModel.selectedGames, shelfModel: shelfModel)

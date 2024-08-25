@@ -11,6 +11,8 @@ struct CardView: View {
   @Environment(\.managedObjectContext) private var viewContext
   
   let imageName: Data?
+  let gameTitle: String
+  
   var body: some View {
     
     VStack {
@@ -19,9 +21,12 @@ struct CardView: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
       } else {
-        Image(systemName: "xmark")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
+        Spacer().frame(height: 40)
+        Text(gameTitle)
+          .frame(maxWidth: .infinity)
+          .multilineTextAlignment(.center)
+          .foregroundColor(.white)
+        Spacer().frame(height: 40)
       }
     }
     .cornerRadius(4)
